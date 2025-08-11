@@ -25,13 +25,20 @@ const Register = () => {
     pharmacyName: '',
     pharmacyAddress: ''
   })
+  const [passwordStrength, setPasswordStrength] = useState('');
+
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
+    if (e.target.name === 'password') {
+      const strength = checkPasswordStrength(e.target.value);
+      setPasswordStrength(strength);
+    }
     if (error) setError('')
+      
   }
 
   const handleSubmit = async (e) => {
@@ -54,6 +61,20 @@ const Register = () => {
       setLoading(false)
     }
   }
+
+  const checkPasswordStrength = (password) => {
+  let score = 0;
+  if (password.length >= 8) score++;
+  if (/[A-Z]/.test(password)) score++;
+  if (/[a-z]/.test(password)) score++;
+  if (/[0-9]/.test(password)) score++;
+  if (/[^A-Za-z0-9]/.test(password)) score++;
+
+  if (score <= 2) return 'Weak';
+  if (score === 3) return 'Medium';
+  return 'Strong';
+};
+
 
   const renderRoleSpecificFields = () => {
     switch (formData.role) {
@@ -128,12 +149,26 @@ const Register = () => {
               <button type="button" className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5" onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <EyeSlashIcon className="h-5 w-5 text-gray-500" /> : <EyeIcon className="h-5 w-5 text-gray-500" />}
               </button>
+              
             </div>
             <div className="relative">
               <input id="confirmPassword" name="confirmPassword" type={showConfirmPassword ? 'text' : 'password'} required value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm" />
               <button type="button" className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                 {showConfirmPassword ? <EyeSlashIcon className="h-5 w-5 text-gray-500" /> : <EyeIcon className="h-5 w-5 text-gray-500" />}
               </button>
+              {passwordStrength && (
+                <p
+                  className={`text-sm m-1 ${
+                    passwordStrength === 'Weak'
+                      ? 'text-red-500'
+                      : passwordStrength === 'Medium'
+                      ? 'text-yellow-500'
+                      : 'text-green-500'
+                  }`}
+                >
+                  Strength: {passwordStrength}
+                </p>
+              )}
             </div>
           </div>
 

@@ -1,32 +1,63 @@
-// src/components/patient/PatientDashboard.jsx
-import React from 'react'
+import React from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import { useAppointments } from '../../contexts/AppointmentContext';
+import Prescriptions from './Prescriptions';
+import Appointments from './Appointments';
+import HealthLogs from './HealthLogs';
+import MedicineReminders from './MedicineReminders';
 import { 
   HeartIcon, 
   ClockIcon, 
-  DocumentTextIcon,
-  ChatBubbleLeftIcon 
-} from '@heroicons/react/24/outline'
-import MedicineReminders from './MedicineReminders'
+  DocumentTextIcon
+} from '@heroicons/react/24/outline';
 
-const PatientDashboard = () => {
+const PatientDashboard = ({ activeTab }) => {
+  const { user } = useAuth();
+  const { appointments } = useAppointments();
+  
+  const patientAppointments = appointments.filter(apt => apt.patientId === user?.id);
+  const apptCount = patientAppointments.length;
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'prescriptions':
+        return <Prescriptions />;
+      case 'appointments':
+        return <Appointments />;
+      case 'health-logs':
+        return <HealthLogs />;
+      case 'medicine-reminders':
+        return <MedicineReminders />;
+      default:
+        return <DashboardOverview user={user} apptCount={apptCount} />;
+    }
+  };
+
+  return (
+    <div className="p-6 bg-gray-50 min-h-full">
+      {renderContent()}
+    </div>
+  );
+};
+
+const DashboardOverview = ({ user, apptCount }) => {
   const stats = [
     { name: 'Active Prescriptions', value: '3', icon: DocumentTextIcon, color: 'text-blue-600' },
     { name: 'Medicine Reminders', value: '5', icon: ClockIcon, color: 'text-green-600' },
     { name: 'Health Logs', value: '12', icon: HeartIcon, color: 'text-red-600' },
-    { name: 'Messages', value: '2', icon: ChatBubbleLeftIcon, color: 'text-purple-600' },
-  ]
+    { name: 'Appointments', value: String(apptCount), icon: ClockIcon, color: 'text-purple-600' },
+  ];
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Welcome back, John!</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Welcome back, {user?.name}!</h2>
         <p className="text-gray-600">Here's your health overview for today.</p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <div key={stat.name} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <div key={stat.name} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
             <div className="flex items-center">
               <div className={`p-2 rounded-lg bg-gray-100 ${stat.color}`}>
                 <stat.icon className="h-6 w-6" />
@@ -40,10 +71,8 @@ const PatientDashboard = () => {
         ))}
       </div>
 
-      {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <MedicineReminders />
-        
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Health Logs</h3>
           <div className="space-y-3">
@@ -69,7 +98,7 @@ const PatientDashboard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PatientDashboard
+export default PatientDashboard;

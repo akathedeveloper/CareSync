@@ -1,6 +1,6 @@
 # 🔐 CareSync
 
-![GSSoC Logo](/CareSync/src/assets/gssoc%20logo.png)
+![GSSoC Logo](https://github.com/akathedeveloper/CareSync/blob/main/src/assets/gssoc%20logo.png)
 
   ***🌟 CareSync: Your Health, Simplified & Synced! 🚀Where Open-Source Meets Healthcare Innovation***
 

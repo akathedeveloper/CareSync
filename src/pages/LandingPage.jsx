@@ -51,14 +51,25 @@ const LandingPage = () => {
             <div className="hidden md:block">
               <div className="ml-10 flex items-center space-x-8">
                 {["Features", "Pricing", "Testimonials", "Contact"].map((item) => (
-                  <a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    className="text-gray-600 hover:text-emerald-600 transition-colors font-medium relative group"
-                  >
-                    {item}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-full transition-all duration-300" />
-                  </a>
+                  item === "Contact" ? (
+                    <Link
+                      key={item}
+                      to="/contact"
+                      className="text-gray-600 hover:text-emerald-600 transition-colors font-medium relative group"
+                    >
+                      {item}
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-full transition-all duration-300" />
+                    </Link>
+                  ) : (
+                    <a
+                      key={item}
+                      href={`#${item.toLowerCase()}`}
+                      className="text-gray-600 hover:text-emerald-600 transition-colors font-medium relative group"
+                    >
+                      {item}
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-full transition-all duration-300" />
+                    </a>
+                  )
                 ))}
               </div>
             </div>
@@ -95,14 +106,25 @@ const LandingPage = () => {
           <div className="md:hidden bg-white border-t border-gray-200">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {["Features", "Pricing", "Testimonials", "Contact"].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="block px-3 py-2 text-gray-600 hover:text-emerald-600 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item}
-                </a>
+                item === "Contact" ? (
+                  <Link
+                    key={item}
+                    to="/contact"
+                    className="block px-3 py-2 text-gray-600 hover:text-emerald-600 transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item}
+                  </Link>
+                ) : (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    className="block px-3 py-2 text-gray-600 hover:text-emerald-600 transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item}
+                  </a>
+                )
               ))}
               <div className="flex flex-col space-y-2 mt-4 px-3">
                 <Link

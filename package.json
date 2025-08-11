@@ -13,7 +13,7 @@
     "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.1.11",
     "aos": "^2.3.4",
-    "firebase": "^12.0.0",
+    "firebase": "^12.1.0",
     "framer-motion": "^12.23.12",
     "html2pdf.js": "^0.10.3",
     "jspdf": "^3.0.1",

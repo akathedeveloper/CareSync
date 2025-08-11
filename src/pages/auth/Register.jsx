@@ -169,6 +169,7 @@ const Register = () => {
                   Strength: {passwordStrength}
                 </p>
               )}
+              
             </div>
           </div>
 

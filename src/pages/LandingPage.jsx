@@ -14,7 +14,6 @@ import {
   CloudIcon,
   LockClosedIcon
 } from '@heroicons/react/24/outline'
-import { Sidebar } from 'lucide-react'
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)

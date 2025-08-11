@@ -9,7 +9,12 @@ import PatientDashboard from './components/patient/PatientDashboard'
 import DoctorDashboard from './components/doctor/DoctorDashboard'
 import PharmacistDashboard from './components/pharmacist/PharmacistDashboard'
 import LoadingSpinner from './components/common/LoadingSpinner'
+import ProfilePage from './pages/ProfilePage'
 import './index.css'
+import Prescriptions from './components/patient/Prescriptions';
+import { AppointmentProvider } from './contexts/AppointmentContext';
+import Appointments from './components/patient/Appointments';
+import Schedule from './components/doctor/Schedule';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -64,6 +69,9 @@ const AppRoutes = () => {
         <Route path="patient" element={<PatientDashboard />} />
         <Route path="doctor" element={<DoctorDashboard />} />
         <Route path="pharmacist" element={<PharmacistDashboard />} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path="appointments" element={<Appointments />} />
+        <Route path="schedule" element={<Schedule />} />
       </Route>
       
       {/* Role-specific routes */}
@@ -92,11 +100,13 @@ const AppRoutes = () => {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="App">
-          <AppRoutes />
-        </div>
-      </Router>
+      <AppointmentProvider>
+        <Router>
+          <div className="App">
+            <AppRoutes />
+          </div>
+        </Router>
+      </AppointmentProvider>
     </AuthProvider>
   )
 }

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 import { useAuth } from '../../contexts/AuthContext'
 import LoadingSpinner from '../../components/common/LoadingSpinner'
+import { patients, doctors, pharmacists } from '../../data/dummyData'
 
 const Login = () => {
   const { login, loginWithGoogle } = useAuth()
@@ -41,6 +42,7 @@ const Login = () => {
     }
   }
 
+ sign-up-with-google
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true)
@@ -61,20 +63,27 @@ const Login = () => {
       doctor: { email: 'doctor@caresync.com', password: 'password123' },
       pharmacist: { email: 'pharmacist@caresync.com', password: 'password123' }
     }
+    
+  const fillDemoCredentials = (role) => {
+    let user;
+    if (role === 'patient') user = patients[0];
+    if (role === 'doctor') user = doctors[0];
+    if (role === 'pharmacist') user = pharmacists[0];
+    
+main
     setFormData({
-      ...formData,
-      email: credentials[role].email,
-      password: credentials[role].password,
-      role: role
+      email: user.email,
+      password: user.password,
+      role: user.role
     })
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-2xl">
         <div>
-          <h1 className="text-center text-3xl font-bold text-primary-600">CareSync</h1>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h1 className="text-center text-4xl font-extrabold text-primary-600">CareSync</h1>
+          <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
@@ -88,6 +97,7 @@ const Login = () => {
           </p>
         </div>
 
+sign-up-with-google
         {/* Demo Credentials */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Credentials:</h3>
@@ -100,38 +110,79 @@ const Login = () => {
             </button>
             <button type="button" onClick={() => fillDemoCredentials('pharmacist')} className="block hover:underline">
               💊 Pharmacist: pharmacist@caresync.com
+        <div className="bg-blue-50 border-l-4 border-blue-400 text-blue-700 p-4 rounded-lg">
+          <h3 className="text-sm font-bold mb-2">Demo Credentials:</h3>
+          <div className="space-y-2 text-xs">
+            <button 
+              type="button"
+              onClick={() => fillDemoCredentials('patient')}
+              className="flex items-center gap-2 hover:text-blue-900 transition-colors"
+            >
+              <span role="img" aria-label="patient">👤</span> Patient: {patients[0].email}
             </button>
-            <p className="text-blue-600 mt-1">Password: password123</p>
+            <button 
+              type="button"
+              onClick={() => fillDemoCredentials('doctor')}
+              className="flex items-center gap-2 hover:text-blue-900 transition-colors"
+            >
+              <span role="img" aria-label="doctor">👩‍⚕️</span> Doctor: {doctors[0].email}
+            </button>
+            <button 
+              type="button"
+              onClick={() => fillDemoCredentials('pharmacist')}
+              className="flex items-center gap-2 hover:text-blue-900 transition-colors"
+            >
+              <span role="img" aria-label="pharmacist">💊</span> Pharmacist: {pharmacists[0].email main
+            </button>
+            <p className="text-blue-600 pt-2">Password: <strong>password123</strong></p>
           </div>
         </div>
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg">
+              <p className="font-bold">Error</p>
+              <p>{error}</p>
             </div>
           )}
-
+sign-up-with-google
           <div className="space-y-4">
             {/* Role */}
             <div>
               <label htmlFor="role" className="block text-sm font-medium text-gray-700">Role</label>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div className="relative mb-4">
+              <label htmlFor="role" className="sr-only">
+                Role
+              </label>
+ main
               <select
                 id="role"
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
               >
                 <option value="patient">Patient</option>
                 <option value="doctor">Doctor</option>
                 <option value="pharmacist">Pharmacist</option>
               </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
             </div>
+sign-up-with-google
 
             {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>
+
+            
+            <div className="mb-4">
+              <label htmlFor="email" className="sr-only">
+                Email address
+              </label>
+ main
               <input
                 id="email"
                 name="email"
@@ -139,15 +190,22 @@ const Login = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Enter your email"
+                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+                placeholder="Email address"
               />
             </div>
 
             {/* Password */}
             <div>
+sign-up-with-google
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
               <div className="mt-1 relative">
+
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
+              <div className="relative">
+main
                 <input
                   id="password"
                   name="password"
@@ -155,18 +213,18 @@ const Login = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="Enter your password"
+                  className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+                  placeholder="Password"
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
+                    <EyeSlashIcon className="h-5 w-5 text-gray-500" />
                   ) : (
-                    <EyeIcon className="h-5 w-5 text-gray-400" />
+                    <EyeIcon className="h-5 w-5 text-gray-500" />
                   )}
                 </button>
               </div>
@@ -191,7 +249,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? <LoadingSpinner size="sm" color="white" /> : 'Sign in'}
             </button>

@@ -1,6 +1,9 @@
+@import 'aos/dist/aos.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 
 
 /* Custom base styles */

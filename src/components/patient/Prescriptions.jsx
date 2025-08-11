@@ -1,170 +1,127 @@
-// src/components/patient/Prescriptions.jsx
-import React, { useState } from 'react'
-import { EyeIcon, DownloadIcon, PrinterIcon } from '@heroicons/react/24/outline'
+import React, { useState } from "react";
 
-const Prescriptions = () => {
-  const [prescriptions] = useState([
-    {
-      id: 'RX001',
-      doctor: 'Dr. Sarah Johnson',
-      date: '2024-01-15',
-      status: 'active',
-      medicines: [
-        { name: 'Metformin', dosage: '500mg', frequency: 'Twice daily', duration: '30 days' },
-        { name: 'Lisinopril', dosage: '10mg', frequency: 'Once daily', duration: '30 days' }
-      ],
-      instructions: 'Take with meals. Monitor blood sugar levels regularly.',
-      nextRefill: '2024-02-14'
-    },
-    {
-      id: 'RX002',
-      doctor: 'Dr. Michael Brown',
-      date: '2024-01-10',
-      status: 'completed',
-      medicines: [
-        { name: 'Amoxicillin', dosage: '500mg', frequency: 'Three times daily', duration: '7 days' }
-      ],
-      instructions: 'Complete the full course even if symptoms improve.',
-      nextRefill: null
-    },
-    {
-      id: 'RX003',
-      doctor: 'Dr. Sarah Johnson',
-      date: '2024-01-05',
-      status: 'expired',
-      medicines: [
-        { name: 'Vitamin D3', dosage: '1000 IU', frequency: 'Once daily', duration: '90 days' }
-      ],
-      instructions: 'Take with fat-containing meal for better absorption.',
-      nextRefill: '2024-04-05'
-    }
-  ])
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'active':
-        return 'bg-green-100 text-green-800'
-      case 'completed':
-        return 'bg-blue-100 text-blue-800'
-      case 'expired':
-        return 'bg-gray-100 text-gray-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
+const prescriptionsData = [
+  {
+    id: 'RX001',
+    doctor: 'Dr. Sarah Johnson',
+    date: '2024-01-15',
+    status: 'active',
+    medicines: [
+      { name: 'Metformin', dosage: '500mg', frequency: 'Twice daily', duration: '30 days' },
+      { name: 'Lisinopril', dosage: '10mg', frequency: 'Once daily', duration: '30 days' }
+    ],
+    instructions: 'Take with meals. Monitor blood sugar levels regularly.',
+    nextRefill: '2024-02-14'
+  },
+  {
+    id: 'RX002',
+    doctor: 'Dr. Michael Brown',
+    date: '2024-01-10',
+    status: 'completed',
+    medicines: [
+      { name: 'Amoxicillin', dosage: '500mg', frequency: 'Three times daily', duration: '7 days' }
+    ],
+    instructions: 'Complete the full course even if symptoms improve.',
+    nextRefill: null
+  },
+  {
+    id: 'RX003',
+    doctor: 'Dr. Sarah Johnson',
+    date: '2024-01-05',
+    status: 'expired',
+    medicines: [
+      { name: 'Vitamin D3', dosage: '1000 IU', frequency: 'Once daily', duration: '90 days' }
+    ],
+    instructions: 'Take with fat-containing meal for better absorption.',
+    nextRefill: '2024-04-05'
   }
+];
 
-  const handleDownload = (prescriptionId) => {
-    // TODO: Implement PDF download
-    console.log('Downloading prescription:', prescriptionId)
-  }
+const statusBadge = {
+  active: "bg-green-100 text-green-800",
+  completed: "bg-blue-100 text-blue-800",
+  expired: "bg-gray-100 text-gray-600"
+};
 
-  const handlePrint = (prescriptionId) => {
-    // TODO: Implement print functionality
-    console.log('Printing prescription:', prescriptionId)
-  }
+export default function Prescriptions() {
+  const [selected, setSelected] = useState(null);
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">My Prescriptions</h2>
-        <div className="flex space-x-2">
-          <select className="input-field text-sm">
-            <option value="all">All Prescriptions</option>
-            <option value="active">Active</option>
-            <option value="completed">Completed</option>
-            <option value="expired">Expired</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="space-y-6">
-        {prescriptions.map((prescription) => (
-          <div key={prescription.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            {/* Header */}
-            <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
-              <div className="flex justify-between items-start">
-                <div>
-                  <div className="flex items-center space-x-3">
-                    <span className="font-mono text-sm bg-primary-100 text-primary-800 px-2 py-1 rounded">
-                      {prescription.id}
-                    </span>
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(prescription.status)}`}>
-                      {prescription.status}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-sm text-gray-600">
-                    Prescribed by {prescription.doctor} on {prescription.date}
-                  </p>
-                </div>
-                <div className="flex space-x-2">
-                  <button 
-                    onClick={() => handleDownload(prescription.id)}
-                    className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-                    title="Download PDF"
-                  >
-                    <DownloadIcon className="h-5 w-5" />
-                  </button>
-                  <button 
-                    onClick={() => handlePrint(prescription.id)}
-                    className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-                    title="Print"
-                  >
-                    <PrinterIcon className="h-5 w-5" />
-                  </button>
-                </div>
+    <div className="p-2 sm:p-6">
+      <h2 className="text-xl sm:text-2xl font-bold mb-4">Prescriptions</h2>
+      {/* Responsive grid of cards/boxes */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {prescriptionsData.map((presc) => (
+          <div key={presc.id} className="bg-white shadow rounded-lg p-4 flex flex-col justify-between h-full">
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-semibold text-base">{presc.id}</span>
+                <span className={`px-2 py-1 rounded text-xs font-semibold ${statusBadge[presc.status]}`}>
+                  {presc.status.charAt(0).toUpperCase() + presc.status.slice(1)}
+                </span>
               </div>
-            </div>
-
-            {/* Content */}
-            <div className="px-6 py-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Prescribed Medicines</h3>
-              
-              <div className="space-y-3 mb-4">
-                {prescription.medicines.map((medicine, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-medical-50 rounded-lg">
-                    <div>
-                      <h4 className="font-medium text-gray-900">{medicine.name}</h4>
-                      <p className="text-sm text-gray-600">
-                        {medicine.dosage} • {medicine.frequency} • {medicine.duration}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+              <div className="text-sm text-gray-600 mb-1"><span className="font-semibold">Doctor:</span> {presc.doctor}</div>
+              <div className="text-sm text-gray-600 mb-1"><span className="font-semibold">Date:</span> {presc.date}</div>
+              <div className="text-sm mb-1">
+                <span className="font-semibold">Medicines:</span>
+                <ul className="list-disc pl-5">
+                  {presc.medicines.map((med, i) => (
+                    <li key={i}>{med.name} ({med.dosage})</li>
+                  ))}
+                </ul>
               </div>
-
-              {prescription.instructions && (
-                <div className="mb-4">
-                  <h4 className="font-medium text-gray-900 mb-2">Instructions</h4>
-                  <p className="text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
-                    {prescription.instructions}
-                  </p>
-                </div>
-              )}
-
-              {prescription.nextRefill && prescription.status === 'active' && (
-                <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                  <span className="text-sm text-gray-600">Next refill due:</span>
-                  <span className="text-sm font-medium text-primary-600">{prescription.nextRefill}</span>
-                </div>
-              )}
+              <div className="text-sm text-gray-600 mb-1"><span className="font-semibold">Next Refill:</span> {presc.nextRefill || <span className="text-gray-400 italic">-</span>}</div>
             </div>
+            <button
+              className="mt-3 px-4 py-2 bg-primary-600 text-white font-semibold rounded shadow hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-400 transition"
+              onClick={() => setSelected(presc)}
+            >
+              View Details
+            </button>
           </div>
         ))}
       </div>
 
-      {prescriptions.length === 0 && (
-        <div className="text-center py-12">
-          <div className="w-24 h-24 mx-auto mb-4 text-gray-300">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-            </svg>
+      {/* Responsive Details Modal */}
+      {selected && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white w-full sm:w-auto sm:min-w-[340px] max-w-lg m-2 sm:m-0 rounded-lg shadow-lg p-4 sm:p-6 relative">
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl"
+              onClick={() => setSelected(null)}
+              aria-label="Close prescription details"
+            >
+              &times;
+            </button>
+            <h3 className="text-lg font-bold mb-2">Prescription ID: {selected.id}</h3>
+            <p className="mb-1"><span className="font-semibold">Doctor:</span> {selected.doctor}</p>
+            <p className="mb-1"><span className="font-semibold">Date:</span> {selected.date}</p>
+            <p className="mb-1"><span className="font-semibold">Status:</span>
+              <span className={`ml-2 px-2 py-1 rounded text-xs font-semibold ${statusBadge[selected.status]}`}>
+                {selected.status.charAt(0).toUpperCase() + selected.status.slice(1)}
+              </span>
+            </p>
+            <div className="mt-2">
+              <span className="font-semibold">Medicines:</span>
+              <ul className="list-disc pl-5">
+                {selected.medicines.map((med, i) => (
+                  <li key={i}>
+                    {med.name} — {med.dosage}, {med.frequency} ({med.duration})
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <p className="mt-2"><span className="font-semibold">Instructions:</span> {selected.instructions}</p>
+            <p className="mt-2"><span className="font-semibold">Next Refill:</span> {selected.nextRefill || <span className="text-gray-400 italic">-</span>}</p>
+            <button
+              className="mt-4 w-full py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700"
+              onClick={() => setSelected(null)}
+            >
+              Close
+            </button>
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No prescriptions found</h3>
-          <p className="text-gray-600">Your prescriptions will appear here once your doctor prescribes medications.</p>
         </div>
       )}
     </div>
-  )
+  );
 }
-
-export default Prescriptions

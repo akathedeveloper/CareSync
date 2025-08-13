@@ -1,10 +1,6 @@
 import { HeartIcon } from "@heroicons/react/24/solid";
-import {
-  FaceSmileIcon,
-  BriefcaseIcon,
-  BookOpenIcon,
-} from "@heroicons/react/24/outline";
 import { ChevronDoubleUpIcon } from '@heroicons/react/24/solid';
+import { FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa";
 import React, { useState } from "react";
 
 export default function Footer() {
@@ -62,25 +58,31 @@ export default function Footer() {
 
             <div className="flex gap-3">
               <a
-                href="#"
-                aria-label="Social 1"
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
                 className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors"
               >
-                <FaceSmileIcon className="h-5 w-5" />
+                <FaLinkedin className="h-5 w-5" />
               </a>
               <a
-                href="#"
-                aria-label="Social 2"
+                href="https://twitter.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter/X"
                 className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors"
               >
-                <BookOpenIcon className="h-5 w-5" />
+                <FaTwitter className="h-5 w-5" />
               </a>
               <a
-                href="#"
-                aria-label="Social 3"
+                href="https://facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
                 className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors"
               >
-                <BriefcaseIcon className="h-5 w-5" />
+                <FaFacebook className="h-5 w-5" />
               </a>
             </div>
           </div>

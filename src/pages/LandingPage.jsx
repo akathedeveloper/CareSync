@@ -31,6 +31,7 @@ import Footer from "./Footer";
 import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
+// import { Subscribe } from './ContactUs';
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
 
@@ -568,13 +569,14 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+      
 
       {/* Contributor */}
       <Contributor />
       
       {/* Contact Us */}
       <ContactUs />
-      
+
       {/* Footer */}
       <Footer />
 

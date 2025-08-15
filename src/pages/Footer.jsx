@@ -47,7 +47,7 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="bg-primary-100 dark:bg-primary-900 text-primary-900 dark:text-primary-50 w-full z-50"
+      className="bg-primary-100 dark:bg-primary-900/10 text-primary-900 dark:text-primary-50 w-full z-50"
     >
       {isVisible && (
         <button

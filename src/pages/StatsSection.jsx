@@ -1,9 +1,11 @@
 import { UsersIcon, HeartIcon, ClockIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import CountUp from 'react-countup';
-import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext'; // Import the useTheme hook
 
 export default function StatsSection() {
+  const { isDark } = useTheme(); // Get the current theme from the context
   const [startCount, setStartCount] = useState(false);
 
   // Trigger count-up only when section is visible
@@ -36,7 +38,11 @@ export default function StatsSection() {
   };
 
   return (
-    <section id="stats-section" className="py-16 bg-gray-900 text-white">
+    <section 
+      id="stats-section" 
+      // Updated classes to respond to the theme
+      className="py-16 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           initial="hidden"
@@ -53,11 +59,12 @@ export default function StatsSection() {
             >
               {/* Icon */}
               <div className="flex justify-center mb-4">
-                <stat.icon className="h-10 w-10 text-primary-400" />
+                {/* Updated icon color to be theme-aware */}
+                <stat.icon className="h-10 w-10 text-emerald-500 dark:text-teal-400" />
               </div>
 
               {/* Animated Counter */}
-              <div className="text-3xl font-bold text-white mb-2">
+              <div className="text-3xl font-bold mb-2">
                 {startCount && (
                   <CountUp
                     start={0}
@@ -71,7 +78,7 @@ export default function StatsSection() {
               </div>
 
               {/* Label */}
-              <div className="text-gray-400">{stat.label}</div>
+              <div className="text-gray-600 dark:text-gray-400">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>

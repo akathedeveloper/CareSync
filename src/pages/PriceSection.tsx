@@ -85,7 +85,7 @@ export default function Pricing() {
   }, []);
 
   return (
-    <section id="pricing" className="py-20 bg-gray-50">
+    <section id="pricing" className="py-20 bg-gray-50 dark:bg-gray-900">
       <style>
         {`
           @keyframes badgeBounce {
@@ -120,14 +120,14 @@ export default function Pricing() {
         <div className="text-center mb-16">
           <h2
             data-aos="fade-up"
-            className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4"
+            className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4"
           >
             Simple, Transparent Pricing
           </h2>
           <p
             data-aos="fade-up"
             data-aos-duration="900"
-            className="text-xl text-gray-600"
+            className="text-xl text-gray-600 dark:text-gray-300"
           >
             Choose the plan that's right for your healthcare needs
           </p>
@@ -139,7 +139,7 @@ export default function Pricing() {
               key={index}
               data-aos="zoom-in"
               data-aos-delay={index * 150}
-              className={`bg-white rounded-2xl p-8 relative transform transition-transform duration-300 hover:rotate-x-2 hover:rotate-y-2 hover:scale-105 hover:shadow-xl ${
+              className={`bg-white dark:bg-gray-800 rounded-2xl p-8 relative transform transition-transform duration-300 hover:rotate-x-2 hover:rotate-y-2 hover:scale-105 hover:shadow-xl dark:hover:shadow-gray-900/50 ${
                 plan.popular ? "ring-2 ring-primary-600 scale-105" : ""
               }`}
               style={{ transformStyle: "preserve-3d" }}
@@ -153,29 +153,33 @@ export default function Pricing() {
               )}
 
               <div className="text-center mb-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
                   {plan.name}
                 </h3>
                 <div className="mb-2">
                   {displayPrices[index] === "Custom" ? (
-                    <span className="text-4xl font-bold text-gray-900 fade-in-custom">
+                    <span className="text-4xl font-bold text-gray-900 dark:text-gray-100 fade-in-custom">
                       Custom
                     </span>
                   ) : (
-                    <span className="text-4xl font-bold text-gray-900">
+                    <span className="text-4xl font-bold text-gray-900 dark:text-gray-100">
                       ${displayPrices[index]}
                     </span>
                   )}
-                  <span className="text-gray-600">{plan.period}</span>
+                  <span className="text-gray-600 dark:text-gray-400">
+                    {plan.period}
+                  </span>
                 </div>
-                <p className="text-gray-600">{plan.description}</p>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {plan.description}
+                </p>
               </div>
 
               <ul className="space-y-3 mb-8">
                 {plan.features.map((feature, idx) => (
                   <li
                     key={idx}
-                    className="flex items-center text-sm text-gray-600"
+                    className="flex items-center text-sm text-gray-600 dark:text-gray-300"
                   >
                     <CheckIcon className="h-4 w-4 text-green-500 mr-3 tick-animate" />
                     {feature}
@@ -187,7 +191,7 @@ export default function Pricing() {
                 className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors ${
                   plan.popular
                     ? "bg-primary-600 text-white hover:bg-primary-700 pulse-once"
-                    : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                    : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
               >
                 {plan.cta}

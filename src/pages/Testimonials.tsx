@@ -1,6 +1,10 @@
 // src/components/Testimonials.tsx
 import { useState } from "react";
-import { StarIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import {
+  StarIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/solid";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Testimonials() {
@@ -105,15 +109,15 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="py-20 bg-white relative overflow-hidden">
+    <section className="py-20 bg-white dark:bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Title */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-            Trusted by Healthcare Professionals
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            What Our Users Say
           </h2>
-          <p className="text-xl text-gray-600">
-            See what our users are saying about CareSync
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Join thousands of healthcare professionals who trust CareSync to
+            deliver exceptional patient care
           </p>
         </div>
 
@@ -132,7 +136,7 @@ export default function Testimonials() {
             {currentCards.map((t, index) => (
               <div
                 key={index}
-                className="bg-gray-50 rounded-2xl p-6 shadow-md hover:shadow-xl transition transform hover:-translate-y-2"
+                className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-md hover:shadow-xl dark:hover:shadow-gray-900/50 transition transform hover:-translate-y-2"
               >
                 {/* Stars */}
                 <div className="flex items-center mb-4">
@@ -145,20 +149,28 @@ export default function Testimonials() {
                 </div>
 
                 {/* Content */}
-                <p className="text-gray-700 mb-6 italic">"{t.content}"</p>
+                <p className="text-gray-700 dark:text-gray-200 mb-6 italic">
+                  "{t.content}"
+                </p>
 
                 {/* User Info */}
                 <div className="flex items-center">
-                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4 font-semibold text-primary-600">
+                  <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mr-4 font-semibold text-primary-600 dark:text-primary-400">
                     {t.name
                       .split(" ")
                       .map((n) => n[0])
                       .join("")}
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">{t.name}</div>
-                    <div className="text-sm text-gray-600">{t.role}</div>
-                    <div className="text-sm text-gray-500">{t.hospital}</div>
+                    <div className="font-semibold text-gray-900 dark:text-gray-100">
+                      {t.name}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                      {t.role}
+                    </div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      {t.hospital}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -170,18 +182,18 @@ export default function Testimonials() {
         <div className="flex justify-center items-center gap-4 mt-10">
           <button
             onClick={handlePrev}
-            className="bg-white shadow-lg rounded-full p-3 hover:bg-gray-100 transition"
+            className="bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50 rounded-full p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
           >
-            <ChevronLeftIcon className="h-6 w-6 text-gray-700" />
+            <ChevronLeftIcon className="h-6 w-6 text-gray-700 dark:text-gray-300" />
           </button>
-          <span className="text-gray-600">
+          <span className="text-gray-600 dark:text-gray-300">
             Page {currentPage + 1} of {totalPages}
           </span>
           <button
             onClick={handleNext}
-            className="bg-white shadow-lg rounded-full p-3 hover:bg-gray-100 transition"
+            className="bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50 rounded-full p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
           >
-            <ChevronRightIcon className="h-6 w-6 text-gray-700" />
+            <ChevronRightIcon className="h-6 w-6 text-gray-700 dark:text-gray-300" />
           </button>
         </div>
       </div>

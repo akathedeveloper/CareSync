@@ -79,7 +79,7 @@ const ContactPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 gradient-accent rounded-xl flex items-center justify-center shadow-lg">
                 <HeartIcon className="h-6 w-6 text-white" />
               </div>
               <span className="ml-3 text-2xl font-bold text-gray-900">
@@ -98,7 +98,7 @@ const ContactPage = () => {
                       className="text-gray-600 hover:text-emerald-600 transition-colors font-medium relative group"
                     >
                       {item}
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-full transition-all duration-300" />
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 gradient-accent group-hover:w-full transition-all duration-300" />
                     </a>
                   ) : (
                     <a
@@ -107,7 +107,7 @@ const ContactPage = () => {
                       className="text-gray-600 hover:text-emerald-600 transition-colors font-medium relative group"
                     >
                       {item}
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-full transition-all duration-300" />
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 gradient-accent group-hover:w-full transition-all duration-300" />
                     </a>
                   )
                 ))}
@@ -137,7 +137,7 @@ const ContactPage = () => {
               </Link>
               <Link
                 to="/register"
-                className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold transform hover:scale-105"
+                className="gradient-accent text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold transform hover:scale-105"
               >
                 Get Started
               </Link>
@@ -179,7 +179,7 @@ const ContactPage = () => {
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-4 py-2 rounded-lg text-center font-semibold"
+                  className="gradient-accent text-white px-4 py-2 rounded-lg text-center font-semibold"
                 >
                   Get Started
                 </Link>
@@ -204,7 +204,7 @@ const ContactPage = () => {
 
           <h1 className="text-4xl lg:text-6xl font-black text-gray-900 leading-tight mb-6">
             Get in Touch with
-            <span className="bg-gradient-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent"> CareSync</span>
+            <span className="gradient-accent bg-clip-text text-transparent"> CareSync</span>
           </h1>
 
           <p className="text-xl lg:text-2xl text-gray-600 leading-relaxed font-medium max-w-3xl mx-auto mb-12">
@@ -242,7 +242,7 @@ const ContactPage = () => {
                 href={option.href}
                 className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 hover:shadow-xl hover:scale-105 transition-all duration-300 group"
               >
-                <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-12 h-12 gradient-accent rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <option.icon className="h-6 w-6 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{option.title}</h3>
@@ -384,7 +384,7 @@ const ContactPage = () => {
                 <button
                   type="submit"
                   disabled={formStatus === 'loading'}
-                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-4 rounded-xl 
+                  className="w-full gradient-accent text-white px-8 py-4 rounded-xl 
                   hover:shadow-lg transition-all duration-300 font-bold text-lg transform hover:scale-105 
                   disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
                   flex items-center justify-center space-x-2"
@@ -451,7 +451,7 @@ const ContactPage = () => {
                     className="bg-gray-50 rounded-2xl p-6 hover:bg-gray-100 transition-colors"
                   >
                     <div className="flex items-start space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 gradient-accent rounded-xl flex items-center justify-center flex-shrink-0">
                         <contact.icon className="h-6 w-6 text-white" />
                       </div>
                       <div className="flex-1">

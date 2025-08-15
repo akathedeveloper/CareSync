@@ -1,0 +1,175 @@
+/* --- Modal Overlay and Content Styling --- */
+
+/* This fixes the positioning issue by creating a fixed, full-screen backdrop. */
+.calendar-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Use a high z-index to ensure it's on top of everything */
+}
+
+/* This styles the container for the calendar itself. */
+.calendar-modal-content {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-modal-content.dark {
+  background-color: var(--neutral-800);
+}
+
+/* Modal Header and Close Button */
+.calendar-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.calendar-modal-header h2 {
+  color: var(--neutral-900);
+}
+
+.calendar-modal-content.dark .calendar-modal-header h2 {
+  color: var(--neutral-50);
+}
+
+.calendar-modal-close-button {
+  color: var(--neutral-400);
+  transition: color 0.2s;
+}
+
+.calendar-modal-close-button:hover {
+  color: var(--neutral-600);
+}
+
+.calendar-modal-content.dark .calendar-modal-close-button {
+  color: var(--neutral-500);
+}
+
+.calendar-modal-content.dark .calendar-modal-close-button:hover {
+  color: var(--neutral-300);
+}
+
+/* --- Custom react-calendar styling to match your theme --- */
+
+/* Main calendar container */
+.react-calendar-custom {
+  width: 100%;
+  max-width: 400px;
+  background-color: white;
+  border: 1px solid var(--primary-200);
+  border-radius: 1.5rem; /* rounded-3xl */
+  font-family: inherit;
+  line-height: 1.125em;
+  padding: 1rem;
+}
+
+/* Dark mode styles for the calendar */
+.calendar-modal-content.dark .react-calendar-custom {
+  background-color: var(--neutral-900);
+  border-color: var(--neutral-700);
+}
+
+/* Calendar header (navigation) */
+.react-calendar-custom .react-calendar__navigation {
+  display: flex;
+  height: 44px;
+  margin-bottom: 1em;
+}
+
+.react-calendar-custom .react-calendar__navigation button {
+  min-width: 44px;
+  background: none;
+  border: 0;
+  color: var(--primary-900);
+  font-weight: bold;
+  font-size: 1.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.calendar-modal-content.dark .react-calendar-custom .react-calendar__navigation button {
+  color: var(--primary-100);
+}
+
+.react-calendar-custom .react-calendar__navigation button:enabled:hover {
+  background-color: var(--primary-100);
+  border-radius: 0.75rem;
+}
+
+.calendar-modal-content.dark .react-calendar-custom .react-calendar__navigation button:enabled:hover {
+  background-color: var(--primary-800);
+}
+
+/* Calendar days (tile) */
+.react-calendar-custom .react-calendar__tile {
+  background: none;
+  text-align: center;
+  padding: 0.75em 0.5em;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease-in-out;
+  color: var(--primary-700);
+}
+
+.calendar-modal-content.dark .react-calendar-custom .react-calendar__tile {
+  color: var(--primary-300);
+}
+
+.react-calendar-custom .react-calendar__month-view__weekdays__weekday {
+  color: var(--primary-600);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.calendar-modal-content.dark .react-calendar-custom .react-calendar__month-view__weekdays__weekday {
+  color: var(--primary-400);
+}
+
+.react-calendar-custom .react-calendar__month-view__days__day--weekend {
+  color: var(--medical-600);
+}
+
+.react-calendar-custom .react-calendar__tile:enabled:hover {
+  background-color: var(--medical-50);
+  color: var(--medical-700);
+}
+
+.calendar-modal-content.dark .react-calendar-custom .react-calendar__tile:enabled:hover {
+  background-color: #0c4a6e; /* A dark blue-green for hover */
+  color: #99f6e4; /* Light cyan for hover text */
+}
+
+/* Active day (selected) */
+.react-calendar-custom .react-calendar__tile--active {
+  background: #2e8b57; /* Solid dark sea green for selected date */
+  color: white;
+  border-radius: 0.75rem;
+}
+
+.react-calendar-custom .react-calendar__tile--now {
+  background: #e0f2f1; /* Light cyan for today's date */
+  color: #0f766e; /* Teal for today's text */
+}
+
+.calendar-modal-content.dark .react-calendar-custom .react-calendar__tile--now {
+  background-color: #115e59; /* A darker teal for today's date */
+  color: #e0f2f1; /* Light cyan for today's text */
+}
+
+.react-calendar-custom .react-calendar__tile--active:enabled:hover,
+.react-calendar-custom .react-calendar__tile--active:enabled:focus {
+  background: #2e8b57;
+}

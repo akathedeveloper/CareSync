@@ -39,25 +39,29 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
-                <HeartIcon className="h-6 w-6 text-white" />
-              </div>
-              <span className="ml-3 text-2xl font-bold text-gray-900">
-                CareSync
-              </span>
-            </div>
+  <div className="w-10 h-10">
+    <img 
+      src="/CareSync-Logo.png" 
+      alt="CareSync Logo" 
+      className="w-full h-full"
+    />
+  </div>
+  <span className="ml-3 font-bold text-emerald-600" style={{ fontSize: '1.375rem' }}>
+    CareSync
+  </span>
+</div>
 
             {/* Desktop Menu */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-center space-x-8">
-                {["Features", "Pricing", "Testimonials", "Contact"].map((item) => (
+                {["Home","Features", "Pricing", "Testimonials", "Contact"].map((item) => (
                   <a
                     key={item}
                     href={`#${item.toLowerCase()}`}
-                    className="text-gray-600 hover:text-emerald-600 transition-colors font-medium relative group"
-                  >
+                    className="flex gap-2 items-center text-gray-600 hover:text-emerald-600 transition-colors font-medium relative group
+             after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
+             hover:after:scale-x-100">
                     {item}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-full transition-all duration-300" />
                   </a>
                 ))}
               </div>
@@ -92,19 +96,21 @@ const LandingPage = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {["Features", "Pricing", "Testimonials", "Contact"].map((item) => (
+          <div className="relative md:hidden">
+            <div className="absolute right-0 w-52 h-dvh pt-10 bg-white">
+              {["Home","Features", "Pricing", "Testimonials", "Contact"].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="block px-3 py-2 text-gray-600 hover:text-emerald-600 transition-colors"
+                  className="block text-center py-3 text-gray-600 hover:text-emerald-600 transition-colors font-medium relative group
+             after:content-[''] after:absolute after:left-0 after:bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
+             hover:after:scale-x-100"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item}
                 </a>
               ))}
-              <div className="flex flex-col space-y-2 mt-4 px-3">
+              <div className="flex flex-col space-y-2 mt-20 px-3">
                 <Link
                   to="/login"
                   className="text-center py-2 text-gray-600 hover:text-emerald-600 transition-colors"
@@ -124,7 +130,7 @@ const LandingPage = () => {
       </nav>
 
       {/* Enhanced Hero Section */}
-      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-emerald-50 via-white to-teal-50 overflow-hidden pt-16">
+      <section id="home" className="relative min-h-screen flex items-center bg-gradient-to-br from-emerald-50 via-white to-teal-50 overflow-hidden pt-16">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-400/20 to-teal-400/20 rounded-full blur-3xl animate-pulse" />

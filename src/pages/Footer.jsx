@@ -31,8 +31,8 @@ export default function Footer() {
           {/* Brand + Social */}
           <div className="space-y-4">
             <div className="flex items-center">
-              <div className="w-9 h-9 bg-primary-600 rounded-lg flex items-center justify-center">
-                <HeartIcon className="h-5 w-5 text-white" />
+              <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+                <HeartIcon className="h-6 w-6 text-white" />
               </div>
               <span className="ml-2 text-xl font-bold">CareSync</span>
             </div>
@@ -99,7 +99,7 @@ export default function Footer() {
       />
       <button
         type="submit"
-        className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-semibold transition-all duration-200 shadow-md text-sm"
+        className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600  text-white rounded-lg font-semibold transition-all duration-200 shadow-md text-sm"
       >
         Subscribe
       </button>
@@ -113,7 +113,7 @@ export default function Footer() {
       />
       <button
         type="button"
-        className="mt-3 w-full py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all duration-200 shadow-md text-sm"
+        className="mt-3 w-full py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg font-semibold transition-all duration-200 shadow-md text-sm"
       >
         Send Message
       </button>

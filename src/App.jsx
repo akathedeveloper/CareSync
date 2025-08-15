@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import LandingPage from './pages/LandingPage'
+import ContactPage from './pages/ContactPage'
 import Layout from './components/common/Layout'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
@@ -50,6 +51,7 @@ const AppRoutes = () => {
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<LandingPage />} />
+      <Route path="/contact" element={<ContactPage />} />
       <Route 
         path="/login" 
         element={user ? <Navigate to={`/${user.role}`} /> : <Login />} 

@@ -41,8 +41,7 @@ const Login = () => {
       if (result.success) {
         // Show success toast
         toast.success(
-          `Welcome back, ${
-            result.user.name || result.user.email
+          `Welcome back, ${result.user.name || result.user.email
           }! Redirecting to your dashboard...`,
           {
             duration: 3000,
@@ -135,7 +134,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900"></div>
+      {/* bg-gray-900 relative overflow-hidden flex items-center justify-center bg-gray-800 dark:bg-gray-800 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden"> */}
       {/* Animated background decorative elements */}
       <motion.div
         className="absolute top-10 left-10 w-20 h-20 bg-emerald-200 rounded-full opacity-20"
@@ -170,7 +172,7 @@ const Login = () => {
       >
         <Link
           to="/"
-          className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 text-emerald-600 hover:text-emerald-700 hover:bg-white transition-all duration-300 group"
+          className="flex items-center gap-2 px-4 py-2 bg-gray-900/70 backdrop-blur-sm backdrop-blur-sm rounded-xl shadow-lg border border-white/50 dark:border-gray-700/50 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-gray-800/80 backdrop-blur-xl dark:bg-gray-800/80 dark:hover:bg-gray-800 transition-all duration-300 group"
         >
           <motion.div
             whileHover={{ x: -2 }}
@@ -183,7 +185,7 @@ const Login = () => {
       </motion.div>
 
       <motion.div
-        className="max-w-lg w-full space-y-8 bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-2xl border border-white/50 relative z-10"
+        className="max-w-lg w-full space-y-6 bg-gray-800/80 backdrop-blur-xl ring-1 ring-white/10 px-8 py-10 rounded-2xl shadow-2xl shadow-blue-200/20 dark:shadow-gray-900/50 border border-gray-700/50 relative z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -225,7 +227,7 @@ const Login = () => {
             CareSync
           </motion.h1>
           <motion.h2
-            className="text-2xl font-bold text-gray-800 mb-3"
+            className="text-2xl font-bold text-White-800 mb-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
@@ -293,8 +295,8 @@ const Login = () => {
                 role === "patient"
                   ? patients[0]
                   : role === "doctor"
-                  ? doctors
-                  : pharmacists[0];
+                    ? doctors
+                    : pharmacists[0];
               const colors = {
                 patient: "from-blue-400 to-blue-500",
                 doctor: "from-green-400 to-green-500",
@@ -316,7 +318,7 @@ const Login = () => {
                   key={role}
                   type="button"
                   onClick={() => fillDemoCredentials(role)}
-                  className="w-full flex items-center gap-3 p-3 bg-white/70 hover:bg-white hover:shadow-md rounded-lg transition-all duration-200 text-emerald-700 hover:text-emerald-800 border border-emerald-100"
+                  className="w-full flex items-center gap-3 p-3 bg-gray-800/80 backdrop-blur-xl dark:bg-gray-800/80/70 hover:bg-gray-800/80 backdrop-blur-xl dark:bg-gray-800/80 hover:shadow-md rounded-xl transition-all duration-200 text-emerald-700 hover:text-emerald-800 border border-emerald-100"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1 + index * 0.1 }}
@@ -340,7 +342,7 @@ const Login = () => {
               );
             })}
             <motion.div
-              className="bg-emerald-100 rounded-lg p-3 mt-3"
+              className="bg-emerald-100 rounded-xl p-3 mt-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.4 }}
@@ -423,7 +425,7 @@ const Login = () => {
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white/70 backdrop-blur-sm hover:bg-white"
+                  className="appearance-none block w-full px-4 py-3 border border-gray-600 focus:border-emerald-500 focus:ring-emerald-500 transition-colors duration-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-gray-800/80 backdrop-blur-xl dark:bg-gray-800/80/70 backdrop-blur-sm hover:bg-gray-800/80 backdrop-blur-xl dark:bg-gray-800/80"
                   whileFocus={{ scale: 1.02 }}
                   aria-label="Select your role"
                 >
@@ -463,7 +465,7 @@ const Login = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white/70 backdrop-blur-sm hover:bg-white"
+                className="block w-full px-4 py-3 border border-gray-600 focus:border-emerald-500 focus:ring-emerald-500 transition-colors duration-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-gray-800/80 backdrop-blur-xl dark:bg-gray-800/80/70 backdrop-blur-sm hover:bg-gray-800/80 backdrop-blur-xl dark:bg-gray-800/80"
                 placeholder="Enter your email address"
                 whileFocus={{ scale: 1.02 }}
                 aria-label="Email address"
@@ -491,7 +493,7 @@ const Login = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white/70 backdrop-blur-sm hover:bg-white"
+                  className="block w-full px-4 py-3 pr-12 border border-gray-600 focus:border-emerald-500 focus:ring-emerald-500 transition-colors duration-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-gray-800/80 backdrop-blur-xl dark:bg-gray-800/80/70 backdrop-blur-sm hover:bg-gray-800/80 backdrop-blur-xl dark:bg-gray-800/80"
                   placeholder="Enter your password"
                   whileFocus={{ scale: 1.02 }}
                   aria-label="Password"
@@ -544,7 +546,7 @@ const Login = () => {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded transition-colors duration-200"
+                className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-600 focus:border-emerald-500 focus:ring-emerald-500 transition-colors duration-300 rounded transition-colors duration-200"
               />
               <label
                 htmlFor="remember-me"

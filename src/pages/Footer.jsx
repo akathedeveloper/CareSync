@@ -106,25 +106,27 @@ export default function Footer() {
                 {section.title}
               </h3>
               <ul className="space-y-2 text-sm">
-                {section.links.map((link) => (
-                  <li key={link}>
-                    {link === "Pricing" ? (
+                {section.links.map((link) => {
+                  const linkMap = {
+                    "Features": "#features",
+                    "Pricing": "/#pricing",
+                    "Contact": "/contact",
+                    "Community": "#community",
+                    "About Us": "/about",
+                    "Security": "#features"
+                  };
+                  
+                  return (
+                    <li key={link}>
                       <a
-                        href="#pricing"
+                        href={linkMap[link] || "#"}
                         className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         {link}
                       </a>
-                    ) : (
-                      <a
-                        href="#"
-                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-                      >
-                        {link}
-                      </a>
-                    )}
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}

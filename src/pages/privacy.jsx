@@ -3,6 +3,7 @@ import Navbar from "../components/common/Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../contexts/ThemeContext";
 
+
 export default function PrivacyPolicy() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);

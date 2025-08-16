@@ -3,7 +3,7 @@ import React from "react";
 
 const ContactUs = () => {
   return (
-    <div className="grid md:grid-cols-3 gap-8 mb-12">
+    <div className="grid md:grid-cols-1 gap-8 mb-20 ml-8 mr-10">
       <div className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-8 border border-green-200 dark:border-green-700 hover:border-green-300 dark:hover:border-green-600 transition-all duration-300 hover:shadow-xl hover:shadow-green-100 dark:hover:shadow-green-900/20 hover:-translate-y-1">
         <h3 className="text-2xl md:text-3xl font-semibold mb-4 text-center">
           Have any question? 📩
@@ -41,7 +41,7 @@ const ContactUs = () => {
           </button>
         </form>
       </div>
-          <div className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-8 border border-green-200 dark:border-green-700 hover:border-green-300 dark:hover:border-green-600 transition-all duration-300 hover:shadow-xl hover:shadow-green-100 dark:hover:shadow-green-900/20 hover:-translate-y-1">
+      <div className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-8 border border-green-200 dark:border-green-700 hover:border-green-300 dark:hover:border-green-600 transition-all duration-300 hover:shadow-xl hover:shadow-green-100 dark:hover:shadow-green-900/20 hover:-translate-y-1">
               <h3 className="text-2xl md:text-3xl font-semibold mb-4 text-center">
           Subscribe to Our Newsletter
         </h3>

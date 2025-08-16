@@ -23,7 +23,7 @@ import { AppointmentProvider } from "./contexts/AppointmentContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
+import PrivacyPolicy from "./pages/privacy";
 
 import Feature from "./pages/Feature";
 

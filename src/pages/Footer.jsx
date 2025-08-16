@@ -8,9 +8,11 @@ import { ChevronDoubleUpIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
   const { isDark } = useTheme();
+  const navigate = useNavigate();
   
   const linkSections = [
     {
@@ -151,7 +153,10 @@ export default function Footer() {
             © {new Date().getFullYear()} CareSync. All rights reserved.
           </span>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-gray-900 dark:hover:text-white">
+            <a 
+              className="hover:text-gray-900 dark:hover:text-white"
+              onClick={() => navigate("/privacy-policy")}
+            >
               Privacy
             </a>
             <a href="#" className="hover:text-gray-900 dark:hover:text-white">

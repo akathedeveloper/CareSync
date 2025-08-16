@@ -18,7 +18,7 @@ export default defineConfig({
     }
   },
   server: {
-    // allowedHosts: ['<YOUR-UNIQUE-STRING>.ngrok-free.app'], // used to test app on physical devices using Ngrok tunneling 
+    allowedHosts: ['<YOUR-UNIQUE-STRING>.ngrok-free.app'], // used to test app on physical devices using Ngrok tunneling 
     port: 3000,
     host: true
   }

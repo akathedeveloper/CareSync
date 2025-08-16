@@ -1,9 +1,11 @@
-// src/components/Testimonials.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   StarIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  PlayIcon,
+  PauseIcon,
+  ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/solid";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -76,18 +78,55 @@ export default function Testimonials() {
   ];
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [direction, setDirection] = useState(0); // 1 = next, -1 = prev
-  const cardsPerPage = 4;
+  const [direction, setDirection] = useState(0);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const [hoveredCard, setHoveredCard] = useState(null);
+  
+  // Responsive cards per page
+  const [cardsPerPage, setCardsPerPage] = useState(3);
+  
+  useEffect(() => {
+    const updateCardsPerPage = () => {
+      if (window.innerWidth < 640) setCardsPerPage(1);
+      else if (window.innerWidth < 1024) setCardsPerPage(2);
+      else setCardsPerPage(3);
+    };
+    
+    updateCardsPerPage();
+    window.addEventListener('resize', updateCardsPerPage);
+    return () => window.removeEventListener('resize', updateCardsPerPage);
+  }, []);
+
   const totalPages = Math.ceil(testimonials.length / cardsPerPage);
 
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (!isAutoScrolling) return;
+
+    const interval = setInterval(() => {
+      setDirection(1);
+      setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [currentPage, isAutoScrolling, totalPages]);
+
   const handlePrev = () => {
+    setIsAutoScrolling(false);
     setDirection(-1);
     setCurrentPage((prev) => (prev > 0 ? prev - 1 : totalPages - 1));
+    setTimeout(() => setIsAutoScrolling(true), 8000);
   };
 
   const handleNext = () => {
+    setIsAutoScrolling(false);
     setDirection(1);
     setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
+    setTimeout(() => setIsAutoScrolling(true), 8000);
+  };
+
+  const toggleAutoScroll = () => {
+    setIsAutoScrolling(!isAutoScrolling);
   };
 
   const currentCards = testimonials.slice(
@@ -95,108 +134,327 @@ export default function Testimonials() {
     currentPage * cardsPerPage + cardsPerPage
   );
 
-  // Animation variants
   const variants = {
     enter: (dir) => ({
-      x: dir > 0 ? 50 : -50,
+      x: dir > 0 ? 300 : -300,
       opacity: 0,
+      scale: 0.8,
+      rotateY: dir > 0 ? 15 : -15,
     }),
-    center: { x: 0, opacity: 1 },
+    center: { 
+      x: 0, 
+      opacity: 1, 
+      scale: 1,
+      rotateY: 0,
+    },
     exit: (dir) => ({
-      x: dir > 0 ? -50 : 50,
+      x: dir > 0 ? -300 : 300,
       opacity: 0,
+      scale: 0.8,
+      rotateY: dir > 0 ? -15 : 15,
     }),
   };
 
   return (
-    <section id="testimonials" className="py-20 bg-white dark:bg-gray-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+    <section id="testimonials" className="relative py-24 bg-white dark:bg-gray-950 overflow-hidden">
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Animated Orbs */}
+        <motion.div
+          animate={{
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-emerald-400/20 to-emerald-600/10 dark:from-emerald-400/10 dark:to-emerald-600/5 rounded-full blur-3xl"
+        />
+        
+        <motion.div
+          animate={{
+            x: [0, -80, 0],
+            y: [0, 60, 0],
+            scale: [1, 0.8, 1],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 5
+          }}
+          className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-gray-400/20 to-gray-600/10 dark:from-gray-400/10 dark:to-gray-600/5 rounded-full blur-3xl"
+        />
+
+        {/* Floating Particles */}
+        {[...Array(12)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: [-20, -60, -20],
+              opacity: [0.3, 0.8, 0.3],
+            }}
+            transition={{
+              duration: 4 + i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.3
+            }}
+            className="absolute w-1 h-1 bg-emerald-400 dark:bg-emerald-300 rounded-full opacity-30"
+            style={{
+              left: `${10 + i * 7}%`,
+              top: `${20 + (i % 3) * 20}%`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Enhanced Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(75,85,99,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(75,85,99,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+        {/* Enhanced Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-20"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 dark:from-emerald-400 dark:to-emerald-500 rounded-2xl mb-6 shadow-lg"
+          >
+            <ChatBubbleLeftRightIcon className="w-8 h-8 text-white" />
+          </motion.div>
+          
+          <h2 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-gray-100 dark:via-gray-200 dark:to-gray-100 bg-clip-text text-transparent mb-6 leading-tight">
             What Our Users Say
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
             Join thousands of healthcare professionals who trust CareSync to
             deliver exceptional patient care
           </p>
+        </motion.div>
+
+        {/* Main Testimonials Container */}
+        <div className="relative">
+          {/* Enhanced Gradient Overlays */}
+          {/* <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-white via-white/95 to-transparent dark:from-gray-950 dark:via-gray-950/95 dark:to-transparent z-20 pointer-events-none" />
+          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-white via-white/95 to-transparent dark:from-gray-950 dark:via-gray-950/95 dark:to-transparent z-20 pointer-events-none" /> */}
+
+          {/* Testimonials Grid */}
+          <div className="relative min-h-[450px] lg:min-h-[425px] overflow-hidden">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={currentPage}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ 
+                  duration: 0.8, 
+                  ease: [0.16, 1, 0.3, 1],
+                  type: "tween"
+                }}
+                className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 px-4"
+              >
+                {currentCards.map((testimonial, index) => (
+                  <motion.div
+                    key={`${currentPage}-${index}`}
+                    initial={{ opacity: 0, y: 60, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ 
+                      delay: index * 0.15,
+                      duration: 0.7,
+                      ease: "easeOut"
+                    }}
+                    onHoverStart={() => setHoveredCard(index)}
+                    onHoverEnd={() => setHoveredCard(null)}
+                    className="group relative"
+                  >
+                    {/* Enhanced Hover Glow */}
+                    <div className={`absolute -inset-4 bg-gradient-to-r from-emerald-500/20 via-emerald-400/30 to-emerald-600/20 dark:from-emerald-400/10 dark:via-emerald-300/15 dark:to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-3xl blur-2xl scale-110`} />
+                    
+                    {/* Card Container */}
+                    <div className="relative top-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl dark:shadow-gray-900/50 transition-all duration-500 transform hover:-translate-y-4 hover:shadow-2xl border border-gray-200/50 dark:border-gray-700/50 h-full flex flex-col">
+                      
+                      {/* Floating Quote Icon */}
+                      <motion.div
+                        animate={hoveredCard === index ? { 
+                          rotate: [0, 5, -5, 0],
+                          scale: [1, 1.1, 1]
+                        } : {}}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 dark:from-emerald-400 dark:to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg"
+                      >
+                        <ChatBubbleLeftRightIcon className="w-6 h-6 text-white" />
+                      </motion.div>
+
+                      {/* Rating Stars */}
+                      <div className="flex items-center mb-6">
+                        {[...Array(5)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                            transition={{ 
+                              delay: 0.3 + i * 0.1, 
+                              type: "spring",
+                              stiffness: 200
+                            }}
+                          >
+                            <StarIcon 
+                              className={`h-5 w-5 ${
+                                i < testimonial.rating 
+                                  ? 'text-yellow-400' 
+                                  : 'text-gray-300 dark:text-gray-600'
+                              } fill-current drop-shadow-sm`} 
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+
+                      {/* Testimonial Content */}
+                      <blockquote className="text-gray-700 dark:text-gray-200 mb-8 leading-relaxed text-base flex-grow relative">
+                        <span className="text-4xl text-emerald-500/30 dark:text-emerald-400/30 absolute -top-2 -left-2 font-serif">"</span>
+                        <span className="relative z-10 italic">{testimonial.content}</span>
+                        <span className="text-4xl text-emerald-500/30 dark:text-emerald-400/30 absolute -bottom-4 -right-2 font-serif">"</span>
+                      </blockquote>
+
+                      {/* User Info */}
+                      <div className="flex items-center mt-auto">
+                        <div className="relative">
+                          <motion.div
+                            animate={hoveredCard === index ? { scale: [1, 1.05, 1] } : {}}
+                            transition={{ duration: 2, repeat: Infinity }}
+                            className="w-14 h-14 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-900/50 dark:to-emerald-800/50 rounded-2xl flex items-center justify-center mr-4 font-bold text-emerald-600 dark:text-emerald-400 text-lg shadow-lg border border-emerald-200/50 dark:border-emerald-700/50"
+                          >
+                            {testimonial.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </motion.div>
+                          <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400/30 to-emerald-600/30 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        </div>
+                        
+                        <div>
+                          <div className="font-bold text-gray-900 dark:text-gray-100 text-lg mb-1">
+                            {testimonial.name}
+                          </div>
+                          <div className="text-sm text-emerald-600 dark:text-emerald-400 font-medium mb-1">
+                            {testimonial.role}
+                          </div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            {testimonial.hospital}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
 
-        {/* Cards with animation */}
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
-            key={currentPage} // Ensures re-render on page change
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-          >
-            {currentCards.map((t, index) => (
-              <div
-                key={index}
-                className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-md hover:shadow-xl dark:hover:shadow-gray-900/50 transition transform hover:-translate-y-2"
-              >
-                {/* Stars */}
-                <div className="flex items-center mb-4">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <StarIcon
-                      key={i}
-                      className="h-5 w-5 text-yellow-400 fill-current"
-                    />
-                  ))}
-                </div>
+        {/* Enhanced Control Panel */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+          className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-12"
+        >
+          {/* Navigation Controls */}
+          <div className="flex items-center gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handlePrev}
+              className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl shadow-xl dark:shadow-gray-900/50 rounded-2xl p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 group"
+              aria-label="Previous testimonials"
+            >
+              <ChevronLeftIcon className="h-6 w-6 text-gray-700 dark:text-gray-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
+            </motion.button>
+            
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleNext}
+              className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl shadow-xl dark:shadow-gray-900/50 rounded-2xl p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 group"
+              aria-label="Next testimonials"
+            >
+              <ChevronRightIcon className="h-6 w-6 text-gray-700 dark:text-gray-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
+            </motion.button>
+          </div>
 
-                {/* Content */}
-                <p className="text-gray-700 dark:text-gray-200 mb-6 italic">
-                  "{t.content}"
-                </p>
+          {/* Auto-scroll Control */}
+          <div className="flex items-center gap-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-2xl px-6 py-4 shadow-xl">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={toggleAutoScroll}
+              className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-300 font-medium"
+            >
+              {isAutoScrolling ? (
+                <PauseIcon className="h-5 w-5" />
+              ) : (
+                <PlayIcon className="h-5 w-5" />
+              )}
+              <span className="hidden sm:inline">{isAutoScrolling ? 'Pause' : 'Play'}</span>
+            </motion.button>
+            
+            <div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
+            
+            <span className="text-gray-600 dark:text-gray-300 font-medium">
+              {currentPage + 1} of {totalPages}
+            </span>
+            
+            {isAutoScrolling && (
+              <motion.div 
+                animate={{ 
+                  scale: [1, 1.4, 1],
+                  opacity: [0.5, 1, 0.5]
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-2 h-2 bg-emerald-500 dark:bg-emerald-400 rounded-full"
+              />
+            )}
+          </div>
+        </motion.div>
 
-                {/* User Info */}
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mr-4 font-semibold text-emerald-600 dark:text-emerald-400">
-                    {t.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900 dark:text-gray-100">
-                      {t.name}
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">
-                      {t.role}
-                    </div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                      {t.hospital}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Prev/Next Buttons */}
-        <div className="flex justify-center items-center gap-4 mt-10">
-          <button
-            onClick={handlePrev}
-            className="bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50 rounded-full p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-            aria-label="Previous testimonials"
-          >
-            <ChevronLeftIcon className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-          </button>
-          <span className="text-gray-600 dark:text-gray-300">
-            Page {currentPage + 1} of {totalPages}
-          </span>
-          <button
-            onClick={handleNext}
-            className="bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50 rounded-full p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-            aria-label="Next testimonials"
-          >
-            <ChevronRightIcon className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-          </button>
+        {/* Enhanced Progress Indicators */}
+        <div className="flex justify-center gap-3 mt-8">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <motion.button
+              key={index}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                setCurrentPage(index);
+                setIsAutoScrolling(false);
+                setTimeout(() => setIsAutoScrolling(true), 8000);
+              }}
+              className="relative overflow-hidden rounded-full transition-all duration-500"
+            >
+              <div className={`h-3 rounded-full transition-all duration-500 ${
+                index === currentPage 
+                  ? 'w-10 bg-gradient-to-r from-emerald-500 to-emerald-600 shadow-lg' 
+                  : 'w-3 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+              }`} />
+              {index === currentPage && (
+                <motion.div
+                  layoutId="activeIndicator"
+                  className="absolute inset-0 bg-emerald-400/50 rounded-full blur-sm"
+                />
+              )}
+            </motion.button>
+          ))}
         </div>
       </div>
     </section>

@@ -23,7 +23,7 @@ import { AppointmentProvider } from "./contexts/AppointmentContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
-
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 import Feature from "./pages/Feature";
 
@@ -126,6 +126,7 @@ const AppRoutes = () => {
 
       <Route path="/about" element={<AboutPage/>} />
       <Route path="/feature" element={<Feature/>} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
 
       

@@ -127,7 +127,7 @@ const AppRoutes = () => {
       <Route path="/about" element={<AboutPage/>} />
       <Route path="/feature" element={<Feature/>} />
 
-      <Route path="/about" element={<AboutPage />} />
+
       
       {/* Auth Routes - Redirect authenticated users */}
 

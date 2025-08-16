@@ -448,7 +448,7 @@ const HealthLogs = () => {
                            value={form.value}
                              onChange={e => /^[0-9+\-*/%.]*$/.test(e.target.value) && setForm(f => ({ ...f, value: e.target.value }))}
                            className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                            />
+                          />
 
                     </div>
                     <div>

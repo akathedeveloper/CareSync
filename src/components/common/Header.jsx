@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  BellIcon,
   UserCircleIcon,
   ArrowRightOnRectangleIcon,
   MoonIcon,
@@ -9,6 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
+import NotificationDropdown from "../NotificationDropdown";
 
 const Header = () => {
   const { user, logout } = useAuth();
@@ -69,12 +69,8 @@ const Header = () => {
                 <MoonIcon className="h-6 w-6" />
               )}
             </button>
-            <button className="p-2 text-gray-600 hover:text-gray-900 relative dark:text-gray-300 dark:hover:text-white">
-              <BellIcon className="h-6 w-6" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                3
-              </span>
-            </button>
+            
+            <NotificationDropdown />
 
             <div className="flex items-center space-x-2">
               <Link

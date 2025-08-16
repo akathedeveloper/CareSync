@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { 
-  CheckIcon, 
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  CheckIcon,
   StarIcon,
   PlayIcon,
   ArrowRightIcon,
@@ -33,7 +33,6 @@ import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
-
 import Navbar from "../components/common/Navbar";
 
 const LandingPage = () => {

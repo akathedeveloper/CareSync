@@ -6,32 +6,49 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDoubleUpIcon } from "@heroicons/react/24/solid";
 import React from "react";
+import { Link } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
   const { isDark } = useTheme();
+  const navigate = useNavigate();
+  
   const linkSections = [
     {
       title: "Product",
       links: [
-        "Features",
-        "Pricing",
-        "API Documentation",
-        "Integrations",
-        "Security",
+        { name: "Features", href: "#features", isRoute: false },
+        { name: "Pricing", href: "#pricing", isRoute: false },
+        { name: "API Documentation", href: "#", isRoute: false },
+        { name: "Integrations", href: "#", isRoute: false },
+        { name: "Security", href: "#", isRoute: false },
       ],
     },
     {
       title: "Company",
-      links: ["About Us", "Careers", "Press", "Partners", "Contact"],
+      links: [
+        { name: "About Us", href: "/about", isRoute: true },
+        { name: "Careers", href: "#", isRoute: false },
+        { name: "Press", href: "#", isRoute: false },
+        { name: "Partners", href: "#", isRoute: false },
+        { name: "Contact", href: "#contact-form", isRoute: false },
+      ],
     },
     {
       title: "Resources",
-      links: ["Blog", "Help Center", "Community", "Webinars", "Status"],
+      links: [
+        { name: "Blog", href: "#", isRoute: false },
+        { name: "Help Center", href: "#", isRoute: false },
+        { name: "Community", href: "#", isRoute: false },
+        { name: "Webinars", href: "#", isRoute: false },
+        { name: "Status", href: "#", isRoute: false },
+      ],
     },
   ];
 
   const [isVisible, setIsVisible] = React.useState(false);
+  
   React.useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) {
@@ -47,7 +64,7 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="bg-primary-100 dark:bg-primary-900 text-primary-900 dark:text-primary-50 w-full z-50"
+      className="bg-primary-100 dark:bg-primary-900/10 text-primary-900 dark:text-primary-50 w-full z-50"
     >
       {isVisible && (
         <button
@@ -107,20 +124,20 @@ export default function Footer() {
               </h3>
               <ul className="space-y-2 text-sm">
                 {section.links.map((link) => (
-                  <li key={link}>
-                    {link === "Pricing" ? (
-                      <a
-                        href="#pricing"
+                  <li key={link.name}>
+                    {link.isRoute ? (
+                      <Link
+                        to={link.href}
                         className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
-                        {link}
-                      </a>
+                        {link.name}
+                      </Link>
                     ) : (
                       <a
-                        href="#"
+                        href={link.href}
                         className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
-                        {link}
+                        {link.name}
                       </a>
                     )}
                   </li>
@@ -129,13 +146,17 @@ export default function Footer() {
             </div>
           ))}
         </div>
+        
         {/* Bottom bar */}
         <div className="mt-10 border-t border-gray-400 dark:border-gray-800 pt-6 text-xs text-gray-600 dark:text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>
             © {new Date().getFullYear()} CareSync. All rights reserved.
           </span>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-gray-900 dark:hover:text-white">
+            <a 
+              className="hover:text-gray-900 dark:hover:text-white"
+              onClick={() => navigate("/privacy-policy")}
+            >
               Privacy
             </a>
             <a href="#" className="hover:text-gray-900 dark:hover:text-white">

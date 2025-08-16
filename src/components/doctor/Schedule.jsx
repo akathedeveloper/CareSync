@@ -1,77 +1,100 @@
-import React, { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { useAppointments } from "../../contexts/AppointmentContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { findPatientById } from "../../data/dummyData";
 
-const getStatusClass = (status) => {
-  switch (status) {
-    case "completed":
-      return "bg-medical-500 dark:bg-medical-600";
-    case "pending":
-      return "bg-yellow-500 dark:bg-yellow-600";
-    case "cancelled":
-    case "rejected":
-      return "bg-red-500 dark:bg-red-600";
-    default:
-      return "bg-gray-500 dark:bg-gray-600";
-  }
+const statusColors = {
+  confirmed: "bg-green-500",
+  pending: "bg-yellow-500",
+  cancelled: "bg-red-500",
+  rejected: "bg-red-500",
 };
 
 const Schedule = () => {
   const { user } = useAuth();
-  const { appointments, updateAppointmentStatus, cancelAppointment } =
-    useAppointments();
+  const {
+    appointments,
+    bookAppointment,
+    updateAppointmentStatus,
+    cancelAppointment,
+  } = useAppointments();
 
+  const [form, setForm] = useState({ patientName: "", date: "", time: "" });
+
+  // Doctor ke appointments
   const doctorAppointments = useMemo(() => {
     const now = new Date();
     return appointments
       .filter((apt) => apt.doctorId === user.id)
-      .map((apt) => ({
-        ...apt,
-        patient: findPatientById(apt.patientId),
-        isUpcoming:
-          new Date(`${apt.date}T${apt.time.replace(" ", "")}`) >= now &&
-          apt.status !== "Cancelled" &&
-          apt.status !== "Rejected",
-      }))
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
+      .map((apt) => {
+        const time = apt.time || "09:00";
+        const patient =
+          apt.patient ||
+          (apt.patientId ? findPatientById(apt.patientId) : { name: "N/A" });
+        const status = apt.status || "Pending";
+        let aptDate = new Date(`${apt.date}T${time.replace(" ", "")}`);
+        if (isNaN(aptDate)) aptDate = new Date(apt.date);
+
+        return {
+          ...apt,
+          patient,
+          time,
+          status,
+          isUpcoming:
+            aptDate >= now &&
+            status !== "Cancelled" &&
+            status !== "Rejected",
+        };
+      })
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
   }, [appointments, user.id]);
 
-  const getStatusClass = (status) => {
-    switch (status.toLowerCase()) {
-      case "confirmed":
-        return "bg-green-500";
-      case "pending":
-        return "bg-yellow-500";
-      case "cancelled":
-      case "rejected":
-        return "bg-red-500";
-      default:
-        return "bg-gray-500";
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (form.patientName && form.date) {
+      bookAppointment({
+        doctorId: user.id,
+        patient: {
+          name: form.patientName,
+          email: `${form.patientName}@demo.com`,
+        },
+        date: form.date,
+        time: form.time || "09:00",
+      });
+      setForm({ patientName: "", date: "", time: "" });
     }
   };
 
+  const getStatusClass = (status) => {
+    return statusColors[status.toLowerCase()] || "bg-gray-500";
+  };
+
   const AppointmentCard = ({ apt }) => (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-900/50 overflow-hidden relative">
-      <div
-        className={`absolute top-4 right-4 px-3 py-1 text-white text-xs font-bold rounded-full ${
-          apt.isUpcoming ? "bg-primary-500 dark:bg-primary-600" : "bg-gray-500 dark:bg-gray-600"
-        }`}
-      >
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden relative flex flex-col justify-between transition hover:scale-[1.02] duration-200">
+      <div className="absolute top-4 right-4 px-3 py-1 text-white text-xs font-bold rounded-full bg-blue-500">
         {apt.isUpcoming ? "Upcoming" : "Past"}
       </div>
       <div className={`h-2 ${getStatusClass(apt.status)}`}></div>
-      <div className="p-6">
-        <h3 className="text-2xl font-bold text-default mb-4">
-          Patient: {apt.patient?.name || "N/A"}
+      <div className="p-6 flex flex-col gap-2">
+        <h3 className="text-xl font-bold text-blue-700 dark:text-blue-200 mb-2">
+          {apt.patient?.name || "N/A"}
         </h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-2">
-          <strong>Date:</strong> {apt.date}
-        </p>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">
-          <strong>Time:</strong> {apt.time}
-        </p>
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-1 text-gray-700 dark:text-gray-300 mb-2">
+          <span>
+            <strong>Date:</strong> {apt.date || "N/A"}
+          </span>
+          <span>
+            <strong>Time:</strong> {apt.time || "N/A"}
+          </span>
+          <span>
+            <strong>Email:</strong> {apt.patient?.email || "N/A"}
+          </span>
+        </div>
+        <div className="flex justify-between items-center mt-2">
           <span
             className={`px-4 py-1 text-white text-sm font-semibold rounded-full ${getStatusClass(
               apt.status
@@ -79,42 +102,81 @@ const Schedule = () => {
           >
             {apt.status}
           </span>
-          {apt.status === "Pending" && (
-            <div className="flex gap-2">
+          <div className="flex gap-2">
+            {apt.status === "Pending" && (
+              <>
+                <button
+                  onClick={() => updateAppointmentStatus(apt.id, "Confirmed")}
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={() => updateAppointmentStatus(apt.id, "Rejected")}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                >
+                  Reject
+                </button>
+              </>
+            )}
+            {apt.status === "Confirmed" && apt.isUpcoming && (
               <button
-                onClick={() => updateAppointmentStatus(apt.id, "Confirmed")}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                onClick={() => cancelAppointment(apt.id)}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
               >
-                Accept
+                Cancel
               </button>
-              <button
-                onClick={() => updateAppointmentStatus(apt.id, "Rejected")}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-              >
-                Reject
-              </button>
-            </div>
-          )}
-          {apt.status === "Confirmed" && apt.isUpcoming && (
-            <button
-              onClick={() => cancelAppointment(apt.id)}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-            >
-              Cancel
-            </button>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
 
   return (
-    <div className="p-8 bg-gradient-to-b from-purple-50 to-purple-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-lg">
+    <div className="p-8 bg-gradient-to-b from-purple-50 to-purple-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-lg min-h-screen">
       <header className="mb-8 text-center">
-        <h2 className="text-4xl font-extrabold text-gray-800 dark:text-gray-100">
+        <h2 className="text-4xl font-extrabold text-blue-700 dark:text-blue-100">
           Your Appointment Schedule
         </h2>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          Add new appointments and manage your schedule.
+        </p>
       </header>
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col md:flex-row gap-4 items-center justify-center mb-10"
+      >
+        <input
+          type="text"
+          name="patientName"
+          value={form.patientName}
+          onChange={handleChange}
+          placeholder="Patient Name"
+          className="border border-blue-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <input
+          type="date"
+          name="date"
+          value={form.date}
+          onChange={handleChange}
+          className="border border-blue-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <input
+          type="time"
+          name="time"
+          value={form.time}
+          onChange={handleChange}
+          className="border border-blue-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition"
+        >
+          Add Appointment
+        </button>
+      </form>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {doctorAppointments.length > 0 ? (

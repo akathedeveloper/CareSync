@@ -1,5 +1,5 @@
 // src/components/patient/MedicineReminders.jsx
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { ClockIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 
 const MedicineReminders = () => {
@@ -30,12 +30,30 @@ const MedicineReminders = () => {
     },
   ]);
 
+  const clickTimeout = useRef(null);
+
+  // Toggle taken/untaken status on single or double tap
   const markAsTaken = (id) => {
-    setReminders(
-      reminders.map((reminder) =>
+    setReminders((prev) =>
+      prev.map((reminder) =>
         reminder.id === id ? { ...reminder, taken: !reminder.taken } : reminder
       )
     );
+  };
+
+  const handleTap = (id) => {
+    if (clickTimeout.current) {
+      clearTimeout(clickTimeout.current);
+      clickTimeout.current = null;
+      // Double tap detected
+      markAsTaken(id);
+    } else {
+      // Wait a bit to detect double tap
+      clickTimeout.current = setTimeout(() => {
+        markAsTaken(id); // Single tap action
+        clickTimeout.current = null;
+      }, 250); // 250ms window for double tap
+    }
   };
 
   return (
@@ -53,7 +71,8 @@ const MedicineReminders = () => {
         {reminders.map((reminder) => (
           <div
             key={reminder.id}
-            className={`p-4 rounded-lg border-2 transition-colors ${
+            onClick={() => handleTap(reminder.id)}
+            className={`p-4 rounded-lg border-2 cursor-pointer transition-colors ${
               reminder.taken
                 ? "border-medical-200 bg-medical-50/80 dark:border-medical-800 dark:bg-medical-900/20"
                 : "border-subtle bg-surface hover:border-primary-200 dark:hover:border-primary-500"
@@ -84,7 +103,10 @@ const MedicineReminders = () => {
               </div>
 
               <button
-                onClick={() => markAsTaken(reminder.id)}
+                onClick={(e) => {
+                  e.stopPropagation(); // prevent conflict with card click
+                  markAsTaken(reminder.id);
+                }}
                 className={`p-2 rounded-full transition-colors ${
                   reminder.taken
                     ? "text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900/30"

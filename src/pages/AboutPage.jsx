@@ -1,125 +1,108 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-
 import { 
   HeartIcon, 
   UserGroupIcon, 
   ShieldCheckIcon, 
   LightBulbIcon, 
   GlobeAltIcon, 
-  AcademicCapIcon,
-  TrophyIcon,
-  BeakerIcon,
+  CodeBracketIcon,
+  StarIcon,
   CheckCircleIcon,
   MapPinIcon,
   EnvelopeIcon,
   PhoneIcon,
   Bars3Icon,
   SunIcon,
-  MoonIcon
+  MoonIcon,
+  BeakerIcon,
+  UsersIcon
 } from '@heroicons/react/24/outline';
+import { GitBranch } from "lucide-react";
+import GitHubStatsSection from '../components/common/GitHubStatsSection';
 import { motion } from 'framer-motion';
-import CountUp from 'react-countup';
 import Footer from './Footer';
 import { useTheme } from "../contexts/ThemeContext";
 
 const AboutPage = () => {
   const [activeValue, setActiveValue] = useState(0);
-  const [startCount, setStartCount] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  // Trigger count-up animation when stats section is visible
-  useEffect(() => {
-    const onScroll = () => {
-      const section = document.getElementById('stats-about');
-      if (section && section.getBoundingClientRect().top < window.innerHeight - 100) {
-        setStartCount(true);
-        window.removeEventListener('scroll', onScroll);
-      }
-    };
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-    useEffect(() => {   // handle the no-scroll CSS class in the <body>
-      if (isMobileMenuOpen) {
-        document.body.classList.add('no-scroll');
-      } else {
-        document.body.classList.remove('no-scroll');
-      }
-    }, [isMobileMenuOpen]);
 
-  const stats = [
-    { label: 'Years of Excellence', value: 8, suffix: '+', icon: TrophyIcon },
-    { label: 'Healthcare Professionals', value: 10000, suffix: '+', icon: UserGroupIcon },
-    { label: 'Countries Served', value: 25, suffix: '+', icon: GlobeAltIcon },
-    { label: 'Patient Satisfaction', value: 98.5, suffix: '%', icon: HeartIcon },
-  ];
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  }, [isMobileMenuOpen]);
 
   const values = [
     {
       icon: HeartIcon,
-      title: "Patient-Centered Care",
-      description: "Every decision we make is guided by what's best for patients and their families.",
+      title: "Open Source First",
+      description: "Built by the community, for the community. Every line of code is transparent and accessible.",
       color: "from-red-500 to-pink-500"
     },
     {
       icon: ShieldCheckIcon,
       title: "Security & Privacy",
-      description: "We maintain the highest standards of data security and patient privacy protection.",
+      description: "Healthcare data security is paramount. HIPAA compliant with robust encryption and privacy controls.",
       color: "from-emerald-500 to-teal-500"
     },
     {
       icon: LightBulbIcon,
       title: "Innovation",
-      description: "Continuously pushing boundaries to create better healthcare solutions for tomorrow.",
+      description: "Leveraging cutting-edge technology to solve real healthcare challenges through collaborative development.",
       color: "from-yellow-500 to-orange-500"
     },
     {
       icon: UserGroupIcon,
-      title: "Collaboration",
-      description: "Fostering seamless communication between all healthcare stakeholders.",
+      title: "Community Driven",
+      description: "Powered by GSSoC'25 participants and healthcare professionals working together.",
       color: "from-blue-500 to-indigo-500"
     }
   ];
 
+  // Real open source maintainers and contributors
   const team = [
     {
-      name: "Dr. Sarah Johnson",
-      role: "CEO & Founder",
+      name: "Adhiraj (Admin)",
+      role: "Project Maintainer",
+      image: "👨‍💻",
+      bio: "Leading the CareSync open source initiative under GSSoC'25",
+      specialties: ["Open Source", "Healthcare Tech", "Community Building"]
+    },
+    {
+      name: "Core Contributors",
+      role: "Development Team",
+      image: "👥",
+      bio: "Passionate developers contributing to healthcare innovation",
+      specialties: ["React", "Node.js", "Healthcare APIs"]
+    },
+    {
+      name: "GSSoC Participants",
+      role: "Student Developers",
+      image: "🎓",
+      bio: "Students from around the globe contributing during GSSoC'25",
+      specialties: ["Full Stack", "UI/UX", "Testing"]
+    },
+    {
+      name: "Healthcare Advisors",
+      role: "Domain Experts",
       image: "👩‍⚕️",
-      bio: "Former hospital administrator with 15+ years in healthcare technology",
-      specialties: ["Healthcare Leadership", "Digital Transformation"]
-    },
-    {
-      name: "Dr. Michael Chen",
-      role: "Chief Medical Officer",
-      image: "👨‍⚕️",
-      bio: "Practicing physician and healthcare technology innovator",
-      specialties: ["Clinical Excellence", "Medical Technology"]
-    },
-    {
-      name: "Emily Rodriguez",
-      role: "Head of Engineering",
-      image: "👩‍💻",
-      bio: "Expert in secure healthcare systems and HIPAA compliance",
-      specialties: ["System Architecture", "Security"]
-    },
-    {
-      name: "Dr. James Wilson",
-      role: "Head of Research",
-      image: "👨‍🔬",
-      bio: "Leading AI research in healthcare diagnostics and treatment",
-      specialties: ["AI/ML", "Healthcare Research"]
+      bio: "Medical professionals guiding feature development",
+      specialties: ["Clinical Workflow", "Healthcare Standards", "User Experience"]
     }
   ];
 
+  // Realistic project milestones
   const milestones = [
-    { year: "2016", title: "Founded", description: "CareSync was born with a vision to transform healthcare" },
-    { year: "2018", title: "First 1000 Providers", description: "Reached our first major milestone of healthcare providers" },
-    { year: "2020", title: "Global Expansion", description: "Expanded to serve healthcare systems across 15 countries" },
-    { year: "2022", title: "AI Integration", description: "Launched AI-powered diagnostic assistance features" },
-    { year: "2024", title: "10K+ Providers", description: "Now serving over 10,000 healthcare professionals worldwide" }
+    { year: "2024", title: "Project Inception", description: "CareSync started as an open source healthcare management solution" },
+    { year: "2025", title: "GSSoC Selection", description: "Selected as an official GSSoC'25 project for student contributions" },
+    { year: "2025", title: "First 35 Contributors", description: "Growing community of developers and healthcare enthusiasts" },
+    { year: "2025", title: "Beta Release", description: "Launch of beta version with core healthcare management features" },
+    { year: "2025", title: "Community Growth", description: "Expanding contributor base and feature set through open collaboration" }
   ];
 
   const containerVariants = {
@@ -147,10 +130,10 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
-           <nav className="fixed top-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 z-50 shadow-sm">
+      <nav className="fixed top-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
+            <Link to="/" className="flex items-center">
               <div className="w-10 h-10">
                 <img
                   src="/CareSync-Logo.png"
@@ -164,22 +147,22 @@ const AboutPage = () => {
               >
                 CareSync
               </span>
-            </div>
+            </Link>
 
             {/* Desktop Menu */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-center space-x-8">
                 {["Home", "Features", "Pricing", "Testimonials", "Contact"].map(
                   (item) => (
-                    <a
+                    <Link
                       key={item}
-                      href={`#${item.toLowerCase()}`}
+                      to={item === "Home" ? "/" : `/#${item.toLowerCase()}`}
                       className="flex gap-2 items-center text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group
               after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
               hover:after:scale-x-100"
                     >
                       {item}
-                    </a>
+                    </Link>
                   )
                 )}
               </div>
@@ -196,7 +179,6 @@ const AboutPage = () => {
             </div>
 
             <div className="hidden md:flex items-center space-x-4">
-              {/* Dark Mode Toggle */}
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -218,7 +200,7 @@ const AboutPage = () => {
               </Link>
               <Link
                 to="/register"
-                className="gradient-accent text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold transform hover:scale-105"
+                className="gradient-accent text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold"
               >
                 Get Started
               </Link>
@@ -229,23 +211,22 @@ const AboutPage = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="relative md:hidden">
-            <div className="absolute right-0 w-52 h-dvh pt-10 bg-white dark:bg-gray-900">
+            <div className="absolute right-0 w-52 h-dvh pt-10 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800">
               {["Home", "Features", "Pricing", "Testimonials", "Contact"].map(
                 (item) => (
-                  <a
+                  <Link
                     key={item}
-                    href={`#${item.toLowerCase()}`}
+                    to={item === "Home" ? "/" : `/#${item.toLowerCase()}`}
                     className="block text-center py-3 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group
               after:content-[''] after:absolute after:left-0 after:bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
               hover:after:scale-x-100"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item}
-                  </a>
+                  </Link>
                 )
               )}
               <div className="flex flex-col space-y-2 mt-20 px-3">
-                {/* Dark Mode Toggle for Mobile */}
                 <button
                   onClick={toggleTheme}
                   className="text-center py-2 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center justify-center gap-2"
@@ -274,8 +255,9 @@ const AboutPage = () => {
           </div>
         )}
       </nav>
+
       {/* Hero Section */}
-      <section className="relative py-24 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 overflow-hidden">
+      <section className="relative py-24 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 overflow-hidden pt-20">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div 
@@ -315,7 +297,7 @@ const AboutPage = () => {
               variants={itemVariants}
               className="inline-flex items-center bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 text-emerald-700 dark:text-emerald-300 px-6 py-3 rounded-full text-sm font-semibold shadow-sm mb-8"
             >
-              🏥 Transforming Healthcare Since 2016
+              🏥 Open Source Healthcare • GSSoC'25 Project
             </motion.div>
 
             <motion.h1 
@@ -332,19 +314,48 @@ const AboutPage = () => {
               variants={itemVariants}
               className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-4xl mx-auto mb-12 font-medium"
             >
-              We're on a mission to revolutionize healthcare by connecting providers, patients, and pharmacies through innovative technology that puts care first.
+              An open source healthcare management platform built collaboratively by developers worldwide through GSSoC'25, connecting patients, doctors, and pharmacies with transparent, secure technology.
             </motion.p>
 
             <motion.div 
               variants={itemVariants}
               className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-8 text-base text-gray-600 dark:text-gray-400"
             >
-              {["Founded by Healthcare Professionals", "Trusted by 10K+ Providers", "Serving 25+ Countries"].map((text, index) => (
+              {["Open Source Community", "GSSoC'25 Project", "MIT Licensed"].map((text, index) => (
                 <div key={index} className="flex items-center space-x-2">
                   <CheckCircleIcon className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                   <span className="font-medium">{text}</span>
                 </div>
               ))}
+            </motion.div>
+
+            <motion.div 
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+            >
+              <motion.a
+                href="https://github.com/akathedeveloper/CareSync"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                View on GitHub
+              </motion.a>
+              
+              <motion.Link
+                to="/register"
+                className="inline-flex items-center gradient-accent text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <BeakerIcon className="w-5 h-5 mr-2" />
+                Try Beta Version
+              </motion.Link>
             </motion.div>
           </motion.div>
         </div>
@@ -366,8 +377,7 @@ const AboutPage = () => {
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Our Mission</h3>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                  To empower healthcare providers with innovative technology that enhances patient care, 
-                  streamlines operations, and creates meaningful connections across the entire healthcare ecosystem.
+                  To democratize healthcare technology through open source collaboration, creating accessible tools that empower healthcare providers and improve patient outcomes worldwide.
                 </p>
               </div>
             </motion.div>
@@ -384,8 +394,7 @@ const AboutPage = () => {
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Our Vision</h3>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                  A world where healthcare is seamlessly connected, intelligently managed, and accessible to all, 
-                  where technology amplifies the human touch rather than replacing it.
+                  A world where healthcare technology is transparent, collaborative, and accessible to all, built by a global community of developers and healthcare professionals working together.
                 </p>
               </div>
             </motion.div>
@@ -393,73 +402,8 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section id="stats-about" className="py-20 bg-white dark:bg-gray-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={containerVariants}
-            className="text-center mb-16"
-          >
-            <motion.h2 
-              variants={itemVariants}
-              className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4"
-            >
-              Our Impact in Numbers
-            </motion.h2>
-            <motion.p 
-              variants={itemVariants}
-              className="text-xl text-gray-600 dark:text-gray-300"
-            >
-              Making a difference in healthcare, one connection at a time
-            </motion.p>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={containerVariants}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-8"
-          >
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={cardHover}
-                className="text-center group"
-              >
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-emerald-50 group-hover:to-teal-50 dark:group-hover:from-emerald-900/20 dark:group-hover:to-teal-900/20">
-                  <div className="flex justify-center mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <stat.icon className="h-8 w-8 text-white" />
-                    </div>
-                  </div>
-                  
-                  <div className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-gray-100 mb-3">
-                    {startCount && (
-                      <CountUp
-                        start={0}
-                        end={stat.value}
-                        duration={2.5}
-                        separator=","
-                        decimals={stat.value % 1 !== 0 ? 1 : 0}
-                        suffix={stat.suffix}
-                      />
-                    )}
-                  </div>
-                  
-                  <div className="text-gray-600 dark:text-gray-400 font-medium text-lg">
-                    {stat.label}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+      {/* GitHub Stats Section - Using the API Component */}
+      <GitHubStatsSection />
 
       {/* Core Values Section */}
       <section className="py-20 bg-gray-50 dark:bg-gray-900">
@@ -481,7 +425,7 @@ const AboutPage = () => {
               variants={itemVariants}
               className="text-xl text-gray-600 dark:text-gray-300"
             >
-              The principles that guide everything we do
+              The principles that drive our open source healthcare initiative
             </motion.p>
           </motion.div>
 
@@ -514,7 +458,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Leadership Team */}
+      {/* Community Team */}
       <section className="py-20 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -528,13 +472,13 @@ const AboutPage = () => {
               variants={itemVariants}
               className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4"
             >
-              Meet Our Leadership Team
+              Our Community
             </motion.h2>
             <motion.p 
               variants={itemVariants}
               className="text-xl text-gray-600 dark:text-gray-300"
             >
-              Experienced healthcare professionals and technology experts
+              Meet the passionate individuals building CareSync together
             </motion.p>
           </motion.div>
 
@@ -576,6 +520,26 @@ const AboutPage = () => {
               </motion.div>
             ))}
           </div>
+
+          <motion.div
+            className="text-center mt-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <motion.a
+              href="https://github.com/akathedeveloper/CareSync/graphs/contributors"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gradient-accent text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <UsersIcon className="w-5 h-5 mr-2" />
+              View All Contributors
+            </motion.a>
+          </motion.div>
         </div>
       </section>
 
@@ -593,18 +557,17 @@ const AboutPage = () => {
               variants={itemVariants}
               className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4"
             >
-              Our Journey
+              Project Timeline
             </motion.h2>
             <motion.p 
               variants={itemVariants}
               className="text-xl text-gray-600 dark:text-gray-300"
             >
-              Key milestones in our mission to transform healthcare
+              Key milestones in our open source journey
             </motion.p>
           </motion.div>
 
           <div className="relative">
-            {/* Timeline line */}
             <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-emerald-500 to-teal-500 rounded-full"></div>
             
             <div className="space-y-12">
@@ -635,7 +598,6 @@ const AboutPage = () => {
                     </div>
                   </div>
                   
-                  {/* Timeline dot */}
                   <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full border-4 border-white dark:border-gray-950 shadow-lg"></div>
                 </motion.div>
               ))}
@@ -644,7 +606,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Contact CTA Section */}
+      {/* Contribution CTA Section */}
       <section className="py-20 bg-gradient-to-br from-emerald-500 via-teal-600 to-blue-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/10" />
         <motion.div 
@@ -672,34 +634,38 @@ const AboutPage = () => {
               variants={itemVariants}
               className="text-4xl lg:text-5xl font-black text-white mb-8"
             >
-              Ready to Transform Healthcare Together?
+              Ready to Contribute to Open Source Healthcare?
             </motion.h2>
             <motion.p 
               variants={itemVariants}
               className="text-xl lg:text-2xl text-white/90 mb-12 font-medium leading-relaxed max-w-3xl mx-auto"
             >
-              Join our mission to revolutionize healthcare delivery and patient outcomes through innovative technology solutions.
+              Join our growing community of developers, designers, and healthcare professionals building the future of healthcare technology together.
             </motion.p>
 
             <motion.div 
               variants={itemVariants}
               className="flex flex-col sm:flex-row gap-6 justify-center mb-8"
             >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <motion.a
+                href="https://github.com/akathedeveloper/CareSync"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-white text-emerald-600 px-10 py-4 rounded-xl hover:bg-gray-50 transition-all duration-300 font-bold text-lg shadow-xl hover:shadow-2xl"
-              >
-                Join Our Team
-              </motion.button>
-              
-              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-10 py-4 rounded-xl hover:bg-white hover:text-emerald-600 transition-all duration-300 font-bold text-lg backdrop-blur-sm"
               >
-               <a href="/contact"> Contact Us</a>
-              </motion.button>
+                Start Contributing
+              </motion.a>
+              
+              <motion.Link
+                to="/register"
+                className="border-2 border-white text-white px-10 py-4 rounded-xl hover:bg-white hover:text-emerald-600 transition-all duration-300 font-bold text-lg backdrop-blur-sm"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Try CareSync
+              </motion.Link>
             </motion.div>
 
             <motion.div 
@@ -707,22 +673,23 @@ const AboutPage = () => {
               className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-12 text-white/80 font-medium"
             >
               <div className="flex items-center space-x-2">
-                <MapPinIcon className="h-5 w-5" />
-                <span>San Francisco, CA</span>
+                <CodeBracketIcon className="h-5 w-5" />
+                <span>MIT Licensed</span>
               </div>
               <div className="flex items-center space-x-2">
-                <EnvelopeIcon className="h-5 w-5" />
-                <span>hello@caresync.com</span>
+                <UserGroupIcon className="h-5 w-5" />
+                <span>GSSoC'25 Project</span>
               </div>
               <div className="flex items-center space-x-2">
-                <PhoneIcon className="h-5 w-5" />
-                <span>+1 (555) 123-4567</span>
+                <HeartIcon className="h-5 w-5" />
+                <span>Community Driven</span>
               </div>
             </motion.div>
           </motion.div>
         </div>
       </section>
-      <Footer/>
+      
+      <Footer />
     </div>
   );
 };

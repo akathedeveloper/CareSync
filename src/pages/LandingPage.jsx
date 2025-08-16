@@ -31,9 +31,10 @@ import Footer from "./Footer";
 import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
+import Navbar from "../components/common/Navbar";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
-import Navbar from "../components/common/Navbar";
+
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);

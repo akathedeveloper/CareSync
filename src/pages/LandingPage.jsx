@@ -31,13 +31,14 @@ import Footer from "./Footer";
 import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
-// import { Subscribe } from './ContactUs';
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSignInMenuOpen, setIsSignInMenuOpen] = useState(false);
+  const [isGetStartedMenuOpen, setIsGetStartedMenuOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   
   const { user, loading } = useAuth();
@@ -59,9 +60,13 @@ const LandingPage = () => {
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
     }
+     else {
+      document.body.classList.remove("no-scroll");
+     }
+     return () => {
+      document.body.classList.remove("no-scroll");
+     };
   }, [isMobileMenuOpen]);
 
   if (loading) {
@@ -139,12 +144,14 @@ const LandingPage = () => {
 
               <Link
                 to="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium"
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="gradient-accent text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold"
               >
                 Get Started
@@ -165,7 +172,7 @@ const LandingPage = () => {
                     className="block text-center py-3 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group
               after:content-[''] after:absolute after:left-0 after:bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
               hover:after:scale-x-100"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   >
                     {item}
                   </a>
@@ -186,12 +193,14 @@ const LandingPage = () => {
                 <Link
                   to="/login"
                   className="text-center py-2 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                  onClick={() => setIsSignInMenuOpen(!isSignInMenuOpen)}
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
                   className="gradient-accent text-white px-4 py-2 rounded-lg text-center font-semibold"
+                  onClick={() => setIsGetStartedMenuOpen(!isGetStartedMenuOpen)}
                 >
                   Get Started
                 </Link>

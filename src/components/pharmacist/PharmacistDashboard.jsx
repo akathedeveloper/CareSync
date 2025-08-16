@@ -121,9 +121,28 @@ InventoryModal.propTypes = {
   inventoryData: PropTypes.array.isRequired,
 };
 
+const FilterButton = ({ label, isActive, onClick, count }) => (
+  <button
+    onClick={onClick}
+    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+      isActive
+        ? 'bg-emerald-600 text-white shadow-md'
+        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+    }`}
+  >
+    <span>{label}</span>
+    <span className={`px-2 py-0.5 rounded-full text-xs ${
+      isActive ? 'bg-white/20' : 'bg-gray-200 dark:bg-gray-600'
+    }`}>
+      {count}
+    </span>
+  </button>
+);
+
 const PharmacistDashboard = () => {
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState('all');
 
   const inventoryData = [
     { id: 1, name: 'Metformin 500mg', stock: 150, unit: 'tablets', expiry: '2026-03-15' },
@@ -206,11 +225,16 @@ const PharmacistDashboard = () => {
     }
   ];
 
-  const filteredPendingOrders = pendingOrders.filter(order =>
-    order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    order.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    order.doctor.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredPendingOrders = pendingOrders
+    .filter(order => {
+      if (activeFilter === 'all') return true;
+      return order.priority === activeFilter;
+    })
+    .filter(order =>
+      order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.doctor.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
@@ -275,8 +299,29 @@ const PharmacistDashboard = () => {
               </button>
             </div>
 
-            {/* Search Input */}
-            <div className="relative mt-6">
+            {/* Filters and Search */}
+            <div className="mt-6">
+              <div className="flex items-center gap-2 mb-4">
+                <FilterButton 
+                  label="All"
+                  isActive={activeFilter === 'all'}
+                  onClick={() => setActiveFilter('all')}
+                  count={pendingOrders.length}
+                />
+                <FilterButton 
+                  label="High Priority"
+                  isActive={activeFilter === 'high'}
+                  onClick={() => setActiveFilter('high')}
+                  count={pendingOrders.filter(o => o.priority === 'high').length}
+                />
+                <FilterButton 
+                  label="Normal Priority"
+                  isActive={activeFilter === 'normal'}
+                  onClick={() => setActiveFilter('normal')}
+                  count={pendingOrders.filter(o => o.priority === 'normal').length}
+                />
+              </div>
+              <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <MagnifyingGlassIcon className="w-5 h-5 text-gray-400" />
               </div>

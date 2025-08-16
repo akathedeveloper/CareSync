@@ -7,6 +7,7 @@ import {
   ChatBubbleLeftRightIcon,
   CogIcon,
   ChevronRightIcon,
+  BellIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../../contexts/AuthContext";
@@ -25,6 +26,11 @@ const patientMenuItems = [
   },
   { name: "Health Logs", href: "/patient/health-logs", icon: UserGroupIcon },
   {
+    name: "Notifications",
+    href: "/notifications",
+    icon: BellIcon,
+  },
+  {
     name: "Messages",
     href: "/patient/messages",
     icon: ChatBubbleLeftRightIcon,
@@ -40,6 +46,11 @@ const doctorMenuItems = [
     icon: ClipboardDocumentListIcon,
   },
   { name: "Patients", href: "/doctor/patients", icon: UserGroupIcon },
+  {
+    name: "Notifications",
+    href: "/notifications",
+    icon: BellIcon,
+  },
   { name: "Messages", href: "/doctor/messages", icon: ChatBubbleLeftRightIcon },
   
   { name: "Settings", href: "/doctor/settings", icon: CogIcon },
@@ -53,6 +64,11 @@ const pharmacistMenuItems = [
     icon: ClipboardDocumentListIcon,
   },
   { name: "Inventory", href: "/pharmacist/inventory", icon: UserGroupIcon },
+  {
+    name: "Notifications",
+    href: "/notifications",
+    icon: BellIcon,
+  },
   {
     name: "Messages",
     href: "/pharmacist/messages",

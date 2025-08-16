@@ -24,6 +24,10 @@ import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
 
+import Notifications from "./pages/Notifications";
+
+import PrivacyPolicy from "./pages/privacy";
+
 
 import Feature from "./pages/Feature";
 
@@ -119,16 +123,19 @@ const AppRoutes = () => {
 
   console.log("AppRoutes - rendering routes, user:", user);
   return (
+    
     <Routes>
       {/* Public Routes - Accessible to all users */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/contact" element={<ContactPage />} />
 
-      <Route path="/about" element={<AboutPage/>} />
       <Route path="/feature" element={<Feature/>} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+
 
       <Route path="/about" element={<AboutPage />} />
-      
+
       {/* Auth Routes - Redirect authenticated users */}
 
       <Route
@@ -147,6 +154,18 @@ const AppRoutes = () => {
           </PublicRoute>
         }
       />
+
+      {/* General Authenticated Routes */}
+      <Route
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/notifications" element={<Notifications />} />
+        {/* Other shared authenticated routes can go here */}
+      </Route>
 
       {/* Patient Routes */}
       <Route
@@ -213,6 +232,7 @@ const AppRoutes = () => {
         }
       />
     </Routes>
+    
   );
 };
 

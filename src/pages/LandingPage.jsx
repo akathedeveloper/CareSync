@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { 
-  CheckIcon, 
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  CheckIcon,
   StarIcon,
   PlayIcon,
   ArrowRightIcon,
@@ -31,8 +31,10 @@ import Footer from "./Footer";
 import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
+import Navbar from "../components/common/Navbar";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
+
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -42,7 +44,6 @@ const LandingPage = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   
   const { user, loading } = useAuth();
-  const { isDark, toggleTheme } = useTheme();
 
   const handleScheduleDemoClick = () => {
     setIsCalendarOpen(true);
@@ -55,8 +56,7 @@ const LandingPage = () => {
   const handleDateSelection = (selectedDate) => {
     console.log("Selected demo date:", selectedDate);
     setIsCalendarOpen(false);
-  };
-
+  }; 
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.classList.add("no-scroll");
@@ -209,6 +209,9 @@ const LandingPage = () => {
           </div>
         )}
       </nav>
+
+      <Navbar />
+
 
       {/* Professional Hero Section */}
       <section

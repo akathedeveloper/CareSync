@@ -38,6 +38,8 @@ import Inventory from "./components/patient/Inventory";
 import Prescription from "./components/pharmacist/Prescriptions";
 import PharmacistInventory from "./components/pharmacist/Inventory";
 import { Toaster } from "react-hot-toast";
+import CookiePolicy from "./pages/CookiePolicy";
+import GDPRCompliance from "./pages/GDPRCompliance";
 
 
 // Protected Route Component
@@ -128,12 +130,10 @@ const AppRoutes = () => {
       {/* Public Routes - Accessible to all users */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/contact" element={<ContactPage />} />
-
+      <Route path="/cookie-policy" element={<CookiePolicy/>} />
       <Route path="/feature" element={<Feature />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-
-
-
+      <Route path="/gdpr-compliance" element={<GDPRCompliance/>} />
       <Route path="/about" element={<AboutPage />} />
 
       {/* Auth Routes - Redirect authenticated users */}

@@ -49,8 +49,8 @@ export default function Footer() {
       links: [
         { name: "Privacy Policy", href: "/privacy", isRoute: true },
         { name: "Terms of Service", href: "/terms", isRoute: true },
-        { name: "Cookie Policy", href: "#", isRoute: false },
-        { name: "GDPR Compliance", href: "#", isRoute: false },
+        { name: "Cookie Policy", href: "/cookie-policy", isRoute: false },
+        { name: "GDPR Compliance", href: "/gdpr-compliance", isRoute: false },
         { name: "Licenses", href: "#", isRoute: false },
       ],
     },

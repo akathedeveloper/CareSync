@@ -23,7 +23,7 @@ import { AppointmentProvider } from "./contexts/AppointmentContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
-import Blog from "./pages/blog";
+import Blog from "./pages/Blog1";
 import Career from "./pages/Career1";
 import Notifications from "./pages/Notifications";
 

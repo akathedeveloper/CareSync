@@ -139,7 +139,7 @@ export default function Pricing() {
               key={index}
               data-aos="zoom-in"
               data-aos-delay={index * 150}
-              className={`bg-white dark:bg-gray-800 rounded-2xl p-8 relative transform transition-transform duration-300 hover:rotate-x-2 hover:rotate-y-2 hover:scale-105 hover:shadow-xl dark:hover:shadow-gray-900/50 ${
+              className={`flex flex-col bg-white dark:bg-gray-800 rounded-2xl p-8 relative transform transition-transform duration-300 hover:rotate-x-2 hover:rotate-y-2 hover:scale-105 hover:shadow-xl dark:hover:shadow-gray-900/50 ${
                 plan.popular ? "ring-2 ring-primary-600 scale-105" : ""
               }`}
               style={{ transformStyle: "preserve-3d" }}
@@ -175,7 +175,7 @@ export default function Pricing() {
                 </p>
               </div>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-3 mb-8 flex-1">
                 {plan.features.map((feature, idx) => (
                   <li
                     key={idx}

@@ -97,15 +97,27 @@ const Contributor = () => {
         </div>
       </div>
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-  <button className="group gradient-accent-alt text-white px-8 py-4 rounded-xl transition-all duration-200 shadow-lg shadow-green-200 dark:shadow-green-900/30 hover:shadow-xl hover:shadow-green-300 dark:hover:shadow-green-900/50 flex items-center gap-3 font-medium">
-          {/* <Code className="w-5 h-5 group-hover:rotate-12 transition-transform" /> */}
-          Contribute on GitHub
-        </button>
+        <a
+          href="https://github.com/akathedeveloper/CareSync"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button className="group gradient-accent-alt text-white px-8 py-4 rounded-xl transition-all duration-200 shadow-lg shadow-green-200 dark:shadow-green-900/30 hover:shadow-xl hover:shadow-green-300 dark:hover:shadow-green-900/50 flex items-center gap-3 font-medium">
+            {/* <Code className="w-5 h-5 group-hover:rotate-12 transition-transform" /> */}
+            Contribute on GitHub
+          </button>
+        </a>
 
-        <button className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-green-600 dark:text-green-400 px-8 py-4 rounded-xl border border-green-200 dark:border-green-700 hover:border-green-300 dark:hover:border-green-600 hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 shadow-lg shadow-green-100 dark:shadow-green-900/20 hover:shadow-xl hover:shadow-green-200 dark:hover:shadow-green-900/40 flex items-center gap-3 font-medium">
-          {/* <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" /> */}
-          Report Issues
-        </button>
+        <a
+          href="https://github.com/akathedeveloper/CareSync/issues/new"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-green-600 dark:text-green-400 px-8 py-4 rounded-xl border border-green-200 dark:border-green-700 hover:border-green-300 dark:hover:border-green-600 hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 shadow-lg shadow-green-100 dark:shadow-green-900/20 hover:shadow-xl hover:shadow-green-200 dark:hover:shadow-green-900/40 flex items-center gap-3 font-medium">
+            {/* <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" /> */}
+            Report Issues
+          </button>
+        </a>
       </div>
     </div>
   );

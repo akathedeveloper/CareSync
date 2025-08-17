@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -123,13 +123,13 @@ const AppRoutes = () => {
 
   console.log("AppRoutes - rendering routes, user:", user);
   return (
-    
+
     <Routes>
       {/* Public Routes - Accessible to all users */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/contact" element={<ContactPage />} />
 
-      <Route path="/feature" element={<Feature/>} />
+      <Route path="/feature" element={<Feature />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
 
@@ -232,11 +232,24 @@ const AppRoutes = () => {
         }
       />
     </Routes>
-    
+
   );
 };
 
 function App() {
+  useEffect(() => {
+    // Register the service worker...        (Note: Use Only in `Production`...)
+    if ('serviceWorker' in navigator && window.location.hostname !== "localhost") {
+      navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+        .then((registration) => {
+          console.log('Service Worker registered with scope: ', registration.scope)
+        })
+        .catch((error) => {
+          console.error('Service Worker Registration failed: ', error)
+        })
+    }
+  }, []);
+
   return (
     <AuthProvider>
       <AppointmentProvider>

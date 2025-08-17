@@ -144,7 +144,7 @@ const LandingPage = () => {
             </div>
             
             {/* Right Column - Dashboard Preview */}
-            <div className="relative">
+            <div className="relative p-4">
               {user ? (
                 // AUTHENTICATED: show professional dashboard preview
                 <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
@@ -200,9 +200,9 @@ const LandingPage = () => {
                 </div>
               ) : (
                 // VISITOR: show professional dashboard preview
-                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-3 border border-gray-100 dark:border-gray-700">
                   {/* Dashboard Header */}
-                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
+                  <div className="flex items-center justify-between mb-3 pb-3 border-b border-gray-100 dark:border-gray-700">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
                         <HeartIcon className="h-6 w-6 text-white" />
@@ -357,11 +357,11 @@ const LandingPage = () => {
               )}
 
               {/* Subtle Decorative Elements */}
-              <div className="absolute -top-6 -left-6 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-4 rounded-2xl shadow-lg">
+              <div className="absolute -top-0 -left-10 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-4 rounded-2xl shadow-lg">
                 <HeartIcon className="h-8 w-8" />
               </div>
 
-              <div className="absolute -bottom-6 -right-6 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-4 rounded-2xl shadow-lg">
+              <div className="absolute -bottom-0 -right-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-4 rounded-2xl shadow-lg">
                 <ShieldCheckIcon className="h-8 w-8" />
               </div>
 

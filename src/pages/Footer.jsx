@@ -28,7 +28,7 @@ export default function Footer() {
       title: "Company",
       links: [
         { name: "About Us", href: "/about", isRoute: true },
-        { name: "Careers", href: "#", isRoute: false },
+        { name: "Careers", href: "/career", isRoute: false },
         { name: "Press", href: "#", isRoute: false },
         { name: "Partners", href: "#", isRoute: false },
         { name: "Contact", href: "#contact-form", isRoute: false },
@@ -37,7 +37,7 @@ export default function Footer() {
     {
       title: "Resources",
       links: [
-        { name: "Blog", href: "#", isRoute: false },
+        { name: "Blog", href: "/blog", isRoute: true },
         { name: "Help Center", href: "#", isRoute: false },
         { name: "Community", href: "#", isRoute: false },
         { name: "Webinars", href: "#", isRoute: false },

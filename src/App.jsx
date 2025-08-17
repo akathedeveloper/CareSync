@@ -23,7 +23,8 @@ import { AppointmentProvider } from "./contexts/AppointmentContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
-
+import Blog from "./pages/blog";
+import Career from "./pages/Career1";
 import Notifications from "./pages/Notifications";
 
 import PrivacyPolicy from "./pages/privacy";
@@ -135,6 +136,8 @@ const AppRoutes = () => {
 
 
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/career" element={<Career />} />
 
       {/* Auth Routes - Redirect authenticated users */}
 

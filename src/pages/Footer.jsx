@@ -13,48 +13,48 @@ export default function Footer() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
-  const linkSections = [
-    {
-      title: "Product",
-      links: [
-        { name: "Features", href: "#features", isRoute: false },
-        { name: "Pricing", href: "#pricing", isRoute: false },
-        { name: "API Documentation", href: "#", isRoute: false },
-        { name: "Integrations", href: "#", isRoute: false },
-        { name: "Security", href: "#", isRoute: false },
-      ],
-    },
-    {
-      title: "Company",
-      links: [
-        { name: "About Us", href: "/about", isRoute: true },
-        { name: "Careers", href: "/career", isRoute: false },
-        { name: "Press", href: "#", isRoute: false },
-        { name: "Partners", href: "#", isRoute: false },
-        { name: "Contact", href: "#contact-form", isRoute: false },
-      ],
-    },
-    {
-      title: "Resources",
-      links: [
-        { name: "Blog", href: "/blog", isRoute: true },
-        { name: "Help Center", href: "#", isRoute: false },
-        { name: "Community", href: "#", isRoute: false },
-        { name: "Webinars", href: "#", isRoute: false },
-        { name: "Status", href: "#", isRoute: false },
-      ],
-    },
-    {
-      title: "Legal",
-      links: [
-        { name: "Privacy Policy", href: "/privacy", isRoute: true },
-        { name: "Terms of Service", href: "/terms", isRoute: true },
-        { name: "Cookie Policy", href: "/cookie-policy", isRoute: false },
-        { name: "GDPR Compliance", href: "/gdpr-compliance", isRoute: false },
-        { name: "Licenses", href: "#", isRoute: false },
-      ],
-    },
-  ];
+ const linkSections = [
+  {
+    title: "Product",
+    links: [
+      { name: "Features", href: "/feature", isRoute: true },
+      { name: "Pricing", href: "#pricing", isRoute: false },
+      { name: "API Documentation", href: "#", isRoute: false },
+      { name: "Integrations", href: "#", isRoute: false },
+      { name: "Security", href: "#", isRoute: false },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { name: "About Us", href: "/about", isRoute: true },
+      { name: "Careers", href: "/career", isRoute: true },
+      { name: "Press", href: "#", isRoute: false },
+      { name: "Partners", href: "#", isRoute: false },
+      { name: "Contact", href: "/contact", isRoute: true },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { name: "Blog", href: "/blog", isRoute: true },
+      { name: "Help Center", href: "#", isRoute: false },
+      { name: "Community", href: "#", isRoute: false },
+      { name: "Webinars", href: "#", isRoute: false },
+      { name: "Status", href: "#", isRoute: false },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { name: "Privacy Policy", href: "/privacy-policy", isRoute: true },
+      { name: "Terms of Service", href: "/terms", isRoute: true }, // only if you create this route
+      { name: "Cookie Policy", href: "/cookie-policy", isRoute: true },
+      { name: "GDPR Compliance", href: "/gdpr-compliance", isRoute: true },
+      { name: "Licenses", href: "#", isRoute: false },
+    ],
+  },
+];
 
   const [isVisible, setIsVisible] = React.useState(false);
 

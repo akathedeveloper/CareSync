@@ -39,7 +39,7 @@ import Inventory from "./components/patient/Inventory";
 import Prescription from "./components/pharmacist/Prescriptions";
 import PharmacistInventory from "./components/pharmacist/Inventory";
 import { Toaster } from "react-hot-toast";
-import CookiePolicy from "./pages/CookiePolicy";
+import CookiePolicy from "./pages/Policy";
 import GDPRCompliance from "./pages/GDPRCompliance";
 
 

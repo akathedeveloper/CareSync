@@ -6,135 +6,12 @@ import {
   CheckCircleIcon, 
   ClockIcon,
   TruckIcon,
-  CubeTransparentIcon,
   MagnifyingGlassIcon,
-  XMarkIcon,
-  ChartBarIcon,
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
 
-const InventoryModal = ({ onClose, inventoryData }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  
-  const filteredInventory = inventoryData.filter(item =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-    
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity duration-300">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-4xl w-full mx-4 transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Medicine Inventory</h3>
-          <button 
-            onClick={onClose} 
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            <XMarkIcon className="w-6 h-6" />
-          </button>
-        </div>
-        
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
-          Manage your pharmacy inventory with real-time stock tracking and expiry monitoring.
-        </p>
-
-        <div className="relative mb-6">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <MagnifyingGlassIcon className="w-5 h-5 text-gray-400" />
-          </div>
-          <input
-            type="text"
-            placeholder="Search medicines..."
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        
-        <div className="flex-1 overflow-y-auto pr-2">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredInventory.length > 0 ? (
-              filteredInventory.map((item) => {
-                const isLowStock = item.stock < 50;
-                const isExpiringSoon = new Date(item.expiry) < new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-                
-                return (
-                  <div key={item.id} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-md transition-shadow">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">{item.name}</h4>
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600 dark:text-gray-400">Stock:</span>
-                            <span className={`text-sm font-medium ${isLowStock ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-gray-100'}`}>
-                              {item.stock} {item.unit}
-                            </span>
-                            {isLowStock && (
-                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
-                                Low Stock
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600 dark:text-gray-400">Expiry:</span>
-                            <span className={`text-sm font-medium ${isExpiringSoon ? 'text-orange-600 dark:text-orange-400' : 'text-gray-900 dark:text-gray-100'}`}>
-                              {item.expiry}
-                            </span>
-                            {isExpiringSoon && (
-                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300">
-                                Expiring Soon
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <button className="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm font-medium">
-                        Update
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="col-span-2 text-center py-12 text-gray-500 dark:text-gray-400">
-                <CubeTransparentIcon className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <p>No medicines found.</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
-          <button 
-            onClick={onClose} 
-            className="px-6 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-InventoryModal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  inventoryData: PropTypes.array.isRequired,
-};
-
 const PharmacistDashboard = () => {
-  const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
-  const inventoryData = [
-    { id: 1, name: 'Metformin 500mg', stock: 150, unit: 'tablets', expiry: '2026-03-15' },
-    { id: 2, name: 'Lisinopril 10mg', stock: 25, unit: 'tablets', expiry: '2025-08-20' },
-    { id: 3, name: 'Vitamin D3', stock: 300, unit: 'capsules', expiry: '2027-01-10' },
-    { id: 4, name: 'Ibuprofen 400mg', stock: 15, unit: 'tablets', expiry: '2025-09-01' },
-    { id: 5, name: 'Amoxicillin 250mg', stock: 100, unit: 'capsules', expiry: '2026-11-25' },
-    { id: 6, name: 'Acetaminophen 325mg', stock: 45, unit: 'tablets', expiry: '2025-12-10' },
-    { id: 7, name: 'Losartan 50mg', stock: 80, unit: 'tablets', expiry: '2026-05-20' },
-    { id: 8, name: 'Omeprazole 20mg', stock: 120, unit: 'capsules', expiry: '2026-08-15' },
-  ];
 
   const stats = [
     {
@@ -225,13 +102,6 @@ const PharmacistDashboard = () => {
               Manage prescriptions and track inventory efficiently
             </p>
           </div>
-          <button
-            onClick={() => setIsInventoryOpen(true)}
-            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 font-semibold hover:scale-105"
-          >
-            <CubeTransparentIcon className="h-5 w-5" />
-            <span>View Inventory</span>
-          </button>
         </div>
 
         {/* Stats Grid */}
@@ -382,14 +252,6 @@ const PharmacistDashboard = () => {
           </div>
         </div>
       </div>
-
-      {/* Inventory Modal */}
-      {isInventoryOpen && (
-        <InventoryModal
-          onClose={() => setIsInventoryOpen(false)}
-          inventoryData={inventoryData}
-        />
-      )}
     </div>
   );
 };

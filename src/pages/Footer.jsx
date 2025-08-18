@@ -115,7 +115,7 @@ export default function Footer() {
               <DocumentTextIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
             </a>
             <a
-              href="https://github.com/luis-sagx/CareSync"
+              href="https://github.com/akathedeveloper/CareSync"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Repository"

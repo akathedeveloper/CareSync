@@ -102,14 +102,14 @@ const Appointments = () => {
       
       <div className="p-6">
         <div className="flex items-center mb-4">
-          <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
-            <UserIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+          <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mr-4">
+            <UserIcon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
             <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
               Dr. {apt.doctor?.name || "N/A"}
             </h3>
-            <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+            <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium">
               {apt.doctor?.specialization || "Specialization not available"}
             </p>
           </div>
@@ -143,7 +143,7 @@ const Appointments = () => {
 
         <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
           <span className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${
-            apt.isUpcoming ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+            apt.isUpcoming ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
           }`}>
             {apt.isUpcoming ? "Upcoming" : "Past"}
           </span>
@@ -317,7 +317,7 @@ const Appointments = () => {
             <h3 className="text-2xl font-bold text-white text-center">
               Book a New Appointment
             </h3>
-            <p className="text-blue-100 text-center mt-2">
+            <p className="text-emerald-100 text-center mt-2">
               Complete the form to schedule your medical appointment
             </p>
           </div>

@@ -48,7 +48,7 @@ const DashboardOverview = ({ user, apptCount }) => {
       name: "Active Prescriptions",
       value: "3",
       icon: DocumentTextIcon,
-      color: "text-blue-600 dark:text-blue-400",
+      color: "text-emerald-600 dark:text-emerald-400",
     },
     {
       name: "Medicine Reminders",
@@ -72,13 +72,20 @@ const DashboardOverview = ({ user, apptCount }) => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          Welcome back, {user?.name}!
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400">
-          Here's your health overview for today.
-        </p>
+      <div className="flex items-center space-x-4">
+        <img 
+          src="/CareSync-Logo.png" 
+          alt="CareSync Logo" 
+          className="h-12 w-auto"
+        />
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            Welcome back, {user?.name}!
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">
+            Here's your health overview for today.
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

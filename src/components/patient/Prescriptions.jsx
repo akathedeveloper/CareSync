@@ -60,7 +60,7 @@ const prescriptionsData = [
 const statusBadge = {
   active:
     "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-  completed: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
+  completed: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
   expired: "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300",
 };
 
@@ -181,7 +181,7 @@ export default function Prescriptions() {
               )}
             </p>
             <button
-              className="mt-4 w-full py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
+              className="mt-4 w-full py-2 rounded bg-emerald-600 text-white font-semibold hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 transition-colors"
               onClick={() => setSelected(null)}
             >
               Close

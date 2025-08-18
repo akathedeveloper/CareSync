@@ -9,8 +9,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
- feat/logout-confirmation-modal
 import PropTypes from "prop-types";
+import NotificationDropdown from "../NotificationDropdown";
 
 const ConfirmationModal = ({ onClose, onConfirm }) => {
     return (
@@ -51,8 +51,6 @@ ConfirmationModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
 };
-import NotificationDropdown from "../NotificationDropdown";
- main
 
 const Header = () => {
   const { user, logout } = useAuth();

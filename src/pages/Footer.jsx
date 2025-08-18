@@ -1,8 +1,8 @@
 import { HeartIcon } from "@heroicons/react/24/solid";
 import {
-  FaceSmileIcon,
-  BriefcaseIcon,
-  BookOpenIcon,
+  EnvelopeIcon,
+  DocumentTextIcon,
+  CodeBracketIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDoubleUpIcon } from "@heroicons/react/24/solid";
 import React from "react";
@@ -69,64 +69,69 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="bg-primary-100 dark:bg-primary-900/10 text-primary-900 dark:text-primary-50 w-full z-50"
+      className="z-50 w-full bg-primary-100 dark:bg-primary-900/10 text-primary-900 dark:text-primary-50"
     >
       {/* Scroll to top button */}
       {isVisible && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed h-10 w-10 text-xl bottom-8 right-8 bg-gradient-to-r from-medical-500 to-primary-600 text-white p-2 rounded-lg font-bold cursor-pointer hover:from-primary-500 hover:to-medical-600 hover:scale-110 transition"
+          className="fixed w-10 h-10 p-2 text-xl font-bold text-white transition rounded-lg cursor-pointer bottom-8 right-8 bg-gradient-to-r from-medical-500 to-primary-600 hover:from-primary-500 hover:to-medical-600 hover:scale-110"
         >
           <ChevronDoubleUpIcon />
         </button>
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Brand + Social (centered) */}
-        <div className="flex flex-col items-center text-center space-y-4 mb-10">
+        <div className="flex flex-col items-center mb-10 space-y-4 text-center">
           <div className="flex items-center justify-center">
-            <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
-              <HeartIcon className="h-6 w-6 text-white" />
+            <div className="flex items-center justify-center w-10 h-10 shadow-lg bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl">
+              <HeartIcon className="w-6 h-6 text-white" />
             </div>
             <span className="ml-2 text-xl font-bold">CareSync</span>
           </div>
 
-          <p className="text-gray-600 dark:text-gray-400 text-sm max-w-md leading-relaxed">
+          <p className="max-w-md text-sm leading-relaxed text-gray-600 dark:text-gray-400">
             Revolutionizing healthcare through seamless collaboration between
             patients, doctors, and pharmacists.
           </p>
 
           {/* Social icons */}
-          <div className="flex gap-3 justify-center">
+          <div className="flex justify-center gap-3">
             <a
-              href="#"
-              aria-label="Social 1"
-              className="w-10 h-10 bg-gray-300 dark:bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-400 dark:hover:bg-primary-600 transition"
+              href="/contact"
+              aria-label="Contact Us"
+              title="Contact Us"
+              className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-emerald-400 dark:hover:bg-emerald-600"
             >
-              <FaceSmileIcon className="h-5 w-5 text-gray-700 dark:text-white" />
+              <EnvelopeIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
             </a>
             <a
-              href="#"
-              aria-label="Social 2"
-              className="w-10 h-10 bg-gray-300 dark:bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-400 dark:hover:bg-primary-600 transition"
+              href="/privacy-policy"
+              aria-label="Terms & Conditions"
+              title="Terms & Conditions"
+              className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-400 dark:hover:bg-blue-600"
             >
-              <BookOpenIcon className="h-5 w-5 text-gray-700 dark:text-white" />
+              <DocumentTextIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
             </a>
             <a
-              href="#"
-              aria-label="Social 3"
-              className="w-10 h-10 bg-gray-300 dark:bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-400 dark:hover:bg-primary-600 transition"
+              href="https://github.com/luis-sagx/CareSync"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub Repository"
+              title="GitHub Repository"
+              className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-gray-900 dark:hover:bg-gray-600"
             >
-              <BriefcaseIcon className="h-5 w-5 text-gray-700 dark:text-white" />
+              <CodeBracketIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
             </a>
           </div>
         </div>
 
         {/* Link Sections (under social) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 text-center md:text-left">
+        <div className="grid grid-cols-2 gap-10 text-center md:grid-cols-4 md:text-left">
           {linkSections.map((section) => (
             <div key={section.title}>
-              <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">
+              <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
                 {section.title}
               </h3>
               <ul className="space-y-2 text-sm">
@@ -135,14 +140,14 @@ export default function Footer() {
                     {link.isRoute ? (
                       <Link
                         to={link.href}
-                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition"
+                        className="text-gray-600 transition dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                       >
                         {link.name}
                       </Link>
                     ) : (
                       <a
                         href={link.href}
-                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition"
+                        className="text-gray-600 transition dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                       >
                         {link.name}
                       </a>
@@ -155,22 +160,30 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 border-t border-gray-400 dark:border-gray-800 pt-6 text-xs text-gray-600 dark:text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="flex flex-col items-center justify-between gap-3 pt-6 mt-10 text-xs text-gray-600 border-t border-gray-400 dark:border-gray-800 dark:text-gray-500 sm:flex-row">
           <span>
             © {new Date().getFullYear()} CareSync. All rights reserved.
           </span>
           <div className="flex gap-4">
             <button
               onClick={() => navigate("/privacy-policy")}
-              className="hover:text-gray-900 dark:hover:text-white"
+              className="transition-colors hover:text-gray-900 dark:hover:text-white"
             >
               Privacy
             </button>
-            <a href="#" className="hover:text-gray-900 dark:hover:text-white">
+            <button
+              onClick={() => navigate("/gdpr-compliance")}
+              className="transition-colors hover:text-gray-900 dark:hover:text-white"
+            >
               Terms
-            </a>
-            <a href="#" className="hover:text-gray-900 dark:hover:text-white">
-              Cookies
+            </button>
+            <a 
+              href="https://github.com/akathedeveloper/CareSync" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-gray-900 dark:hover:text-white"
+            >
+              Open Source
             </a>
           </div>
         </div>

@@ -5,54 +5,54 @@ import {
   ArrowRightOnRectangleIcon,
   MoonIcon,
   SunIcon,
-  XMarkIcon
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
- feat/logout-confirmation-modal
 import PropTypes from "prop-types";
+import NotificationDropdown from "../NotificationDropdown";
 
 const ConfirmationModal = ({ onClose, onConfirm }) => {
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity duration-300">
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-sm w-full mx-4 transform scale-95 transition-transform duration-300">
-                <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Confirm Logout</h3>
-                    <button
-                        onClick={onClose}
-                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                        <XMarkIcon className="w-6 h-6" />
-                    </button>
-                </div>
-                <p className="text-gray-700 dark:text-gray-300 mb-6">
-                    Are you sure you want to log out?
-                </p>
-                <div className="flex justify-end gap-3">
-                    <button
-                        onClick={onClose}
-                        className="px-6 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        onClick={onConfirm}
-                        className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
-                    >
-                        Logout
-                    </button>
-                </div>
-            </div>
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity duration-300">
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-sm w-full mx-4 transform scale-95 transition-transform duration-300">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            Confirm Logout
+          </h3>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <XMarkIcon className="w-6 h-6" />
+          </button>
         </div>
-    );
+        <p className="text-gray-700 dark:text-gray-300 mb-6">
+          Are you sure you want to log out?
+        </p>
+        <div className="flex justify-end gap-3">
+          <button
+            onClick={onClose}
+            className="px-6 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 ConfirmationModal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    onConfirm: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
 };
-import NotificationDropdown from "../NotificationDropdown";
- main
 
 const Header = () => {
   const { user, logout } = useAuth();
@@ -64,11 +64,9 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      // Redirect to login page after successful logout
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
-      // Even if logout fails, redirect to login
       navigate("/login");
     }
   };
@@ -86,7 +84,8 @@ const Header = () => {
     }
   };
 
-  const displayName = user?.name || user?.displayName || user?.email || "User";
+  const displayName =
+    user?.name || user?.displayName || user?.email || "User";
 
   return (
     <header className="bg-surface border-subtle border-b shadow-sm">
@@ -101,7 +100,7 @@ const Header = () => {
               Beta
             </span>
           </div>
-              
+
           <div className="flex items-center space-x-2 sm:space-x-4">
             <button
               onClick={toggleTheme}
@@ -115,7 +114,7 @@ const Header = () => {
                 <MoonIcon className="h-6 w-6" />
               )}
             </button>
-            
+
             <NotificationDropdown />
 
             <div className="flex items-center space-x-2">
@@ -145,11 +144,11 @@ const Header = () => {
         </div>
       </div>
       {isLogoutModalOpen && (
-                <ConfirmationModal
-                    onClose={() => setIsLogoutModalOpen(false)}
-                    onConfirm={handleLogout}
-                />
-            )}
+        <ConfirmationModal
+          onClose={() => setIsLogoutModalOpen(false)}
+          onConfirm={handleLogout}
+        />
+      )}
     </header>
   );
 };

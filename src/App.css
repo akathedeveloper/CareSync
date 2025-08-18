@@ -11,9 +11,7 @@
   will-change: filter;
   transition: filter 300ms;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -37,8 +35,10 @@
   padding: 2em;
 }
 
-.read-the-docs {
-  color: var(--neutral-500);
+.read-the-docs:hover {
+  color: var(--primary-500);
+  text-decoration: underline;
 }
+
 
 

@@ -454,7 +454,7 @@ const HealthLogs = () => {
                 className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               >
                 <ArrowDownTrayIcon className="h-5 w-5" />
-                Export PDF
+                Download Report
               </button>
             </>
           )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -23,6 +23,11 @@ import { AppointmentProvider } from "./contexts/AppointmentContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
+import Blog from "./pages/Blog";
+import Career from "./pages/Career1";
+import Notifications from "./pages/Notifications";
+
+import PrivacyPolicy from "./pages/privacy";
 
 
 import Feature from "./pages/Feature";
@@ -34,6 +39,8 @@ import Inventory from "./components/patient/Inventory";
 import Prescription from "./components/pharmacist/Prescriptions";
 import PharmacistInventory from "./components/pharmacist/Inventory";
 import { Toaster } from "react-hot-toast";
+import CookiePolicy from "./pages/Policy";
+import GDPRCompliance from "./pages/GDPRCompliance";
 
 
 // Protected Route Component
@@ -119,16 +126,19 @@ const AppRoutes = () => {
 
   console.log("AppRoutes - rendering routes, user:", user);
   return (
+
     <Routes>
       {/* Public Routes - Accessible to all users */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/contact" element={<ContactPage />} />
-
-      <Route path="/about" element={<AboutPage/>} />
-      <Route path="/feature" element={<Feature/>} />
-
+      <Route path="/cookie-policy" element={<CookiePolicy/>} />
+      <Route path="/feature" element={<Feature />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/gdpr-compliance" element={<GDPRCompliance/>} />
       <Route path="/about" element={<AboutPage />} />
-      
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/career" element={<Career />} />
+
       {/* Auth Routes - Redirect authenticated users */}
 
       <Route
@@ -147,6 +157,18 @@ const AppRoutes = () => {
           </PublicRoute>
         }
       />
+
+      {/* General Authenticated Routes */}
+      <Route
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/notifications" element={<Notifications />} />
+        {/* Other shared authenticated routes can go here */}
+      </Route>
 
       {/* Patient Routes */}
       <Route
@@ -213,10 +235,24 @@ const AppRoutes = () => {
         }
       />
     </Routes>
+
   );
 };
 
 function App() {
+  useEffect(() => {
+    // Register the service worker...        (Note: Use Only in `Production`...)
+    if ('serviceWorker' in navigator && window.location.hostname !== "localhost") {
+      navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+        .then((registration) => {
+          console.log('Service Worker registered with scope: ', registration.scope)
+        })
+        .catch((error) => {
+          console.error('Service Worker Registration failed: ', error)
+        })
+    }
+  }, []);
+
   return (
     <AuthProvider>
       <AppointmentProvider>

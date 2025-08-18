@@ -6,6 +6,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
+
+
 const MedicineReminders = () => {
   const [reminders, setReminders] = useState([
     {
@@ -92,6 +94,7 @@ const MedicineReminders = () => {
       setNewReminder({ ...newReminder, time: preset.time });
     } else {
       setNewReminder({ ...newReminder, time: "" });
+
     }
   };
 
@@ -110,7 +113,8 @@ const MedicineReminders = () => {
         {reminders.map((reminder) => (
           <div
             key={reminder.id}
-            className={`p-4 rounded-lg border-2 transition-colors ${
+            onClick={() => handleTap(reminder.id)}
+            className={`p-4 rounded-lg border-2 cursor-pointer transition-colors ${
               reminder.taken
                 ? "border-medical-200 bg-medical-50/80 dark:border-medical-800 dark:bg-medical-900/20"
                 : "border-subtle bg-surface hover:border-primary-200 dark:hover:border-primary-500"
@@ -141,7 +145,10 @@ const MedicineReminders = () => {
               </div>
 
               <button
-                onClick={() => markAsTaken(reminder.id)}
+                onClick={(e) => {
+                  e.stopPropagation(); // prevent conflict with card click
+                  markAsTaken(reminder.id);
+                }}
                 className={`p-2 rounded-full transition-colors ${
                   reminder.taken
                     ? "text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900/30"

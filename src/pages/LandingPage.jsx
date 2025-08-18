@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { 
-  CheckIcon, 
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  CheckIcon,
   StarIcon,
   PlayIcon,
   ArrowRightIcon,
@@ -31,16 +31,16 @@ import Footer from "./Footer";
 import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
+import Navbar from "../components/common/Navbar";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
 
+
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   
   const { user, loading } = useAuth();
-  const { isDark, toggleTheme } = useTheme();
 
   const handleScheduleDemoClick = () => {
     setIsCalendarOpen(true);
@@ -55,14 +55,6 @@ const LandingPage = () => {
     setIsCalendarOpen(false);
   };
 
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
-    }
-  }, [isMobileMenuOpen]);
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -73,132 +65,7 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
-      {/* Professional Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <div className="w-10 h-10">
-                <img
-                  src="/CareSync-Logo.png"
-                  alt="CareSync Logo"
-                  className="w-full h-full"
-                />
-              </div>
-              <span
-                className="ml-3 font-bold text-emerald-600 dark:text-emerald-400"
-                style={{ fontSize: "1.375rem" }}
-              >
-                CareSync
-              </span>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-8">
-              {["Home", "Features", "Pricing", "Testimonials", "Contact"].map(
-                (item) => (
-                  <a
-                    key={item}
-                    href={
-                      item === "Contact"
-                        ? "#contact-form"
-                        : `#${item.toLowerCase()}`
-                    }
-                    className="relative text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium group"
-                  >
-                    {item}
-                    <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-emerald-600 transition-all duration-300 group-hover:w-full" />
-                  </a>
-                )
-              )}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
-                <Bars3Icon className="h-6 w-6" />
-              </button>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-4">
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-                aria-label="Toggle dark mode"
-              >
-                {isDark ? (
-                  <SunIcon className="h-5 w-5" />
-                ) : (
-                  <MoonIcon className="h-5 w-5" />
-                )}
-              </button>
-
-              <Link
-                to="/login"
-                className="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium"
-              >
-                Sign In
-              </Link>
-              <Link
-                to="/register"
-                className="gradient-accent text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold"
-              >
-                Get Started
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="relative md:hidden">
-            <div className="absolute right-0 w-52 h-dvh pt-10 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800">
-              {["Home", "Features", "Pricing", "Testimonials", "Contact"].map(
-                (item) => (
-                  <a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    className="block text-center py-3 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group
-              after:content-[''] after:absolute after:left-0 after:bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
-              hover:after:scale-x-100"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item}
-                  </a>
-                )
-              )}
-              <div className="flex flex-col space-y-2 mt-20 px-3">
-                <button
-                  onClick={toggleTheme}
-                  className="text-center py-2 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center justify-center gap-2"
-                >
-                  {isDark ? (
-                    <SunIcon className="h-5 w-5" />
-                  ) : (
-                    <MoonIcon className="h-5 w-5" />
-                  )}
-                  {isDark ? "Light Mode" : "Dark Mode"}
-                </button>
-                <Link
-                  to="/login"
-                  className="text-center py-2 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  to="/register"
-                  className="gradient-accent text-white px-4 py-2 rounded-lg text-center font-semibold"
-                >
-                  Get Started
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
+      <Navbar />
 
       {/* Professional Hero Section */}
       <section
@@ -277,7 +144,7 @@ const LandingPage = () => {
             </div>
             
             {/* Right Column - Dashboard Preview */}
-            <div className="relative">
+            <div className="relative p-4">
               {user ? (
                 // AUTHENTICATED: show professional dashboard preview
                 <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
@@ -333,9 +200,9 @@ const LandingPage = () => {
                 </div>
               ) : (
                 // VISITOR: show professional dashboard preview
-                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-3 border border-gray-100 dark:border-gray-700">
                   {/* Dashboard Header */}
-                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
+                  <div className="flex items-center justify-between mb-3 pb-3 border-b border-gray-100 dark:border-gray-700">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
                         <HeartIcon className="h-6 w-6 text-white" />
@@ -490,11 +357,11 @@ const LandingPage = () => {
               )}
 
               {/* Subtle Decorative Elements */}
-              <div className="absolute -top-6 -left-6 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-4 rounded-2xl shadow-lg">
+              <div className="absolute -top-0 -left-10 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-4 rounded-2xl shadow-lg">
                 <HeartIcon className="h-8 w-8" />
               </div>
 
-              <div className="absolute -bottom-6 -right-6 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-4 rounded-2xl shadow-lg">
+              <div className="absolute -bottom-0 -right-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-4 rounded-2xl shadow-lg">
                 <ShieldCheckIcon className="h-8 w-8" />
               </div>
 

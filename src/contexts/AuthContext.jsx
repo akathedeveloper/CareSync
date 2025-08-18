@@ -123,7 +123,17 @@ export const AuthProvider = ({ children }) => {
     });
     return unsubscribe;
   }, [user]);
-
+   
+  const updateUser = (data) => {
+    setUser((prevUser) => {
+      if (!prevUser) return null;
+      const updatedUser = { ...prevUser, ...data };
+      // Persist to localStorage so changes are not lost on refresh
+      localStorage.setItem("caresync_user", JSON.stringify(updatedUser));
+      return updatedUser;
+    });
+  }; 
+  
   // Login with Google (Firebase)
   const loginWithGoogle = async () => {
     setLoading(true);
@@ -242,6 +252,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    updateUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

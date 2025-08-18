@@ -177,22 +177,20 @@ const Login = () => {
         <motion.div className="text-center" variants={itemVariants}>
           <motion.div 
             className="flex justify-center mb-6"
-            whileHover={{ rotate: 360 }}
+            whileHover={{ rotate: 360, scale: 1.05 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="w-16 h-16 gradient-accent rounded-2xl flex items-center justify-center shadow-lg transform rotate-3 hover:rotate-0 transition-transform duration-300">
-              <motion.svg 
-                className="w-8 h-8 text-white" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </motion.svg>
-            </div>
+            <motion.div
+              whileHover={{ rotate: 360, scale: 1.05 }}
+              transition={{ duration: 0.6 }}
+              className="w-14 h-14 sm:w-16 sm:h-16 md:w-16 md:h-16 rounded-2xl shadow-lg"
+            >
+              <img
+                src="/CareSync-Logo.png"
+                alt="CareSync Logo"
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
           </motion.div>
           <motion.h1 
             className="text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2"

@@ -235,7 +235,7 @@ const Register = () => {
                 value={formData.specialization}
                 onChange={handleChange}
                 placeholder="Specialization"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
 
@@ -253,7 +253,7 @@ const Register = () => {
                 value={formData.licenseNumber}
                 onChange={handleChange}
                 placeholder="Medical License Number"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
 
@@ -270,7 +270,7 @@ const Register = () => {
                 value={formData.experience}
                 onChange={handleChange}
                 placeholder="Years of Experience"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
           </motion.div>
@@ -301,7 +301,7 @@ const Register = () => {
                 value={formData.licenseNumber}
                 onChange={handleChange}
                 placeholder="Pharmacy License Number"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
 
@@ -319,7 +319,7 @@ const Register = () => {
                 value={formData.pharmacyName}
                 onChange={handleChange}
                 placeholder="Pharmacy Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
 
@@ -337,7 +337,7 @@ const Register = () => {
                 onChange={handleChange}
                 rows={3}
                 placeholder="Pharmacy Address"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 resize-none text-black"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 resize-none text-black"
               />
             </motion.div>
           </motion.div>
@@ -349,17 +349,17 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-emerald-50 to-emerald-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated background decorative elements */}
       <motion.div
         variants={pulseVariants}
         animate="animate"
-        className="absolute -top-20 -right-20 w-40 h-40 bg-blue-200/20 dark:bg-blue-400/10 rounded-full blur-xl"
+        className="absolute -top-20 -right-20 w-40 h-40 bg-emerald-200/20 dark:bg-emerald-400/10 rounded-full blur-xl"
       />
       <motion.div
         variants={floatingVariants}
         animate="animate"
-        className="absolute -bottom-20 -left-20 w-60 h-60 bg-purple-200/20 dark:bg-purple-400/10 rounded-full blur-xl"
+        className="absolute -bottom-20 -left-20 w-60 h-60 bg-emerald-200/20 dark:bg-emerald-400/10 rounded-full blur-xl"
       />
       <motion.div
         animate={{
@@ -372,7 +372,7 @@ const Register = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-1/4 right-1/4 w-32 h-32 bg-gradient-to-br from-blue-300/20 to-purple-300/20 dark:from-blue-400/10 dark:to-purple-400/10 rounded-full blur-lg"
+        className="absolute top-1/4 right-1/4 w-32 h-32 bg-gradient-to-br from-emerald-300/20 to-emerald-300/20 dark:from-emerald-400/10 dark:to-emerald-400/10 rounded-full blur-lg"
       />
       <motion.div
         animate={{
@@ -385,7 +385,7 @@ const Register = () => {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="absolute bottom-1/3 left-1/3 w-24 h-24 bg-gradient-to-br from-purple-300/20 to-blue-300/20 dark:from-purple-400/10 dark:to-blue-400/10 rounded-full blur-lg"
+        className="absolute bottom-1/3 left-1/3 w-24 h-24 bg-gradient-to-br from-emerald-300/20 to-emerald-300/20 dark:from-emerald-400/10 dark:to-emerald-400/10 rounded-full blur-lg"
       />
 
       {/* Home Button */}
@@ -397,7 +397,7 @@ const Register = () => {
       >
         <Link
           to="/"
-          className="flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 dark:border-gray-700/50 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 group"
+          className="flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 dark:border-gray-700/50 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 group"
         >
           <motion.div
             whileHover={{ x: -3 }}
@@ -413,21 +413,30 @@ const Register = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-lg w-full space-y-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm px-8 py-10 rounded-2xl shadow-2xl shadow-blue-200/20 dark:shadow-gray-900/50 border border-blue-100/50 dark:border-gray-700/50 relative z-10"
+        className="max-w-lg w-full space-y-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm px-8 py-10 rounded-2xl shadow-2xl shadow-emerald-200/20 dark:shadow-gray-900/50 border border-emerald-100/50 dark:border-gray-700/50 relative z-10"
         whileHover={{ y: -5 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
         {/* HEADER */}
         <motion.div variants={itemVariants} className="text-center space-y-3">
+        <div className="flex flex-col items-center justify-center">
           <motion.div
             whileHover={{ rotate: 360, scale: 1.05 }}
             transition={{ duration: 0.6 }}
-            className="inline-block"
+            className="w-14 h-14 sm:w-16 sm:h-16 md:w-16 md:h-16"
           >
-            <h1 className="text-4xl font-black bg-gradient-to-r from-blue-600 to-purple-700 bg-clip-text text-transparent">
-              CareSync
-            </h1>
+            <img
+              src="/CareSync-Logo.png"
+              alt="CareSync Logo"
+              className="w-full h-full"
+            />
           </motion.div>
+          <br></br>
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-700 bg-clip-text text-transparent mt-2">
+            CareSync
+          </h1>
+        </div>
+
           <motion.h2
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -440,7 +449,7 @@ const Register = () => {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full"
+            className="w-16 h-1 bg-gradient-to-r from-emerald-500 to-emerald-600 mx-auto rounded-full"
           />
           <motion.p
             variants={itemVariants}
@@ -449,7 +458,7 @@ const Register = () => {
             Already have an account?{" "}
             <Link
               to="/login"
-              className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 hover:underline transition-all duration-200"
+              className="font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 hover:underline transition-all duration-200"
             >
               Sign in here
             </Link>
@@ -506,7 +515,7 @@ const Register = () => {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="w-full pl-12 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 bg-white appearance-none cursor-pointer text-black"
+              className="w-full pl-12 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 bg-white appearance-none cursor-pointer text-black"
               whileFocus={{ scale: 1.02 }}
             >
               <option value="patient">Patient</option>
@@ -549,7 +558,7 @@ const Register = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="First Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
             <motion.div
@@ -565,7 +574,7 @@ const Register = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="Last Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
           </motion.div>
@@ -580,7 +589,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email Address"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               whileFocus={{ scale: 1.02 }}
             />
           </motion.div>
@@ -594,7 +603,7 @@ const Register = () => {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone Number"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               whileFocus={{ scale: 1.02 }}
             />
           </motion.div>
@@ -616,7 +625,7 @@ const Register = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
                 whileFocus={{ scale: 1.02 }}
               />
               <motion.button
@@ -635,7 +644,7 @@ const Register = () => {
                       exit={{ opacity: 0, rotate: 90 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <EyeSlashIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" />
+                      <EyeSlashIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" />
                     </motion.div>
                   ) : (
                     <motion.div
@@ -645,7 +654,7 @@ const Register = () => {
                       exit={{ opacity: 0, rotate: 90 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <EyeIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" />
+                      <EyeIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -728,7 +737,7 @@ const Register = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm Password"
-                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
                 whileFocus={{ scale: 1.02 }}
               />
               <motion.button
@@ -747,7 +756,7 @@ const Register = () => {
                       exit={{ opacity: 0, rotate: 90 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <EyeSlashIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" />
+                      <EyeSlashIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" />
                     </motion.div>
                   ) : (
                     <motion.div
@@ -757,7 +766,7 @@ const Register = () => {
                       exit={{ opacity: 0, rotate: 90 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <EyeIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" />
+                      <EyeIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -775,7 +784,7 @@ const Register = () => {
               name="agree-terms"
               type="checkbox"
               required
-              className="mt-0.5 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded transition-colors bg-white dark:bg-gray-800"
+              className="mt-0.5 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 dark:border-gray-600 rounded transition-colors bg-white dark:bg-gray-800"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             />
@@ -786,7 +795,7 @@ const Register = () => {
               I agree to the{" "}
               <motion.a
                 href="#"
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium hover:underline transition-all duration-200"
+                className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 font-medium hover:underline transition-all duration-200"
                 whileHover={{ scale: 1.05 }}
               >
                 Terms of Service
@@ -794,7 +803,7 @@ const Register = () => {
               and{" "}
               <motion.a
                 href="#"
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium hover:underline transition-all duration-200"
+                className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 font-medium hover:underline transition-all duration-200"
                 whileHover={{ scale: 1.05 }}
               >
                 Privacy Policy
@@ -811,7 +820,7 @@ const Register = () => {
             disabled={
               loading || !Object.values(passwordValidity).every(Boolean)
             }
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white py-3 px-6 rounded-xl text-lg font-bold shadow-lg shadow-blue-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+            className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white py-3 px-6 rounded-xl text-lg font-bold shadow-lg shadow-emerald-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
           >
             <AnimatePresence mode="wait">
               {loading ? (

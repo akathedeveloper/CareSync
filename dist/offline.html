@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offline</title>
+    <style>
+        :root {
+            /* Update these to match actual brand colors */
+            --bg-color: #d1fae5;
+            /* emerald‑100 */
+            --card-color: rgba(255, 255, 255, 0.9);
+            --title-color: #025959;
+            /* placeholder accent color */
+            --text-color: #032d60;
+            --button-bg: #27ae60;
+            --button-bg-hover: #27bb64a4;
+            --button-color: #fff;
+            --font-family: 'Arial, sans-serif';
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            background-color: var(--bg-color);
+            font-family: var(--font-family);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .offline-card {
+            background-color: var(--card-color);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .offline-card h1 {
+            color: var(--title-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .offline-card p {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .offline-card img {
+            width: 80px;
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .offline-card button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            color: var(--button-color);
+            background-color: var(--button-bg);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .offline-card button:hover {
+            background-color: var(--button-bg-hover);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="offline-card">
+        <img src="/favicon_128px.png" alt="Offline Icon" />
+        <h1>You're Offline!</h1>
+        <p>Please check your internet connection and try again.</p>
+        <button onclick="location.reload()" style="margin-bottom: 1rem;">Try Again</button>
+        <br>
+        <a href="/" style="color: rgba(28, 107, 192, 0.955); font-size: 1.2rem;">Go to Home</a>
+    </div>
+</body>
+
+</html>

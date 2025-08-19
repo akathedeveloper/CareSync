@@ -140,13 +140,13 @@ export default function Pricing() {
               data-aos="zoom-in"
               data-aos-delay={index * 150}
               className={`flex flex-col bg-white dark:bg-gray-800 rounded-2xl p-8 relative transform transition-transform duration-300 hover:rotate-x-2 hover:rotate-y-2 hover:scale-105 hover:shadow-xl dark:hover:shadow-gray-900/50 ${
-                plan.popular ? "ring-2 ring-primary-600 scale-105" : ""
+                plan.popular ? "ring-2 ring-emerald-400 scale-105" : ""
               }`}
               style={{ transformStyle: "preserve-3d" }}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 badge-bounce">
-                  <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium shadow-md">
+                  <span className="bg-emerald-400 text-white px-4 py-1 rounded-full text-sm font-medium shadow-md">
                     Most Popular
                   </span>
                 </div>
@@ -190,7 +190,7 @@ export default function Pricing() {
               <button
                 className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors ${
                   plan.popular
-                    ? "bg-primary-600 text-white hover:bg-primary-700 pulse-once"
+                    ? "gradient-accent text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
               >

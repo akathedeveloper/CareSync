@@ -1,13 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
-import {
-  PlusIcon,
-  FunnelIcon,
-  ArrowDownTrayIcon,
-  TrashIcon,
-  PencilSquareIcon,
-} from "@heroicons/react/24/outline";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+import { PlusIcon, PencilSquareIcon, TrashIcon, FunnelIcon, ArrowDownTrayIcon } from "@heroicons/react/24/outline";
+
 import { predefinedTypes, vitalTypes } from '../../data/vitals.js'
 import {VitalInput} from "../../data/vitalInput.jsx"
 // --- Dummy initial data

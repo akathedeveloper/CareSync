@@ -1,0 +1,225 @@
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const Message = require('../models/Message');
+const Conversation = require('../models/Conversation');
+
+const authenticateSocket = async (socket, next) => {
+  try {
+    const token = socket.handshake.auth.token;
+    
+    if (!token) {
+      return next(new Error('No token provided'));
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+    
+    if (!user) {
+      return next(new Error('User not found'));
+    }
+
+    socket.userId = user._id.toString();
+    socket.user = user;
+    next();
+  } catch (error) {
+    next(new Error('Authentication failed'));
+  }
+};
+
+const handleSocketConnection = (io) => {
+  io.use(authenticateSocket);
+
+  io.on('connection', (socket) => {
+    console.log(`User ${socket.user.name} connected with socket ID: ${socket.id}`);
+
+    socket.join(socket.userId);
+
+    socket.on('join-conversations', async () => {
+      try {
+        const conversations = await Conversation.find({
+          participants: socket.userId
+        });
+
+        conversations.forEach(conversation => {
+          socket.join(conversation._id.toString());
+        });
+
+        socket.emit('conversations-joined', {
+          success: true,
+          count: conversations.length
+        });
+      } catch (error) {
+        console.error('Join conversations error:', error);
+        socket.emit('error', {
+          message: 'Failed to join conversations'
+        });
+      }
+    });
+
+    // Handle sending messages
+    socket.on('send-message', async (data) => {
+      try {
+        const { conversationId, content, messageType = 'text' } = data;
+
+        // Verify conversation exists and user has access
+        const conversation = await Conversation.findById(conversationId);
+        if (!conversation) {
+          return socket.emit('message-error', {
+            error: 'Conversation not found'
+          });
+        }
+
+        if (!conversation.participants.includes(socket.userId)) {
+          return socket.emit('message-error', {
+            error: 'Access denied'
+          });
+        }
+
+        // Create message
+        const message = new Message({
+          conversation: conversationId,
+          sender: socket.userId,
+          content: content.trim(),
+          messageType
+        });
+
+        await message.save();
+
+        // Update conversation's last message
+        conversation.lastMessage = message._id;
+        conversation.lastMessageTime = new Date();
+        await conversation.save();
+
+        // Populate sender details
+        await message.populate('sender', 'name email');
+
+        // Emit to all users in the conversation
+        io.to(conversationId).emit('new-message', {
+          message,
+          conversationId
+        });
+
+        // Send confirmation to sender
+        socket.emit('message-sent', {
+          success: true,
+          message
+        });
+
+      } catch (error) {
+        console.error('Send message error:', error);
+        socket.emit('message-error', {
+          error: 'Failed to send message'
+        });
+      }
+    });
+
+    // Handle typing indicators
+    socket.on('typing-start', (data) => {
+      const { conversationId } = data;
+      socket.to(conversationId).emit('user-typing', {
+        userId: socket.userId,
+        userName: socket.user.name,
+        conversationId
+      });
+    });
+
+    socket.on('typing-stop', (data) => {
+      const { conversationId } = data;
+      socket.to(conversationId).emit('user-stopped-typing', {
+        userId: socket.userId,
+        conversationId
+      });
+    });
+
+    // Handle message read status
+    socket.on('mark-messages-read', async (data) => {
+      try {
+        const { conversationId } = data;
+
+        // Update all unread messages in the conversation
+        await Message.updateMany(
+          {
+            conversation: conversationId,
+            sender: { $ne: socket.userId },
+            'readBy.user': { $ne: socket.userId }
+          },
+          {
+            $push: {
+              readBy: {
+                user: socket.userId,
+                readAt: new Date()
+              }
+            }
+          }
+        );
+
+        // Notify other participants
+        socket.to(conversationId).emit('messages-read', {
+          conversationId,
+          readBy: socket.userId
+        });
+
+      } catch (error) {
+        console.error('Mark messages read error:', error);
+      }
+    });
+
+    // Handle user joining a specific conversation
+    socket.on('join-conversation', async (data) => {
+      try {
+        const { conversationId } = data;
+        
+        // Verify user has access to the conversation
+        const conversation = await Conversation.findById(conversationId);
+        if (!conversation || !conversation.participants.includes(socket.userId)) {
+          return socket.emit('join-error', {
+            error: 'Access denied or conversation not found'
+          });
+        }
+
+        socket.join(conversationId);
+        socket.emit('conversation-joined', {
+          success: true,
+          conversationId
+        });
+
+        // Notify other participants that user joined
+        socket.to(conversationId).emit('user-joined-conversation', {
+          userId: socket.userId,
+          userName: socket.user.name,
+          conversationId
+        });
+
+      } catch (error) {
+        console.error('Join conversation error:', error);
+        socket.emit('join-error', {
+          error: 'Failed to join conversation'
+        });
+      }
+    });
+
+    // Handle user leaving a conversation
+    socket.on('leave-conversation', (data) => {
+      const { conversationId } = data;
+      socket.leave(conversationId);
+      
+      socket.to(conversationId).emit('user-left-conversation', {
+        userId: socket.userId,
+        userName: socket.user.name,
+        conversationId
+      });
+    });
+
+    // Handle disconnection
+    socket.on('disconnect', (reason) => {
+      console.log(`User ${socket.user.name} disconnected: ${reason}`);
+    });
+
+    // Handle connection errors
+    socket.on('error', (error) => {
+      console.error('Socket error:', error);
+    });
+  });
+};
+
+module.exports = { handleSocketConnection };

@@ -213,7 +213,8 @@ export default function StatsSection() {
                 color: "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
               }
             ].map((milestone, index) => (
-              <div key={index} className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+              <div key={index} className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700
+             transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-blue-500">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-sm font-semibold text-gray-500 dark:text-gray-400">{milestone.phase}</span>
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${milestone.color}`}>

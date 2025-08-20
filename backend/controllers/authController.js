@@ -1,6 +1,6 @@
 const bcrypt= require("bcryptjs")
 const jwt= require("jsonwebtoken")
-const {User}= require("../db/models/Scehma")
+const {User}= require("../db/models/User.js")
 
 // make a token for a user id
  const makeToken= (userId) => 

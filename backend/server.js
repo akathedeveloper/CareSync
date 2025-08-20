@@ -10,6 +10,7 @@ const messageRoutes = require("./routes/messageRoutes")
 const {notFound, errorHandler}= require("./middleware/error")
 const { handleSocketConnection } = require("./controllers/socketController")
 
+
 dotenv.config();
 connectDB();
 

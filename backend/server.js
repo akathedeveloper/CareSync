@@ -1,34 +1,45 @@
 const express= require("express");
+const http = require("http");
+const { Server } = require("socket.io");
 const cors= require("cors")
 const morgan= require("morgan")
 const dotenv= require("dotenv")
 const connectDB = require("./config/db")
 const authRoutes= require("./routes/authRoutes")
+const messageRoutes = require("./routes/messageRoutes")
 const {notFound, errorHandler}= require("./middleware/error")
+const { handleSocketConnection } = require("./controllers/socketController")
 
 
 dotenv.config();
 connectDB();
 
 const app= express();
+const server = http.createServer(app);
 
-app.use(express.json()); // read json bodies
-app.use(cors()); // allow frontend to call backend
-app.use(morgan("dev")); //log requests in console
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3002",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 
-// simple health route check server alive
+handleSocketConnection(io);
+
+app.use(express.json());
+app.use(cors());
+app.use(morgan("dev"));
+
 app.get("/health", (req, res) => {
     res.json({status: "backend is running"});
 });
 
-// auth routes start with /api/auth
-
 app.use("/api/auth", authRoutes);
-
-// 404 + error handlers
+app.use("/api/messages", messageRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+server.listen(PORT, () => console.log(`Server running on port ${PORT} with Socket.IO`));

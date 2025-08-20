@@ -64,20 +64,52 @@ export const AuthProvider = ({ children }) => {
 
   // Check for existing user session on app load
   useEffect(() => {
-    const checkExistingSession = () => {
+    const checkExistingSession = async () => {
       try {
+        const token = localStorage.getItem("token");
         const storedUser = localStorage.getItem("caresync_user");
-        console.log("Checking localStorage for user:", storedUser);
-        if (storedUser) {
+        
+        console.log("Checking localStorage for token:", token ? "exists" : "none");
+        console.log("Checking localStorage for user:", storedUser ? "exists" : "none");
+        
+        if (token && storedUser) {
+          // Verify token with backend
+          try {
+            const response = await fetch('http://localhost:5000/api/auth/me', {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+              },
+            });
+            
+            if (response.ok) {
+              const userData = JSON.parse(storedUser);
+              console.log("Found and verified stored user:", userData);
+              setUser(userData);
+            } else {
+              // Token is invalid, clear storage
+              console.log("Token verification failed, clearing storage");
+              localStorage.removeItem("token");
+              localStorage.removeItem("caresync_user");
+            }
+          } catch (error) {
+            console.error("Error verifying token:", error);
+            localStorage.removeItem("token");
+            localStorage.removeItem("caresync_user");
+          }
+        } else if (storedUser) {
+          // Legacy local user without backend auth
           const userData = JSON.parse(storedUser);
-          console.log("Found stored user:", userData);
-          setUser(userData);
+          if (!userData.isBackendUser) {
+            console.log("Found legacy local user:", userData);
+            setUser(userData);
+          }
         } else {
           console.log("No stored user found in localStorage");
         }
       } catch (error) {
         console.error("Error checking existing session:", error);
         localStorage.removeItem("caresync_user");
+        localStorage.removeItem("token");
       }
       setLoading(false);
     };
@@ -158,71 +190,98 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Local dummy login
+  // Backend API login
   const login = async (email, password, role) => {
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const userToLogin = allUsers.find((u) => u.email === email);
-      if (!userToLogin) throw new Error("User not found");
-      if (userToLogin.password !== password)
-        throw new Error("Invalid password");
-      if (userToLogin.role !== role) throw new Error("Invalid role selected");
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const { password: _, ...userWithoutPassword } = userToLogin;
-      // Add a flag to identify local users
-      const localUser = { ...userWithoutPassword, isLocalUser: true };
-      console.log("Setting user in context:", localUser);
-      setUser(localUser);
-      console.log("Storing user in localStorage");
-      localStorage.setItem("caresync_user", JSON.stringify(localUser));
-      console.log("User stored successfully");
-      return { success: true, user: localUser };
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store JWT token
+      localStorage.setItem('token', data.token);
+      
+      // Create user object with role
+      const backendUser = { 
+        ...data.user, 
+        role: role || 'patient', // Use provided role or default to patient
+        isBackendUser: true 
+      };
+      
+      console.log("Setting user in context:", backendUser);
+      setUser(backendUser);
+      localStorage.setItem("caresync_user", JSON.stringify(backendUser));
+      console.log("User and token stored successfully");
+      
+      return { success: true, user: backendUser };
     } catch (error) {
+      console.error('Login error:', error);
       throw new Error(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // Local dummy register
+  // Backend API register
   const register = async (userData) => {
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      if (allUsers.find((u) => u.email === userData.email)) {
-        throw new Error("User already exists with this email");
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: `${userData.firstName} ${userData.lastName}`,
+          email: userData.email,
+          password: userData.password,
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
       }
-      const newUser = {
-        id: `user${Date.now()}`,
-        name: `${userData.firstName} ${userData.lastName}`,
-        ...userData,
+
+      // Store JWT token
+      localStorage.setItem('token', data.token);
+      
+      // Create user object with role
+      const backendUser = { 
+        ...data.user, 
+        role: userData.role || 'patient',
+        isBackendUser: true 
       };
-      addUser(newUser);
-      setAllUsers((prev) => [...prev, newUser]);
-      const {
-        password: _,
-        confirmPassword: __,
-        ...userWithoutPassword
-      } = newUser;
-      // Add a flag to identify local users
-      const localUser = { ...userWithoutPassword, isLocalUser: true };
-      setUser(localUser);
-      localStorage.setItem("caresync_user", JSON.stringify(localUser));
-      return { success: true, user: localUser };
+      
+      setUser(backendUser);
+      localStorage.setItem("caresync_user", JSON.stringify(backendUser));
+      
+      return { success: true, user: backendUser };
     } catch (error) {
+      console.error('Registration error:', error);
       throw new Error(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // Logout for both Firebase & local
+  // Logout for both Firebase & backend
   const logout = async () => {
     setLoading(true);
     try {
       // Try Firebase logout first (only if it's a Firebase user)
-      if (user && !user.isLocalUser) {
+      if (user && !user.isBackendUser && !user.isLocalUser) {
         try {
           await signOutUser();
         } catch {
@@ -231,9 +290,10 @@ export const AuthProvider = ({ children }) => {
         }
       }
 
-      // Clear local user state
+      // Clear backend auth state
       setUser(null);
       localStorage.removeItem("caresync_user");
+      localStorage.removeItem("token");
 
       return { success: true };
     } catch (error) {

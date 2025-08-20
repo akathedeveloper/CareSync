@@ -13,6 +13,7 @@ import {
   MapPin,
   GraduationCap,
   Award,
+  AlertCircle,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -23,7 +24,9 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
+
     firstName: "",
     lastName: "",
     email: "",
@@ -56,35 +59,125 @@ const Register = () => {
     });
   };
 
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    const newErrors = { ...errors };
+    let hasError = false;
+
+    switch (name) {
+      case "email":
+        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          newErrors.email = "Please enter a valid email address.";
+          hasError = true;
+        }
+        break;
+      case "phone":
+        if (value && value.length !== 10) {
+          newErrors.phone = "Please enter a valid 10-digit phone number.";
+          hasError = true;
+        }
+        break;
+      case "confirmPassword":
+        if (value && value !== formData.password) {
+          newErrors.confirmPassword = "Passwords do not match.";
+          hasError = true;
+        }
+        break;
+      case "specialization":
+        if (!value) {
+          newErrors.specialization = "Specialization is required.";
+          hasError = true;
+        }
+        break;
+      case "licenseNumber":
+        if (!value) {
+          newErrors.licenseNumber = `${formData.role === 'doctor' ? 'Medical' : 'Pharmacy'} license number is required.`;
+          hasError = true;
+        }
+        break;
+      case "pharmacyName":
+        if (!value) {
+          newErrors.pharmacyName = "Pharmacy name is required.";
+          hasError = true;
+        }
+        break;
+      case "pharmacyAddress":
+        if (!value) {
+          newErrors.pharmacyAddress = "Pharmacy address is required.";
+          hasError = true;
+        }
+        break;
+      default:
+        break;
+    }
+
+    if (!hasError) {
+      delete newErrors[name];
+    }
+    setErrors(newErrors);
+  };
+
   const handleChange = (e) => {
+    let { name, value } = e.target;
+
+    if (name === "phone") {
+      value = value.replace(/\D/g, "").slice(0, 10);
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
     if (error) setError("");
-    if (e.target.name === "password") {
-      checkPasswordStrength(e.target.value);
+
+    if (errors[name]) {
+      const newErrors = { ...errors };
+      delete newErrors[name];
+      setErrors(newErrors);
+    }
+
+    if (name === "password") {
+      checkPasswordStrength(value);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Password match check
+    const newErrors = {};
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+    if (formData.phone.length !== 10) {
+      newErrors.phone = "Please enter a valid 10-digit phone number.";
+    }
     if (formData.password !== formData.confirmPassword) {
-      const errorMessage = "Passwords do not match!";
-      setError(errorMessage);
-      toast.error(errorMessage, {
-        duration: 4000,
-        icon: "❌",
-      });
-      return;
+      newErrors.confirmPassword = "Passwords do not match!";
     }
 
-    // Phone number must be exactly 10 digits
-    const cleanedPhone = formData.phone.replace(/\D/g, "");
-    if (cleanedPhone.length !== 10) {
-      const errorMessage = "Phone number must be exactly 10 digits.";
+    // Role-specific validations
+    if (formData.role === "doctor") {
+      if (!formData.specialization) {
+        newErrors.specialization = "Specialization is required.";
+      }
+      if (!formData.licenseNumber) {
+        newErrors.licenseNumber = "Medical license number is required.";
+      }
+    } else if (formData.role === "pharmacist") {
+      if (!formData.licenseNumber) {
+        newErrors.licenseNumber = "Pharmacy license number is required.";
+      }
+      if (!formData.pharmacyName) {
+        newErrors.pharmacyName = "Pharmacy name is required.";
+      }
+      if (!formData.pharmacyAddress) {
+        newErrors.pharmacyAddress = "Pharmacy address is required.";
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      const errorMessage = "Please fix the errors in the form.";
       setError(errorMessage);
       toast.error(errorMessage, {
         duration: 4000,
@@ -103,6 +196,7 @@ const Register = () => {
       });
       return;
     }
+
 
     setLoading(true);
     setError("");
@@ -221,41 +315,71 @@ const Register = () => {
             transition={{ duration: 0.35, ease: "easeInOut" }}
             className="space-y-4"
           >
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25 }}
-              className="relative"
-            >
-              <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
-              <input
-                name="specialization"
-                type="text"
-                required
-                value={formData.specialization}
-                onChange={handleChange}
-                placeholder="Specialization"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
-              />
-            </motion.div>
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+                className="relative"
+              >
+                <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+                <input
+                  name="specialization"
+                  type="text"
+                  required
+                  value={formData.specialization}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Specialization"
+                  className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 text-black ${
+                    errors.specialization
+                      ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
+                      : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                  }`}
+                  aria-invalid={!!errors.specialization}
+                  aria-describedby="specialization-error"
+                />
+              </motion.div>
+              {errors.specialization && (
+                <p id="specialization-error" className="text-red-600 text-sm mt-1 px-1 flex items-center">
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  {errors.specialization}
+                </p>
+              )}
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, delay: 0.03 }}
-              className="relative"
-            >
-              <Shield className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
-              <input
-                name="licenseNumber"
-                type="text"
-                required
-                value={formData.licenseNumber}
-                onChange={handleChange}
-                placeholder="Medical License Number"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
-              />
-            </motion.div>
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: 0.03 }}
+                className="relative"
+              >
+                <Shield className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+                <input
+                  name="licenseNumber"
+                  type="text"
+                  required
+                  value={formData.licenseNumber}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Medical License Number"
+                  className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 text-black ${
+                    errors.licenseNumber
+                      ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
+                      : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                  }`}
+                  aria-invalid={!!errors.licenseNumber}
+                  aria-describedby="licenseNumber-error"
+                />
+              </motion.div>
+              {errors.licenseNumber && (
+                <p id="licenseNumber-error" className="text-red-600 text-sm mt-1 px-1 flex items-center">
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  {errors.licenseNumber}
+                </p>
+              )}
+            </div>
 
             <motion.div
               initial={{ opacity: 0, y: -8 }}
@@ -287,59 +411,104 @@ const Register = () => {
             transition={{ duration: 0.35, ease: "easeInOut" }}
             className="space-y-4"
           >
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25 }}
-              className="relative"
-            >
-              <Shield className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
-              <input
-                name="licenseNumber"
-                type="text"
-                required
-                value={formData.licenseNumber}
-                onChange={handleChange}
-                placeholder="Pharmacy License Number"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
-              />
-            </motion.div>
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+                className="relative"
+              >
+                <Shield className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+                <input
+                  name="licenseNumber"
+                  type="text"
+                  required
+                  value={formData.licenseNumber}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Pharmacy License Number"
+                  className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 text-black ${
+                    errors.licenseNumber
+                      ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
+                      : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                  }`}
+                  aria-invalid={!!errors.licenseNumber}
+                  aria-describedby="licenseNumber-error-pharmacy"
+                />
+              </motion.div>
+              {errors.licenseNumber && (
+                <p id="licenseNumber-error-pharmacy" className="text-red-600 text-sm mt-1 px-1 flex items-center">
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  {errors.licenseNumber}
+                </p>
+              )}
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, delay: 0.03 }}
-              className="relative"
-            >
-              <Building className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
-              <input
-                name="pharmacyName"
-                type="text"
-                required
-                value={formData.pharmacyName}
-                onChange={handleChange}
-                placeholder="Pharmacy Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
-              />
-            </motion.div>
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: 0.03 }}
+                className="relative"
+              >
+                <Building className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+                <input
+                  name="pharmacyName"
+                  type="text"
+                  required
+                  value={formData.pharmacyName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Pharmacy Name"
+                  className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 text-black ${
+                    errors.pharmacyName
+                      ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
+                      : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                  }`}
+                  aria-invalid={!!errors.pharmacyName}
+                  aria-describedby="pharmacyName-error"
+                />
+              </motion.div>
+              {errors.pharmacyName && (
+                <p id="pharmacyName-error" className="text-red-600 text-sm mt-1 px-1 flex items-center">
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  {errors.pharmacyName}
+                </p>
+              )}
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, delay: 0.06 }}
-              className="relative"
-            >
-              <MapPin className="absolute left-3 top-4 text-gray-400 dark:text-gray-500 w-5 h-5" />
-              <textarea
-                name="pharmacyAddress"
-                required
-                value={formData.pharmacyAddress}
-                onChange={handleChange}
-                rows={3}
-                placeholder="Pharmacy Address"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 resize-none text-black"
-              />
-            </motion.div>
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: 0.06 }}
+                className="relative"
+              >
+                <MapPin className="absolute left-3 top-4 text-gray-400 dark:text-gray-500 w-5 h-5" />
+                <textarea
+                  name="pharmacyAddress"
+                  required
+                  value={formData.pharmacyAddress}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  rows={3}
+                  placeholder="Pharmacy Address"
+                  className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 resize-none text-black ${
+                    errors.pharmacyAddress
+                      ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
+                      : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                  }`}
+                  aria-invalid={!!errors.pharmacyAddress}
+                  aria-describedby="pharmacyAddress-error"
+                />
+              </motion.div>
+              {errors.pharmacyAddress && (
+                <p id="pharmacyAddress-error" className="text-red-600 text-sm mt-1 px-1 flex items-center">
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  {errors.pharmacyAddress}
+                </p>
+              )}
+            </div>
           </motion.div>
         );
 
@@ -470,6 +639,7 @@ const Register = () => {
           variants={containerVariants}
           className="mt-6 space-y-5"
           onSubmit={handleSubmit}
+          noValidate
         >
           <AnimatePresence>
             {error && (
@@ -580,33 +750,70 @@ const Register = () => {
           </motion.div>
 
           {/* CONTACT */}
-          <motion.div variants={itemVariants} className="relative">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
-            <motion.input
-              name="email"
-              type="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email Address"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
-              whileFocus={{ scale: 1.02 }}
-            />
+          <motion.div variants={itemVariants}>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+              <motion.input
+                name="email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Email Address"
+                className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 text-black ${
+                  errors.email
+                    ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
+                    : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                }`}
+                whileFocus={{ scale: 1.02 }}
+                aria-invalid={!!errors.email}
+                aria-describedby="email-error"
+              />
+            </div>
+            {errors.email && (
+              <p
+                id="email-error"
+                className="text-red-600 text-sm mt-1 px-1 flex items-center"
+              >
+                <AlertCircle className="w-4 h-4 mr-1" />
+                {errors.email}
+              </p>
+            )}
           </motion.div>
 
-          <motion.div variants={itemVariants} className="relative">
-            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
-            <motion.input
-              name="phone"
-              type="tel"
-              required
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone Number"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
-              whileFocus={{ scale: 1.02 }}
-            />
+          <motion.div variants={itemVariants}>
+            <div className="relative">
+              <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+              <motion.input
+                name="phone"
+                type="tel"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Phone Number"
+                className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 text-black ${
+                  errors.phone
+                    ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
+                    : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                }`}
+                whileFocus={{ scale: 1.02 }}
+                aria-invalid={!!errors.phone}
+                aria-describedby="phone-error"
+              />
+            </div>
+            {errors.phone && (
+              <p
+                id="phone-error"
+                className="text-red-600 text-sm mt-1 px-1 flex items-center"
+              >
+                <AlertCircle className="w-4 h-4 mr-1" />
+                {errors.phone}
+              </p>
+            )}
           </motion.div>
+
 
           {/* ROLE SPECIFIC */}
           <AnimatePresence mode="wait" initial={false}>
@@ -727,51 +934,70 @@ const Register = () => {
               </motion.div>
             )}
 
-            <div className="relative">
-              <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
-              <motion.input
-                id="confirmPassword"
-                name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                required
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder="Confirm Password"
-                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
-                whileFocus={{ scale: 1.02 }}
-              />
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                <AnimatePresence mode="wait">
-                  {showConfirmPassword ? (
-                    <motion.div
-                      key="eyeslash2"
-                      initial={{ opacity: 0, rotate: -90 }}
-                      animate={{ opacity: 1, rotate: 0 }}
-                      exit={{ opacity: 0, rotate: 90 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <EyeSlashIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="eye2"
-                      initial={{ opacity: 0, rotate: -90 }}
-                      animate={{ opacity: 1, rotate: 0 }}
-                      exit={{ opacity: 0, rotate: 90 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <EyeIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.button>
+            <div>
+              <div className="relative">
+                <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+                <motion.input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  required
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Confirm Password"
+                  className={`w-full pl-12 pr-12 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 text-black ${
+                    errors.confirmPassword
+                      ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
+                      : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                  }`}
+                  whileFocus={{ scale: 1.02 }}
+                  aria-invalid={!!errors.confirmPassword}
+                  aria-describedby="confirm-password-error"
+                />
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  type="button"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  <AnimatePresence mode="wait">
+                    {showConfirmPassword ? (
+                      <motion.div
+                        key="eyeslash2"
+                        initial={{ opacity: 0, rotate: -90 }}
+                        animate={{ opacity: 1, rotate: 0 }}
+                        exit={{ opacity: 0, rotate: 90 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <EyeSlashIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" />
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="eye2"
+                        initial={{ opacity: 0, rotate: -90 }}
+                        animate={{ opacity: 1, rotate: 0 }}
+                        exit={{ opacity: 0, rotate: 90 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <EyeIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
+              </div>
+              {errors.confirmPassword && (
+                <p
+                  id="confirm-password-error"
+                  className="text-red-600 text-sm mt-1 px-1 flex items-center"
+                >
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  {errors.confirmPassword}
+                </p>
+              )}
             </div>
+
           </motion.div>
 
           {/* TERMS */}

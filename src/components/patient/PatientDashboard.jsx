@@ -7,6 +7,7 @@ import HealthLogs from "./HealthLogs";
 import { motion } from "framer-motion";
 
 import MedicineReminders from "./MedicineReminders";
+import BackToTop from "../common/BackToTop";
 import {
   HeartIcon,
   ClockIcon,
@@ -40,6 +41,7 @@ const PatientDashboard = ({ activeTab }) => {
   return (
     <div className="p-6 bg-subtle min-h-full">
       {renderContent()}
+      <BackToTop />
     </div>
   );
 };

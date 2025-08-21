@@ -9,6 +9,7 @@ import {
   MagnifyingGlassIcon,
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
+import BackToTop from "../common/BackToTop";
 
 const PharmacistDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -252,6 +253,7 @@ const PharmacistDashboard = () => {
           </div>
         </div>
       </div>
+      <BackToTop />
     </div>
   );
 };

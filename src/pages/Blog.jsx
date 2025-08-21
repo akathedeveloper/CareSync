@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import BackToTop from "../components/common/BackToTop";
 
 export default function Blog() {
   const posts = [
@@ -81,6 +82,7 @@ export default function Blog() {
           </div>
         ))}
       </div>
+      <BackToTop />
     </div>
   );
 }

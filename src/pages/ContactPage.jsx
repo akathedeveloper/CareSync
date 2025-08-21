@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/common/Navbar";
 import { ThemeProvider } from "../contexts/ThemeContext";
 import Footer from "../pages/Footer";
+import BackToTop from "../components/common/BackToTop";
 
 import { Link } from "react-router-dom";
 import {
@@ -620,6 +621,7 @@ const ContactPage = () => {
         </div>
       </section>
       <Footer />
+      <BackToTop />
     </div>
   );
 };

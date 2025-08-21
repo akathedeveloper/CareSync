@@ -23,6 +23,7 @@ import GitHubStatsSection from '../components/common/GitHubStatsSection';
 import { motion } from 'framer-motion';
 import Footer from './Footer';
 import { useTheme } from "../contexts/ThemeContext";
+import BackToTop from "../components/common/BackToTop";
 
 const AboutPage = () => {
   const [activeValue, setActiveValue] = useState(0);
@@ -690,6 +691,7 @@ const AboutPage = () => {
       </section>
       
       <Footer />
+      <BackToTop />
     </div>
   );
 };

@@ -34,6 +34,7 @@ import ContactUs from "./ContactUs";
 import Navbar from "../components/common/Navbar";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
+import BackToTop from "../components/common/BackToTop";
 
 
 const LandingPage = () => {
@@ -444,6 +445,8 @@ const LandingPage = () => {
       
       {/* Footer */}
       <Footer />
+
+      <BackToTop />
 
       {/* Professional Video Modal */}
       {isVideoPlaying && (

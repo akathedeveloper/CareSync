@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import BackToTop from "../common/BackToTop";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -51,6 +52,7 @@ const DoctorDashboard = () => {
       ) : (
         <Outlet />
       )}
+      <BackToTop />
     </div>
   );
 };

@@ -118,27 +118,27 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated background decorative elements */}
       <motion.div 
-        className="absolute top-10 left-10 w-20 h-20 bg-emerald-200 rounded-full opacity-20"
+        className="absolute top-10 left-10 w-20 h-20 bg-emerald-200/20 dark:bg-emerald-400/10 rounded-full"
         variants={pulseVariants}
         animate="animate"
       />
       <motion.div 
-        className="absolute top-32 right-20 w-16 h-16 bg-teal-200 rounded-full opacity-20"
+        className="absolute top-32 right-20 w-16 h-16 bg-teal-200/20 dark:bg-teal-400/10 rounded-full"
         variants={floatingVariants}
         animate="animate"
         style={{ animationDelay: '0.5s' }}
       />
       <motion.div 
-        className="absolute bottom-20 left-1/4 w-12 h-12 bg-cyan-200 rounded-full opacity-20"
+        className="absolute bottom-20 left-1/4 w-12 h-12 bg-cyan-200/20 dark:bg-cyan-400/10 rounded-full"
         variants={pulseVariants}
         animate="animate"
         style={{ animationDelay: '1s' }}
       />
       <motion.div 
-        className="absolute bottom-32 right-10 w-24 h-24 bg-emerald-200 rounded-full opacity-20"
+        className="absolute bottom-32 right-10 w-24 h-24 bg-emerald-200/20 dark:bg-emerald-400/10 rounded-full"
         variants={floatingVariants}
         animate="animate"
         style={{ animationDelay: '1.5s' }}
@@ -153,7 +153,7 @@ const Login = () => {
       >
         <Link
           to="/"
-          className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 text-emerald-600 hover:text-emerald-700 hover:bg-white transition-all duration-300 group"
+          className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 dark:border-gray-700/50 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 group"
         >
           <motion.div
             whileHover={{ x: -2 }}
@@ -166,7 +166,7 @@ const Login = () => {
       </motion.div>
 
       <motion.div
-        className="max-w-lg w-full space-y-8 bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-2xl border border-white/50 relative z-10"
+        className="max-w-lg w-full space-y-8 bg-white/80 dark:bg-gray-800/90 backdrop-blur-sm p-10 rounded-2xl shadow-2xl border border-white/50 dark:border-gray-700/50 relative z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -193,7 +193,7 @@ const Login = () => {
             </motion.div>
           </motion.div>
           <motion.h1 
-            className="text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2"
+            className="text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-teal-400 bg-clip-text text-transparent mb-2"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
@@ -201,7 +201,7 @@ const Login = () => {
             CareSync
           </motion.h1>
           <motion.h2 
-            className="text-2xl font-bold text-gray-800 mb-3"
+            className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
@@ -209,7 +209,7 @@ const Login = () => {
             Welcome Back
           </motion.h2>
           <motion.p 
-            className="text-gray-600 text-sm"
+            className="text-gray-600 dark:text-gray-300 text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
@@ -217,7 +217,7 @@ const Login = () => {
             Sign in to continue your healthcare journey
           </motion.p>
           <motion.p 
-            className="mt-2 text-center text-sm text-gray-600"
+            className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
@@ -225,7 +225,7 @@ const Login = () => {
             Don't have an account?{' '}
             <Link
               to="/register"
-              className="font-semibold text-emerald-600 hover:text-emerald-500 transition-colors duration-200 underline decoration-2 underline-offset-2 hover:decoration-emerald-500"
+              className="font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 transition-colors duration-200 underline decoration-2 underline-offset-2 hover:decoration-emerald-500 dark:hover:decoration-emerald-300"
             >
               Create one here
             </Link>
@@ -234,7 +234,7 @@ const Login = () => {
 
         {/* Demo Credentials Section */}
         <motion.div 
-          className="bg-gradient-to-r from-emerald-50 to-teal-50 border-l-4 border-emerald-400 p-5 rounded-xl shadow-sm"
+          className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-l-4 border-emerald-400 dark:border-emerald-500 p-5 rounded-xl shadow-sm"
           variants={itemVariants}
         >
           <motion.div 
@@ -243,7 +243,7 @@ const Login = () => {
             animate={{ x: 0 }}
             transition={{ delay: 0.8 }}
           >
-            <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center mr-2">
+            <div className="w-6 h-6 bg-emerald-500 dark:bg-emerald-600 rounded-full flex items-center justify-center mr-2">
               <motion.svg 
                 className="w-3 h-3 text-white" 
                 fill="currentColor" 
@@ -255,7 +255,7 @@ const Login = () => {
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </motion.svg>
             </div>
-            <h3 className="text-sm font-bold text-emerald-800">Quick Demo Access</h3>
+            <h3 className="text-sm font-bold text-emerald-800 dark:text-emerald-200">Quick Demo Access</h3>
           </motion.div>
           <div className="space-y-3 text-xs">
             {['patient', 'doctor', 'pharmacist'].map((role, index) => {
@@ -281,7 +281,7 @@ const Login = () => {
                   key={role}
                   type="button"
                   onClick={() => fillDemoCredentials(role)}
-                  className="w-full flex items-center gap-3 p-3 bg-white/70 hover:bg-white hover:shadow-md rounded-lg transition-all duration-200 text-emerald-700 hover:text-emerald-800 border border-emerald-100"
+                  className="w-full flex items-center gap-3 p-3 bg-white/70 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 hover:shadow-md rounded-lg transition-all duration-200 text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-emerald-200 border border-emerald-100 dark:border-emerald-800"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1 + index * 0.1 }}
@@ -297,21 +297,21 @@ const Login = () => {
                   </motion.div>
                   <div className="text-left flex-1">
                     <div className="font-medium">{labels[role]}</div>
-                    <div className="text-emerald-600 text-xs">{user?.email || 'No email'}</div>
+                    <div className="text-emerald-600 dark:text-emerald-400 text-xs">{user?.email || 'No email'}</div>
                   </div>
                 </motion.button>
               );
             })}
             <motion.div 
-              className="bg-emerald-100 rounded-lg p-3 mt-3"
+              className="bg-emerald-100 dark:bg-emerald-800/30 rounded-lg p-3 mt-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.4 }}
             >
-              <p className="text-emerald-700 text-center">
+              <p className="text-emerald-700 dark:text-emerald-300 text-center">
                 <span className="font-medium">Default Password:</span> 
                 <motion.code 
-                  className="bg-emerald-200 px-2 py-1 rounded font-mono text-xs ml-1"
+                  className="bg-emerald-200 dark:bg-emerald-700 px-2 py-1 rounded font-mono text-xs ml-1"
                   whileHover={{ scale: 1.05 }}
                 >
                   password123
@@ -326,7 +326,7 @@ const Login = () => {
           <AnimatePresence>
             {error && (
               <motion.div
-                className="bg-gradient-to-r from-red-50 to-pink-50 border-l-4 border-red-500 p-4 rounded-xl shadow-sm"
+                className="bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/30 dark:to-pink-900/30 border-l-4 border-red-500 dark:border-red-400 p-4 rounded-xl shadow-sm"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
@@ -334,7 +334,7 @@ const Login = () => {
               >
                 <div className="flex items-center">
                   <motion.div 
-                    className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mr-2"
+                    className="w-6 h-6 bg-red-500 dark:bg-red-600 rounded-full flex items-center justify-center mr-2"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring" }}
@@ -344,8 +344,8 @@ const Login = () => {
                     </svg>
                   </motion.div>
                   <div>
-                    <p className="font-bold text-red-800">Authentication Error</p>
-                    <p className="text-red-700 text-sm">{error}</p>
+                    <p className="font-bold text-red-800 dark:text-red-200">Authentication Error</p>
+                    <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
                   </div>
                 </div>
               </motion.div>
@@ -360,7 +360,7 @@ const Login = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.5 }}
             >
-              <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Select Role
               </label>
               <div className="relative">
@@ -369,7 +369,7 @@ const Login = () => {
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white/70 backdrop-blur-sm hover:bg-white"
+                  className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700"
                   whileFocus={{ scale: 1.02 }}
                   aria-label="Select your role"
                 >
@@ -377,7 +377,7 @@ const Login = () => {
                   <option value="doctor">Doctor</option>
                   <option value="pharmacist">Pharmacist</option>
                 </motion.select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-emerald-500">
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-emerald-500 dark:text-emerald-400">
                   <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
                   </svg>
@@ -392,7 +392,7 @@ const Login = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.6 }}
             >
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email Address
               </label>
               <motion.input
@@ -402,7 +402,7 @@ const Login = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white/70 backdrop-blur-sm hover:bg-white"
+                className="block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700"
                 placeholder="Enter your email address"
                 whileFocus={{ scale: 1.02 }}
                 aria-label="Email address"
@@ -416,7 +416,7 @@ const Login = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.7 }}
             >
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </label>
               <div className="relative">
@@ -427,14 +427,14 @@ const Login = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white/70 backdrop-blur-sm hover:bg-white"
+                  className="block w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700"
                   placeholder="Enter your password"
                   whileFocus={{ scale: 1.02 }}
                   aria-label="Password"
                 />
                 <motion.button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-emerald-500 hover:text-emerald-600 transition-colors duration-200"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-emerald-500 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors duration-200"
                   onClick={() => setShowPassword(!showPassword)}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -480,9 +480,9 @@ const Login = () => {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded transition-colors duration-200"
+                className="h-4 w-4 text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500 dark:focus:ring-emerald-400 border-gray-300 dark:border-gray-600 rounded transition-colors duration-200 bg-white dark:bg-gray-700"
               />
-              <label htmlFor="remember-me" className="ml-3 block text-sm text-gray-700">
+              <label htmlFor="remember-me" className="ml-3 block text-sm text-gray-700 dark:text-gray-300">
                 Keep me signed in
               </label>
             </div>
@@ -490,7 +490,7 @@ const Login = () => {
             <div className="text-sm">
               <button 
                 type="button"
-                className="font-medium text-emerald-600 hover:text-emerald-500 transition-colors duration-200 bg-transparent border-none cursor-pointer"
+                className="font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 transition-colors duration-200 bg-transparent border-none cursor-pointer"
                 onClick={() => {/* Add forgot password logic */}}
               >
                 Forgot password?
@@ -508,7 +508,7 @@ const Login = () => {
             <motion.button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-500 dark:to-teal-500 hover:from-emerald-700 hover:to-teal-700 dark:hover:from-emerald-600 dark:hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 dark:focus:ring-offset-gray-800 transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
               whileHover={{ scale: loading ? 1 : 1.02, y: loading ? 0 : -2 }}
               whileTap={{ scale: loading ? 1 : 0.98 }}
             >
@@ -547,30 +547,54 @@ const Login = () => {
               </AnimatePresence>
             </motion.button>
 
-            {/* Google Sign In Button - Uncomment if needed */}
-            {/*
-            <motion.button
-              type="button"
-              onClick={handleGoogleSignIn}
-              disabled={loading}
-              className="w-full flex justify-center py-3 px-4 border border-gray-300 text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
-              whileHover={{ scale: loading ? 1 : 1.02 }}
-              whileTap={{ scale: loading ? 1 : 0.98 }}
-            >
-              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-              </svg>
-              Continue with Google
-            </motion.button>
-            */}
-          </motion.div>
-        </motion.form>
-      </motion.div>
-    </div>
-  )
+             {/* Google Sign In Button - Uncomment if needed */}
+
+ {/*
+
+ <motion.button
+
+ type="button"
+
+ onClick={handleGoogleSignIn}
+
+ disabled={loading}
+
+ className="w-full flex justify-center py-3 px-4 border border-gray-300 text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+
+ whileHover={{ scale: loading ? 1 : 1.02 }}
+
+ whileTap={{ scale: loading ? 1 : 0.98 }}
+
+ >
+
+ <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+
+ <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+
+ <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+
+ <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+
+ <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+
+ </svg>
+
+ Continue with Google
+
+ </motion.button>
+
+ */}
+
+</motion.div>
+
+</motion.form>
+
+</motion.div>
+
+</div>
+
+ )
+
 }
 
 export default Login

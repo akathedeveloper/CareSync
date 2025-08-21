@@ -48,10 +48,10 @@ export default function Footer() {
     title: "Legal",
     links: [
       { name: "Privacy Policy", href: "/privacy-policy", isRoute: true },
-      { name: "Terms of Service", href: "/terms", isRoute: true }, // only if you create this route
+      { name: "Terms of Service", href: "/terms ", isRoute: true }, // only if you create this route
       { name: "Cookie Policy", href: "/cookie-policy", isRoute: true },
       { name: "GDPR Compliance", href: "/gdpr-compliance", isRoute: true },
-      { name: "Licenses", href: "#", isRoute: false },
+      { name: "Licenses", href: "/license", isRoute: true },
     ],
   },
 ];

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, XMarkIcon, ClipboardDocumentListIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
 const ReviewDetailsModal = ({ onClose, prescription }) => {
     return (
@@ -15,7 +15,7 @@ const ReviewDetailsModal = ({ onClose, prescription }) => {
                         <XMarkIcon className="w-6 h-6" />
                     </button>
                 </div>
-
+                
                 <div className="flex-1 overflow-y-auto pr-2 space-y-4">
                     <div>
                         <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">Prescription ID:</p>
@@ -84,10 +84,10 @@ const ProcessOrderModal = ({ onClose, onProcess, prescription }) => {
                         <XMarkIcon className="w-6 h-6" />
                     </button>
                 </div>
-
+                
                 <div className="flex-1 overflow-y-auto pr-2 space-y-4">
                     <p className="text-lg text-gray-700 dark:text-gray-300">
-                        Are you sure you want to dispense this prescription for <strong>{prescription.patient}</strong>?
+                        Are you sure you want to dispense this prescription for **{prescription.patient}**?
                     </p>
                     <p className="text-gray-600 dark:text-gray-400">
                         This action will mark the order as complete and update patient records.
@@ -149,11 +149,11 @@ const Prescriptions = () => {
             status: 'pending'
         }
     ]);
-
+    
     const [completedPrescriptions, setCompletedPrescriptions] = useState([]);
-
+    
     const [searchQuery, setSearchQuery] = useState('');
-
+    
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const [isProcessModalOpen, setIsProcessModalOpen] = useState(false);
     const [selectedPrescription, setSelectedPrescription] = useState(null);
@@ -165,7 +165,7 @@ const Prescriptions = () => {
         prescription.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
         prescription.doctor.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
+    
     const openReviewModal = (prescription) => {
         setSelectedPrescription(prescription);
         setIsReviewModalOpen(true);
@@ -204,7 +204,7 @@ const Prescriptions = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
-
+            
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between items-center mb-6">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Pending Prescriptions</h3>
@@ -233,13 +233,7 @@ const Prescriptions = () => {
                                         </span>
                                         {prescription.status === 'pending' && (
                                             <button 
-                                                onClick={(e) => { 
-                                                    e.stopPropagation(); 
-                                                    // Confirmation dialog added
-                                                    if (window.confirm(`Are you sure you want to dispense this prescription for ${prescription.patient}?`)) {
-                                                        openProcessModal(prescription); 
-                                                    }
-                                                }}
+                                                onClick={(e) => { e.stopPropagation(); openProcessModal(prescription); }}
                                                 className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors text-sm font-medium"
                                             >
                                                 Process Order
@@ -249,4 +243,60 @@ const Prescriptions = () => {
                                 </li>
                             ))
                         ) : (
-                            <li className="text-center py-10 text-gray-
+                            <li className="text-center py-10 text-gray-500 dark:text-gray-400">No pending prescriptions found.</li>
+                        )}
+                    </ul>
+                </div>
+            </div>
+            
+            {/* Completed Prescriptions List */}
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 mt-6">
+                <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Completed Prescriptions ({completedPrescriptions.length})</h3>
+                </div>
+                <div className="max-h-[70vh] overflow-y-auto pr-2">
+                    <ul className="space-y-4">
+                        {completedPrescriptions.length > 0 ? (
+                            completedPrescriptions.map((prescription) => (
+                                <li 
+                                    key={prescription.id} 
+                                    className="p-4 bg-green-50 dark:bg-green-900/10 rounded-lg border border-green-200 dark:border-green-800 flex items-center justify-between cursor-pointer hover:bg-green-100 dark:hover:bg-green-900/20 transition-colors"
+                                    onClick={() => openReviewModal(prescription)}
+                                >
+                                    <div>
+                                        <p className="font-semibold text-gray-900 dark:text-gray-100">{prescription.patient} - {prescription.id}</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Prescribed by: {prescription.doctor}</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Items: {prescription.medicines.join(', ')}</p>
+                                    </div>
+                                    <div className="flex space-x-2 items-center">
+                                        <span className={`px-2 py-1 text-xs font-medium rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300`}>
+                                            Completed
+                                        </span>
+                                    </div>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="text-center py-10 text-gray-500 dark:text-gray-400">No completed prescriptions found.</li>
+                        )}
+                    </ul>
+                </div>
+            </div>
+
+            {isReviewModalOpen && selectedPrescription && (
+                <ReviewDetailsModal 
+                    onClose={() => setIsReviewModalOpen(false)} 
+                    prescription={selectedPrescription} 
+                />
+            )}
+            {isProcessModalOpen && selectedPrescription && (
+                <ProcessOrderModal
+                    onClose={() => setIsProcessModalOpen(false)}
+                    onProcess={onProcessOrder}
+                    prescription={selectedPrescription}
+                />
+            )}
+        </div>
+    );
+};
+
+export default Prescriptions;

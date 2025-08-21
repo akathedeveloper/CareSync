@@ -3,11 +3,15 @@ import { Link } from "react-router-dom";
 import { Bars3Icon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useAuth } from "../../contexts/AuthContext";
+import Contributor from "./Contributor";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const { user } = useAuth();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -24,25 +28,22 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <a
-                key="Home"
-                href="#home"
-          >   
-          <div className="flex items-center">
-            <div className="w-10 h-10">
-              <img
-                src="/CareSync-Logo.png"
-                alt="CareSync Logo"
-                className="w-full h-full"
-              />
+          <a key="Home" href="#home">
+            <div className="flex items-center">
+              <div className="w-10 h-10">
+                <img
+                  src="/CareSync-Logo.png"
+                  alt="CareSync Logo"
+                  className="w-full h-full"
+                />
+              </div>
+              <span
+                className="ml-3 font-bold text-emerald-600 dark:text-emerald-400"
+                style={{ fontSize: "1.375rem" }}
+              >
+                CareSync
+              </span>
             </div>
-            <span
-              className="ml-3 font-bold text-emerald-600 dark:text-emerald-400"
-              style={{ fontSize: "1.375rem" }}
-            >
-              CareSync
-            </span>
-          </div>
           </a>
 
           {/* Desktop Menu */}
@@ -50,7 +51,11 @@ const Navbar = () => {
             {menuItems.map((item) => (
               <a
                 key={item}
-                href={item === "Contact" ? "#contact-form" : `#${item.toLowerCase()}`}
+                href={
+                  item === "Contact"
+                    ? "#contact-form"
+                    : `#${item.toLowerCase()}`
+                }
                 className="relative text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium group"
               >
                 {item}
@@ -77,7 +82,18 @@ const Navbar = () => {
               title={isDark ? "Switch to light mode" : "Switch to dark mode"}
               aria-label="Toggle dark mode"
             >
-              {isDark ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+              {isDark ? (
+                <SunIcon className="h-5 w-5" />
+              ) : (
+                <MoonIcon className="h-5 w-5" />
+              )}
+            </button>
+
+            <button
+              onClick={() => navigate("/contributor")}
+              className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium"
+            >
+              Contributors
             </button>
 
             {user ? (
@@ -128,7 +144,11 @@ const Navbar = () => {
                 onClick={toggleTheme}
                 className="text-center py-2 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center justify-center gap-2"
               >
-                {isDark ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+                {isDark ? (
+                  <SunIcon className="h-5 w-5" />
+                ) : (
+                  <MoonIcon className="h-5 w-5" />
+                )}
                 {isDark ? "Light Mode" : "Dark Mode"}
               </button>
 

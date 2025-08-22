@@ -28,7 +28,6 @@ import StatsSection from "./StatsSection";
 import Pricing from "./PriceSection";
 import Testimonials from "./Testimonials";
 import Footer from "./Footer";
-import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
 import Navbar from "../components/common/Navbar";
@@ -438,8 +437,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Contributor */}
-      <Contributor />
       
       {/* Contact Us */}
       <ContactUs />

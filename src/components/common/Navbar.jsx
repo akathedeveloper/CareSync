@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { Bars3Icon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useAuth } from "../../contexts/AuthContext";
+
+import Contributor from "./Contributor";
+import { useNavigate } from "react-router-dom";
+
 import useScrollSpy from "../../hooks/useScrollSpy";
 
 const Navbar = () => {
@@ -13,6 +17,8 @@ const Navbar = () => {
   // Define section IDs for scroll spy
   const sectionIds = ['home', 'features', 'pricing', 'testimonials', 'contact-form'];
   const activeSection = useScrollSpy(sectionIds, 100);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -34,38 +40,42 @@ const Navbar = () => {
     <nav className="fixed top-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+          {/* Logo with smooth scroll functionality */}
           <a
-                key="Home"
-                href="#home"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
-                }}
+            key="Home"
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+            }}
           >   
-          <div className="flex items-center">
-            <div className="w-10 h-10">
-              <img
-                src="/CareSync-Logo.png"
-                alt="CareSync Logo"
-                className="w-full h-full"
-              />
+            <div className="flex items-center">
+              <div className="w-10 h-10">
+                <img
+                  src="/CareSync-Logo.png"
+                  alt="CareSync Logo"
+                  className="w-full h-full"
+                />
+              </div>
+              <span
+                className="ml-3 font-bold text-emerald-600 dark:text-emerald-400"
+                style={{ fontSize: "1.375rem" }}
+              >
+                CareSync
+              </span>
             </div>
-            <span
-              className="ml-3 font-bold text-emerald-600 dark:text-emerald-400"
-              style={{ fontSize: "1.375rem" }}
-            >
-              CareSync
-            </span>
-          </div>
           </a>
 
-          {/* Desktop Menu */}
+          {/* Desktop Menu with scroll spy functionality */}
           <div className="hidden md:flex items-center space-x-8">
             {menuItems.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className={`relative transition-all duration-300 font-medium group px-2 py-1 rounded-md ${
                   activeSection === item.id
                     ? "text-emerald-600 dark:text-emerald-400 font-semibold drop-shadow-sm bg-emerald-50 dark:bg-emerald-900/20"
@@ -85,6 +95,7 @@ const Navbar = () => {
             ))}
           </div>
 
+
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
@@ -103,7 +114,18 @@ const Navbar = () => {
               title={isDark ? "Switch to light mode" : "Switch to dark mode"}
               aria-label="Toggle dark mode"
             >
-              {isDark ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+              {isDark ? (
+                <SunIcon className="h-5 w-5" />
+              ) : (
+                <MoonIcon className="h-5 w-5" />
+              )}
+            </button>
+
+            <button
+              onClick={() => navigate("/contributor")}
+              className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium"
+            >
+              Contributors
             </button>
 
             {user ? (
@@ -158,7 +180,11 @@ const Navbar = () => {
                 onClick={toggleTheme}
                 className="text-center py-2 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center justify-center gap-2"
               >
-                {isDark ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+                {isDark ? (
+                  <SunIcon className="h-5 w-5" />
+                ) : (
+                  <MoonIcon className="h-5 w-5" />
+                )}
                 {isDark ? "Light Mode" : "Dark Mode"}
               </button>
 

@@ -33,6 +33,7 @@ import ContactUs from "./ContactUs";
 import Navbar from "../components/common/Navbar";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
+import ScrollProgress from "../components/common/ScrollProgress";
 
 
 const LandingPage = () => {
@@ -64,6 +65,7 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
+      <ScrollProgress />
       <Navbar />
 
       {/* Professional Hero Section */}

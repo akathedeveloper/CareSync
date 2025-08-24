@@ -23,16 +23,13 @@ import Prescriptions from "./components/patient/Prescriptions";
 import { AppointmentProvider } from "./contexts/AppointmentContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
+import FAQSection from "./components/FAQSection"; // ✅ Make sure this import is correct
 import HealthLogs from "./components/patient/HealthLogs";
 import Blog from "./pages/Blog";
 import Career from "./pages/Career1";
 import Notifications from "./pages/Notifications";
-
 import PrivacyPolicy from "./pages/privacy";
-
-
 import Feature from "./pages/Feature";
-
 import Patients from "./components/doctor/Patients";
 import Messages from "./components/common/Messages";
 import Settings from "./components/common/Settings";
@@ -46,22 +43,11 @@ import TermsOfServices from "./pages/TermsOfServices";
 import LicensePage from "./pages/License";
 import Contributors from "./components/common/Contributor";
 
-
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
   const { user, loading } = useAuth();
 
-  console.log(
-    "ProtectedRoute - user:",
-    user,
-    "loading:",
-    loading,
-    "requiredRole:",
-    requiredRole
-  );
-
   if (loading) {
-    console.log("ProtectedRoute - showing loading spinner");
     return (
       <div className="min-h-screen flex items-center justify-center">
         <LoadingSpinner size="lg" />
@@ -69,28 +55,18 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
     );
   }
 
-  if (!user) {
-    console.log("ProtectedRoute - no user, redirecting to login");
-    return <Navigate to="/login" replace />;
-  }
-
-  if (requiredRole && user.role !== requiredRole) {
-    console.log("ProtectedRoute - role mismatch, redirecting to user role");
+  if (!user) return <Navigate to="/login" replace />;
+  if (requiredRole && user.role !== requiredRole)
     return <Navigate to={`/${user.role}`} replace />;
-  }
 
-  console.log("ProtectedRoute - rendering children");
   return children;
 };
 
-// Public Route Component - Redirects authenticated users for auth pages only
+// Public Route Component
 const PublicRoute = ({ children, authOnly = false }) => {
   const { user, loading } = useAuth();
 
-  console.log("PublicRoute - user:", user, "loading:", loading, "authOnly:", authOnly);
-
   if (loading) {
-    console.log("PublicRoute - showing loading spinner");
     return (
       <div className="min-h-screen flex items-center justify-center">
         <LoadingSpinner size="lg" />
@@ -98,13 +74,7 @@ const PublicRoute = ({ children, authOnly = false }) => {
     );
   }
 
-  // Only redirect authenticated users from auth pages (login/register)
-  if (user && authOnly) {
-    console.log("PublicRoute - user authenticated, redirecting to dashboard");
-    return <Navigate to={`/${user.role}`} replace />;
-  }
-
-  console.log("PublicRoute - rendering public content");
+  if (user && authOnly) return <Navigate to={`/${user.role}`} replace />;
   return children;
 };
 
@@ -112,10 +82,7 @@ const PublicRoute = ({ children, authOnly = false }) => {
 const AppRoutes = () => {
   const { user, loading } = useAuth();
 
-  console.log("AppRoutes - user:", user, "loading:", loading);
-
   if (loading) {
-    console.log("AppRoutes - showing loading spinner");
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="text-center">
@@ -128,26 +95,31 @@ const AppRoutes = () => {
     );
   }
 
-  console.log("AppRoutes - rendering routes, user:", user);
   return (
-
     <Routes>
-      {/* Public Routes - Accessible to all users */}
-      <Route path="/" element={<LandingPage />} />
+      {/* Public Routes */}
+      <Route
+        path="/"
+        element={
+          <>
+            <LandingPage />
+            <FAQSection /> {/* ✅ Added FAQSection here */}
+          </>
+        }
+      />
       <Route path="/contact" element={<ContactPage />} />
-      <Route path="/cookie-policy" element={<CookiePolicy/>} />
+      <Route path="/cookie-policy" element={<CookiePolicy />} />
       <Route path="/feature" element={<Feature />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      <Route path="/gdpr-compliance" element={<GDPRCompliance/>} />
+      <Route path="/gdpr-compliance" element={<GDPRCompliance />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/career" element={<Career />} />
       <Route path="/terms" element={<TermsOfServices />} />
-      <Route path="/contributor" element={<Contributors/>} />
+      <Route path="/contributor" element={<Contributors />} />
       <Route path="/license" element={<LicensePage />} />
 
-      {/* Auth Routes - Redirect authenticated users */}
-
+      {/* Auth Routes */}
       <Route
         path="/login"
         element={
@@ -165,7 +137,7 @@ const AppRoutes = () => {
         }
       />
 
-      {/* General Authenticated Routes */}
+      {/* Shared Authenticated Routes */}
       <Route
         element={
           <ProtectedRoute>
@@ -174,7 +146,6 @@ const AppRoutes = () => {
         }
       >
         <Route path="/notifications" element={<Notifications />} />
-        {/* Other shared authenticated routes can go here */}
       </Route>
 
       {/* Patient Routes */}
@@ -230,7 +201,7 @@ const AppRoutes = () => {
         <Route path="inventory" element={<PharmacistInventory />} />
       </Route>
 
-      {/* Catch all - Redirect to appropriate dashboard or landing */}
+      {/* Catch-All Redirect */}
       <Route
         path="*"
         element={
@@ -242,21 +213,23 @@ const AppRoutes = () => {
         }
       />
     </Routes>
-
   );
 };
 
 function App() {
   useEffect(() => {
-    // Register the service worker...        (Note: Use Only in `Production`...)
-    if ('serviceWorker' in navigator && window.location.hostname !== "localhost") {
-      navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+    if (
+      "serviceWorker" in navigator &&
+      window.location.hostname !== "localhost"
+    ) {
+      navigator.serviceWorker
+        .register("/service-worker.js", { scope: "/" })
         .then((registration) => {
-          console.log('Service Worker registered with scope: ', registration.scope)
+          console.log("Service Worker registered with scope: ", registration.scope);
         })
         .catch((error) => {
-          console.error('Service Worker Registration failed: ', error)
-        })
+          console.error("Service Worker Registration failed: ", error);
+        });
     }
   }, []);
 
@@ -268,7 +241,7 @@ function App() {
             <div className="App bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
               <AppRoutes />
               <Toaster
-                position="bottom-right" // Change this to alter the position of the toast.
+                position="bottom-right"
                 toastOptions={{
                   duration: 4000,
                   style: {

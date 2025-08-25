@@ -19,12 +19,12 @@
   }
   html,
   body {
-    cursor: url("../public/cursors/custuomCursor.cur"), auto;
+    cursor: url("/cursors/custuomCursor.cur"), auto;
   }
 
   button,
   a {
-    cursor: url("../public/cursors/custompointer.cur"), pointer;
+    cursor: url("/cursors/custompointer.cur"), pointer;
   }
 
   /* Toast notification variables for dark mode support */

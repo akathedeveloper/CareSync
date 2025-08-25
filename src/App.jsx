@@ -23,7 +23,6 @@ import Prescriptions from "./components/patient/Prescriptions";
 import { AppointmentProvider } from "./contexts/AppointmentContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
-import FAQSection from "./components/FAQSection"; // ✅ Make sure this import is correct
 import HealthLogs from "./components/patient/HealthLogs";
 import Blog from "./pages/Blog";
 import Career from "./pages/Career1";
@@ -98,15 +97,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route
-        path="/"
-        element={
-          <>
-            <LandingPage />
-            <FAQSection /> {/* ✅ Added FAQSection here */}
-          </>
-        }
-      />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/cookie-policy" element={<CookiePolicy />} />
       <Route path="/feature" element={<Feature />} />

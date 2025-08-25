@@ -97,7 +97,14 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={<LandingPage />} />
+      <Route
+        path="/"
+        element={
+          <>
+            <LandingPage />
+          </>
+        }
+      />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/cookie-policy" element={<CookiePolicy />} />
       <Route path="/feature" element={<Feature />} />

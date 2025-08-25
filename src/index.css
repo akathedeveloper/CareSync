@@ -8,7 +8,7 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   /* Scroll offset for fixed navbar */
   section[id] {
     scroll-margin-top: 5rem;
@@ -16,6 +16,15 @@
 
   body {
     @apply text-gray-900 bg-gray-50 dark:text-gray-100 dark:bg-gray-950;
+  }
+  html,
+  body {
+    cursor: url("/cursors/custuomCursor.cur"), auto;
+  }
+
+  button,
+  a {
+    cursor: url("/cursors/custompointer.cur"), pointer;
   }
 
   /* Toast notification variables for dark mode support */

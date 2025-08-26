@@ -113,6 +113,41 @@ export default function Pricing() {
             to { opacity: 1; transform: translateY(0); }
           }
           .fade-in-custom { animation: fadeInCustom 0.5s ease forwards; }
+          
+          @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+          }
+          
+          .pricing-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+          }
+          
+          .pricing-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          }
+          
+          .pricing-card:hover .popular-badge {
+            animation: float 2s ease-in-out infinite;
+          }
+          
+          .feature-item {
+            transition: all 0.3s ease;
+          }
+          
+          .pricing-card:hover .feature-item {
+            transform: translateX(5px);
+          }
+          
+          .pricing-card:hover .feature-item:nth-child(2n) {
+            transition-delay: 0.1s;
+          }
+          
+          .pricing-card:hover .feature-item:nth-child(3n) {
+            transition-delay: 0.2s;
+          }
         `}
       </style>
 
@@ -139,13 +174,12 @@ export default function Pricing() {
               key={index}
               data-aos="zoom-in"
               data-aos-delay={index * 150}
-              className={`flex flex-col bg-white dark:bg-gray-800 rounded-2xl p-8 relative transform transition-transform duration-300 hover:rotate-x-2 hover:rotate-y-2 hover:scale-105 hover:shadow-xl dark:hover:shadow-gray-900/50 ${
+              className={`flex flex-col bg-white dark:bg-gray-800 rounded-2xl p-8 relative pricing-card ${
                 plan.popular ? "ring-2 ring-emerald-400 scale-105" : ""
               }`}
-              style={{ transformStyle: "preserve-3d" }}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 badge-bounce">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 badge-bounce popular-badge">
                   <span className="bg-emerald-400 text-white px-4 py-1 rounded-full text-sm font-medium shadow-md">
                     Most Popular
                   </span>
@@ -179,7 +213,7 @@ export default function Pricing() {
                 {plan.features.map((feature, idx) => (
                   <li
                     key={idx}
-                    className="flex items-center text-sm text-gray-600 dark:text-gray-300"
+                    className="flex items-center text-sm text-gray-600 dark:text-gray-300 feature-item"
                   >
                     <CheckIcon className="h-4 w-4 text-green-500 mr-3 tick-animate" />
                     {feature}

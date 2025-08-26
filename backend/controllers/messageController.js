@@ -1,6 +1,6 @@
-const Message = require('../models/Message');
-const Conversation = require('../models/Conversation');
-const {User} = require('../db/models/User.js');
+const Message = require('../db/models/Message');
+const Conversation = require('../db/models/Conversation');
+const {User} = require('../db/models/User');
 
 const getUserConversations = async (req, res) => {
   try {

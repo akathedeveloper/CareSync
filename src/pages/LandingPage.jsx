@@ -28,18 +28,61 @@ import StatsSection from "./StatsSection";
 import Pricing from "./PriceSection";
 import Testimonials from "./Testimonials";
 import Footer from "./Footer";
-import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
 import Navbar from "../components/common/Navbar";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
+import ScrollProgress from "../components/common/ScrollProgress";
+//Make the heading typewriter
+const HeadingTypewriter = () => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  const fullText = 'Healthcare Management Made Simple';
+  const managementStartIndex = 11; 
+  const managementEndIndex = 21; 
 
+  useEffect(() => {
+    const typeInterval = setInterval(() => {
+      if (currentIndex < fullText.length) {
+        setDisplayedText(fullText.slice(0, currentIndex + 1));
+        setCurrentIndex(currentIndex + 1);
+      } else {
+        clearInterval(typeInterval);
+      }
+    }, 70);
+
+    return () => clearInterval(typeInterval);
+  }, [currentIndex, fullText.length]);
+
+
+  const renderText = () => {
+    const beforeManagement = displayedText.slice(0, managementStartIndex);
+    const management = displayedText.slice(managementStartIndex, managementEndIndex);
+    const afterManagement = displayedText.slice(managementEndIndex);
+
+    return (
+      <>
+        {beforeManagement}
+        <span className="gradient-accent bg-clip-text text-transparent">
+          {management}
+        </span>
+        {afterManagement}
+      </>
+    );
+  };
+
+  return (
+    <h1 className="text-5xl lg:text-7xl font-black text-gray-900 dark:text-gray-100 leading-tight">
+      {renderText()}
+    </h1>
+  );
+};
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  
   const { user, loading } = useAuth();
 
   const handleScheduleDemoClick = () => {
@@ -65,6 +108,7 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
+      <ScrollProgress />
       <Navbar />
 
       {/* Professional Hero Section */}
@@ -87,15 +131,8 @@ const LandingPage = () => {
                 Trusted by 500+ Healthcare Providers
               </div>
 
-              <h1 className="text-5xl lg:text-7xl font-black text-gray-900 dark:text-gray-100 leading-tight">
-                Healthcare
-                <span className="gradient-accent bg-clip-text text-transparent">
-                  {" "}
-                  Management
-                </span>
-                <br />
-                Made Simple
-              </h1>
+               <HeadingTypewriter />
+
 
               <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed font-medium max-w-2xl">
                 Streamline patient care with our comprehensive healthcare
@@ -436,8 +473,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Contributor */}
-      <Contributor />
       
       {/* Contact Us */}
       <ContactUs />

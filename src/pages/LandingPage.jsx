@@ -394,16 +394,24 @@ const LandingPage = () => {
               )}
 
               {/* Subtle Decorative Elements */}
-              <div className="absolute -top-0 -left-10 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-4 rounded-2xl shadow-lg">
-                <HeartIcon className="h-8 w-8" />
-              </div>
+              <div className="flex items-center justify-center gap-6 mt-8 mb-6">
+                <div className="group relative">
+                  <div className="flex items-center justify-center bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <HeartIcon className="h-8 w-8" />
+                  </div>
+                </div>
 
-              <div className="absolute -bottom-0 -right-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-4 rounded-2xl shadow-lg">
-                <ShieldCheckIcon className="h-8 w-8" />
-              </div>
+                <div className="group relative">
+                  <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <ShieldCheckIcon className="h-8 w-8" />
+                  </div>
+                </div>
 
-              <div className="absolute top-1/2 -right-8 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 p-3 rounded-xl shadow-lg">
-                <ChartBarIcon className="h-6 w-6" />
+                <div className="group relative">
+                  <div className="flex items-center justify-center bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 p-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <ChartBarIcon className="h-8 w-8" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

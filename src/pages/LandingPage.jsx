@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import FAQSection from "./FAQSection";
 import {
   CheckIcon,
   StarIcon,
@@ -476,7 +477,7 @@ const LandingPage = () => {
       
       {/* Contact Us */}
       <ContactUs />
-      
+      <FAQSection />
       {/* Footer */}
       <Footer />
 

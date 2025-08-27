@@ -372,9 +372,13 @@ const AboutPage = () => {
               viewport={{ once: true }}
             >
               <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-300">
-                <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                  <HeartIcon className="h-8 w-8 text-white" />
-                </div>
+              <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mb-6">
+    <img
+      src="/CareSync-Logo.png"
+      alt="CareSync Logo"
+      className="h-10 w-10 object-contain"
+    />
+  </div>
                 <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Our Mission</h3>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   To democratize healthcare technology through open source collaboration, creating accessible tools that empower healthcare providers and improve patient outcomes worldwide.

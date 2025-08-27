@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const Message = require('../models/Message');
-const Conversation = require('../models/Conversation');
+const User = require('../db/models/User');
+const Message = require('../db/models/Message');
+const Conversation = require('../db/models/Conversation');
 
 const authenticateSocket = async (socket, next) => {
   try {

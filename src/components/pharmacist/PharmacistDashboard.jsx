@@ -24,12 +24,61 @@ const PharmacistDashboard = () => {
     { id: "RX003", patient: "Michael Brown", doctor: "Dr. Davis", medicines: ["Ibuprofen 400mg"], priority: "low", submittedAt: "6 hours ago" },
     { id: "RX004", patient: "Emily Johnson", doctor: "Dr. Wilson", medicines: ["Omeprazole 20mg", "Vitamin B12"], priority: "normal", submittedAt: "8 hours ago" },
   ];
+  const [pendingOrders, setPendingOrders] = useState([
+    {
+      id: "RX001",
+      patient: "John Doe",
+      doctor: "Dr. Smith",
+      medicines: ["Metformin 500mg", "Lisinopril 10mg"],
+      priority: "high",
+      submittedAt: "2 hours ago",
+      status: "pending"
+    },
+    {
+      id: "RX002",
+      patient: "Sarah Wilson",
+      doctor: "Dr. Johnson",
+      medicines: ["Vitamin D3", "Calcium tablets"],
+      priority: "normal",
+      submittedAt: "4 hours ago",
+      status: "pending"
+    },
+    {
+      id: "RX003",
+      patient: "Michael Brown",
+      doctor: "Dr. Davis",
+      medicines: ["Ibuprofen 400mg"],
+      priority: "low",
+      submittedAt: "6 hours ago",
+      status: "pending"
+    },
+    {
+      id: "RX004",
+      patient: "Emily Johnson",
+      doctor: "Dr. Wilson",
+      medicines: ["Omeprazole 20mg", "Vitamin B12"],
+      priority: "normal",
+      submittedAt: "8 hours ago",
+      status: "pending"
+    }
+  ]);
 
   const filteredPendingOrders = pendingOrders.filter(order =>
     order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
     order.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
     order.doctor.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Delete Confirmation Function
+  const handleDeleteOrder = (orderId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this prescription order?"
+    );
+    if (confirmDelete) {
+      setPendingOrders(prev => prev.filter(order => order.id !== orderId));
+      alert("Prescription order deleted successfully!");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
@@ -155,6 +204,13 @@ const PharmacistDashboard = () => {
                       </button>
                       <button className="px-6 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-lg hover:shadow-lg transition-all duration-300 font-semibold">
                         Process Order
+                      </button>
+                      {/* Delete Button */}
+                      <button
+                        onClick={() => handleDeleteOrder(order.id)}
+                        className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-semibold"
+                      >
+                        Delete Order
                       </button>
                     </div>
                   </div>

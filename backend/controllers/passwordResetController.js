@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const User = require('../models/User');
-const PasswordReset = require('../models/PasswordReset');
+const User = require('../db/models/User');
+const PasswordReset = require('../db/models/PasswordReset');
 const nodemailer = require('nodemailer');
 
 // Configure nodemailer (you should update with your email settings)

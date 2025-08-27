@@ -19,6 +19,18 @@ import {
   ArrowRight,
   Github,
 } from "lucide-react";
+import { 
+  Mail, 
+  Lock, 
+  Loader2, 
+  Eye, 
+  EyeOff, 
+  Home,
+  UserCheck 
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from "react-router-dom";
+
 
 // Enhanced Button component with dark/light mode
 const Button = ({ children, variant = "solid", size = "md", className = "", ...props }) => {
@@ -542,6 +554,26 @@ export default function Contributors() {
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/5 blur-[200px] rounded-full" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-20 py-24 relative z-10">
+          {/* Home Button */}
+      <motion.div
+        className="absolute top-6 left-6 z-20"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        <Link
+          to="/"
+          className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 dark:border-gray-700/50 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 group"
+        >
+          <motion.div
+            whileHover={{ x: -2 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <Home className="w-5 h-5" />
+          </motion.div>
+          <span className="font-medium text-sm">Home</span>
+        </Link>
+      </motion.div>
         {/* Header Section */}
         <div className="text-center mb-20">
           <a

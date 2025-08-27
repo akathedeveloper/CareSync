@@ -39,10 +39,10 @@ import ScrollProgress from "../components/common/ScrollProgress";
 const HeadingTypewriter = () => {
   const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const fullText = 'Healthcare Management Made Simple';
-  const managementStartIndex = 11; 
-  const managementEndIndex = 21; 
+  const managementStartIndex = 11;
+  const managementEndIndex = 21;
 
   useEffect(() => {
     const typeInterval = setInterval(() => {
@@ -132,7 +132,7 @@ const LandingPage = () => {
                 Trusted by 500+ Healthcare Providers
               </div>
 
-               <HeadingTypewriter />
+              <HeadingTypewriter />
 
 
               <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed font-medium max-w-2xl">
@@ -180,7 +180,7 @@ const LandingPage = () => {
                 ))}
               </div>
             </div>
-            
+
             {/* Right Column - Dashboard Preview */}
             <div className="relative p-4">
               {user ? (
@@ -242,9 +242,14 @@ const LandingPage = () => {
                   {/* Dashboard Header */}
                   <div className="flex items-center justify-between mb-3 pb-3 border-b border-gray-100 dark:border-gray-700">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
-                        <HeartIcon className="h-6 w-6 text-white" />
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                        <img
+                          src="/CareSync-Logo.png"
+                          alt="CareSync Logo"
+                          className="h-8 w-8 object-contain"
+                        />
                       </div>
+
                       <div>
                         <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
                           CareSync Dashboard
@@ -368,13 +373,12 @@ const LandingPage = () => {
                         </div>
                         <div className="text-right">
                           <span
-                            className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                              activity.status === "completed"
+                            className={`inline-block w-2 h-2 rounded-full mr-2 ${activity.status === "completed"
                                 ? "bg-green-500"
                                 : activity.status === "new"
-                                ? "bg-blue-500"
-                                : "bg-yellow-500"
-                            }`}
+                                  ? "bg-blue-500"
+                                  : "bg-yellow-500"
+                              }`}
                           />
                           <span className="text-xs text-gray-500 dark:text-gray-400">
                             {activity.time}
@@ -474,7 +478,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      
+         
       {/* Contact Us */}
       <ContactUs />
       <FAQSection />

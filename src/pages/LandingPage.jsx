@@ -477,14 +477,10 @@ const LandingPage = () => {
         </div>
       </section>
 
-
+         
       {/* Contact Us */}
       <ContactUs />
-
-
       <FAQSection />
-
-      
       {/* Footer */}
       <Footer />
 

@@ -481,6 +481,10 @@ const LandingPage = () => {
       {/* Contact Us */}
       <ContactUs />
 
+
+      <FAQSection />
+
+      
       {/* Footer */}
       <Footer />
 

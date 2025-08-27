@@ -84,12 +84,14 @@ export default function Footer() {
       <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Brand + Social (centered) */}
         <div className="flex flex-col items-center mb-10 space-y-4 text-center">
-          <div className="flex items-center justify-center">
-            <div className="flex items-center justify-center w-10 h-10 shadow-lg bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl">
-              <HeartIcon className="w-6 h-6 text-white" />
-            </div>
-            <span className="ml-2 text-xl font-bold">CareSync</span>
-          </div>
+        <div className="flex items-center justify-center">
+  <img
+    src="/CareSync-Logo.png"
+    alt="CareSync Logo"
+    className="h-12 object-contain"
+  />
+</div>
+
 
           <p className="max-w-md text-sm leading-relaxed text-gray-600 dark:text-gray-400">
             Revolutionizing healthcare through seamless collaboration between

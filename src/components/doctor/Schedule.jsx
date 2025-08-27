@@ -10,6 +10,18 @@ const statusColors = {
   rejected: "bg-red-500",
 };
 
+// 🔹 Reusable Button component
+const Button = ({ children, onClick, type = "button", className, disabled }) => (
+  <button
+    type={type}
+    onClick={onClick}
+    disabled={disabled}
+    className={`px-4 py-2 rounded-lg text-white font-semibold transition ${className}`}
+  >
+    {children}
+  </button>
+);
+
 const Schedule = () => {
   const { user } = useAuth();
   const {
@@ -21,7 +33,6 @@ const Schedule = () => {
 
   const [form, setForm] = useState({ patientName: "", date: "", time: "" });
 
-  // Doctor ke appointments
   const doctorAppointments = useMemo(() => {
     const now = new Date();
     return appointments
@@ -40,28 +51,20 @@ const Schedule = () => {
           patient,
           time,
           status,
-          isUpcoming:
-            aptDate >= now &&
-            status !== "Cancelled" &&
-            status !== "Rejected",
+          isUpcoming: aptDate >= now && status !== "Cancelled" && status !== "Rejected",
         };
       })
       .sort((a, b) => new Date(a.date) - new Date(b.date));
   }, [appointments, user.id]);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (form.patientName && form.date) {
       bookAppointment({
         doctorId: user.id,
-        patient: {
-          name: form.patientName,
-          email: `${form.patientName}@demo.com`,
-        },
+        patient: { name: form.patientName, email: `${form.patientName}@demo.com` },
         date: form.date,
         time: form.time || "09:00",
       });
@@ -69,9 +72,7 @@ const Schedule = () => {
     }
   };
 
-  const getStatusClass = (status) => {
-    return statusColors[status.toLowerCase()] || "bg-gray-500";
-  };
+  const getStatusClass = (status) => statusColors[status.toLowerCase()] || "bg-gray-500";
 
   const AppointmentCard = ({ apt }) => (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden relative flex flex-col justify-between transition hover:scale-[1.02] duration-200">
@@ -105,27 +106,27 @@ const Schedule = () => {
           <div className="flex gap-2">
             {apt.status === "Pending" && (
               <>
-                <button
+                <Button
                   onClick={() => updateAppointmentStatus(apt.id, "Confirmed")}
-                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                  className="bg-green-500 hover:bg-green-600"
                 >
                   Accept
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => updateAppointmentStatus(apt.id, "Rejected")}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                  className="bg-red-500 hover:bg-red-600"
                 >
                   Reject
-                </button>
+                </Button>
               </>
             )}
             {apt.status === "Confirmed" && apt.isUpcoming && (
-              <button
+              <Button
                 onClick={() => cancelAppointment(apt.id)}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                className="bg-red-500 hover:bg-red-600"
               >
                 Cancel
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -170,19 +171,14 @@ const Schedule = () => {
           onChange={handleChange}
           className="border border-blue-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        <button
-          type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition"
-        >
+        <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
           Add Appointment
-        </button>
+        </Button>
       </form>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {doctorAppointments.length > 0 ? (
-          doctorAppointments.map((apt) => (
-            <AppointmentCard key={apt.id} apt={apt} />
-          ))
+          doctorAppointments.map((apt) => <AppointmentCard key={apt.id} apt={apt} />)
         ) : (
           <p className="text-center text-gray-500 dark:text-gray-400 col-span-full">
             You have no appointments.

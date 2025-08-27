@@ -1,86 +1,28 @@
 // src/components/pharmacist/PharmacistDashboard.jsx
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { 
   ClipboardDocumentListIcon, 
   CheckCircleIcon, 
   ClockIcon,
   TruckIcon,
-  MagnifyingGlassIcon,
-  ExclamationTriangleIcon
+  MagnifyingGlassIcon
 } from '@heroicons/react/24/outline';
 
 const PharmacistDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const stats = [
-    {
-      name: "Pending Orders",
-      value: "12",
-      icon: ClockIcon,
-      color: "text-yellow-600 dark:text-yellow-400",
-      bgColor: "bg-yellow-100 dark:bg-yellow-900/30",
-    },
-    {
-      name: "Completed Today",
-      value: "28",
-      icon: CheckCircleIcon,
-      color: "text-green-600 dark:text-green-400",
-      bgColor: "bg-green-100 dark:bg-green-900/30",
-    },
-    {
-      name: "Total Prescriptions",
-      value: "156",
-      icon: ClipboardDocumentListIcon,
-      color: "text-blue-600 dark:text-blue-400",
-      bgColor: "bg-blue-100 dark:bg-blue-900/30",
-    },
-    {
-      name: "Out for Delivery",
-      value: "8",
-      icon: TruckIcon,
-      color: "text-purple-600 dark:text-purple-400",
-      bgColor: "bg-purple-100 dark:bg-purple-900/30",
-    },
+    { name: "Pending Orders", value: "12", icon: ClockIcon, color: "text-yellow-600 dark:text-yellow-400", bgColor: "bg-yellow-100 dark:bg-yellow-900/30" },
+    { name: "Completed Today", value: "28", icon: CheckCircleIcon, color: "text-green-600 dark:text-green-400", bgColor: "bg-green-100 dark:bg-green-900/30" },
+    { name: "Total Prescriptions", value: "156", icon: ClipboardDocumentListIcon, color: "text-blue-600 dark:text-blue-400", bgColor: "bg-blue-100 dark:bg-blue-900/30" },
+    { name: "Out for Delivery", value: "8", icon: TruckIcon, color: "text-purple-600 dark:text-purple-400", bgColor: "bg-purple-100 dark:bg-purple-900/30" },
   ];
 
   const pendingOrders = [
-    {
-      id: "RX001",
-      patient: "John Doe",
-      doctor: "Dr. Smith",
-      medicines: ["Metformin 500mg", "Lisinopril 10mg"],
-      priority: "high",
-      submittedAt: "2 hours ago",
-      status: "pending"
-    },
-    {
-      id: "RX002",
-      patient: "Sarah Wilson",
-      doctor: "Dr. Johnson",
-      medicines: ["Vitamin D3", "Calcium tablets"],
-      priority: "normal",
-      submittedAt: "4 hours ago",
-      status: "pending"
-    },
-    {
-      id: "RX003",
-      patient: "Michael Brown",
-      doctor: "Dr. Davis",
-      medicines: ["Ibuprofen 400mg"],
-      priority: "low",
-      submittedAt: "6 hours ago",
-      status: "pending"
-    },
-    {
-      id: "RX004",
-      patient: "Emily Johnson",
-      doctor: "Dr. Wilson",
-      medicines: ["Omeprazole 20mg", "Vitamin B12"],
-      priority: "normal",
-      submittedAt: "8 hours ago",
-      status: "pending"
-    }
+    { id: "RX001", patient: "John Doe", doctor: "Dr. Smith", medicines: ["Metformin 500mg", "Lisinopril 10mg"], priority: "high", submittedAt: "2 hours ago" },
+    { id: "RX002", patient: "Sarah Wilson", doctor: "Dr. Johnson", medicines: ["Vitamin D3", "Calcium tablets"], priority: "normal", submittedAt: "4 hours ago" },
+    { id: "RX003", patient: "Michael Brown", doctor: "Dr. Davis", medicines: ["Ibuprofen 400mg"], priority: "low", submittedAt: "6 hours ago" },
+    { id: "RX004", patient: "Emily Johnson", doctor: "Dr. Wilson", medicines: ["Omeprazole 20mg", "Vitamin B12"], priority: "normal", submittedAt: "8 hours ago" },
   ];
 
   const filteredPendingOrders = pendingOrders.filter(order =>
@@ -113,12 +55,8 @@ const PharmacistDashboard = () => {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    {stat.name}
-                  </p>
-                  <p className="text-3xl font-black text-gray-900 dark:text-gray-100 mt-2">
-                    {stat.value}
-                  </p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.name}</p>
+                  <p className="text-3xl font-black text-gray-900 dark:text-gray-100 mt-2">{stat.value}</p>
                 </div>
                 <div className={`p-4 rounded-2xl ${stat.bgColor}`}>
                   <stat.icon className={`h-7 w-7 ${stat.color}`} />
@@ -133,12 +71,8 @@ const PharmacistDashboard = () => {
           <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                  Pending Prescription Orders
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mt-1">
-                  {filteredPendingOrders.length} orders awaiting processing
-                </p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Pending Prescription Orders</h3>
+                <p className="text-gray-600 dark:text-gray-400 mt-1">{filteredPendingOrders.length} orders awaiting processing</p>
               </div>
               <button className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 text-sm font-semibold">
                 View All Orders
@@ -183,42 +117,26 @@ const PharmacistDashboard = () => {
                           {order.priority.toUpperCase()} PRIORITY
                         </span>
                       </div>
-                      <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                        {order.submittedAt}
-                      </span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">{order.submittedAt}</span>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
                       <div>
-                        <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
-                          Patient
-                        </p>
-                        <p className="text-gray-900 dark:text-gray-100 font-medium">
-                          {order.patient}
-                        </p>
+                        <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">Patient</p>
+                        <p className="text-gray-900 dark:text-gray-100 font-medium">{order.patient}</p>
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
-                          Prescribed by
-                        </p>
-                        <p className="text-gray-900 dark:text-gray-100 font-medium">
-                          {order.doctor}
-                        </p>
+                        <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">Prescribed by</p>
+                        <p className="text-gray-900 dark:text-gray-100 font-medium">{order.doctor}</p>
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
-                          Items
-                        </p>
-                        <p className="text-gray-900 dark:text-gray-100 font-medium">
-                          {order.medicines.length} medicines
-                        </p>
+                        <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">Items</p>
+                        <p className="text-gray-900 dark:text-gray-100 font-medium">{order.medicines.length} medicines</p>
                       </div>
                     </div>
 
                     <div className="mb-6">
-                      <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">
-                        Prescribed Medicines:
-                      </p>
+                      <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">Prescribed Medicines:</p>
                       <div className="flex flex-wrap gap-2">
                         {order.medicines.map((medicine, index) => (
                           <span

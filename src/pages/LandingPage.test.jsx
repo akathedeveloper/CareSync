@@ -11,6 +11,13 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import LandingPage from "./LandingPage";
 
+{
+  /*
+    Test Files  1 passed (1)
+    Tests  33 passed (33)
+*/
+}
+
 // Mocks
 const mockAuthContext = {
   user: null,

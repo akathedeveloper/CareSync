@@ -52,8 +52,8 @@ export default function Pricing() {
     },
   ];
 
-  // ✅ Fixed: Type allows both number & string
-  const [displayPrices, setDisplayPrices] = useState<(number | string)[]>(
+  // State allows both number & string
+  const [displayPrices, setDisplayPrices] = useState(
     plans.map(() => 0)
   );
 

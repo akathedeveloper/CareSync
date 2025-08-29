@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useAppointments } from "../../contexts/AppointmentContext";
 import { useAuth } from "../../contexts/AuthContext";
@@ -10,7 +9,7 @@ const statusColors = {
 
 const Patients = () => {
   const { user } = useAuth();
-  const { appointments } = useAppointments();
+  const { appointments, deleteAppointment } = useAppointments(); // deleteAppointment function
 
   // Doctor ke active appointments se unique patients nikaal lo
   const doctorAppointments = appointments.filter(
@@ -27,10 +26,21 @@ const Patients = () => {
         ...apt.patient,
         status: apt.status,
         date: apt.date,
+        appointmentId: apt.id, // delete karne ke liye id chahiye
       };
     }
   });
   const patients = Object.values(patientsMap);
+
+  const handleDelete = (appointmentId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this patient record?"
+    );
+    if (confirmDelete) {
+      deleteAppointment(appointmentId); // delete function call
+      alert("Patient record deleted successfully!");
+    }
+  };
 
   return (
     <div className="p-8 bg-gradient-to-b from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-lg min-h-screen">
@@ -67,6 +77,14 @@ const Patients = () => {
               <div className="text-gray-700 dark:text-gray-300">
                 <strong>Next Appointment:</strong> {patient.date}
               </div>
+
+              {/* Delete Button */}
+              <button
+                onClick={() => handleDelete(patient.appointmentId)}
+                className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+              >
+                Delete Record
+              </button>
             </div>
           ))
         ) : (

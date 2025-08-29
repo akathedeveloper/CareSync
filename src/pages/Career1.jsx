@@ -50,15 +50,26 @@ export default function Career() {
     },
   ];
 
+  // Reusable Button component inside this file
+  const Button = ({ children, onClick, className = "" }) => (
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      onClick={onClick}
+      className={`inline-block px-4 py-2 bg-green-600 text-white rounded-xl shadow hover:bg-green-700 transition ${className}`}
+    >
+      {children}
+    </motion.button>
+  );
+
   return (
     <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 min-h-screen py-16 px-6 lg:px-20">
       {/* Back Button */}
-      <button
+      <Button
         onClick={() => navigate(-1)}
-        className="absolute top-6 left-6 flex items-center gap-2 text-green-700 dark:text-green-300 font-medium hover:scale-105 transition-transform"
+        className="absolute top-6 left-6 flex items-center gap-2 text-green-700 dark:text-green-300 bg-transparent shadow-none hover:scale-105"
       >
         <ArrowLeft size={20} /> Back
-      </button>
+      </Button>
 
       {/* Heading */}
       <h1 className="text-4xl font-bold text-center text-green-900 dark:text-green-100 mb-12">
@@ -82,10 +93,7 @@ export default function Career() {
             >
               {career.title}
             </motion.h2>
-            <motion.p
-              layout
-              className="text-gray-600 dark:text-gray-300 mt-2"
-            >
+            <motion.p layout className="text-gray-600 dark:text-gray-300 mt-2">
               {career.description}
             </motion.p>
 
@@ -103,12 +111,15 @@ export default function Career() {
               )}
             </AnimatePresence>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              className="mt-4 inline-block px-4 py-2 bg-green-600 text-white rounded-xl shadow hover:bg-green-700 transition"
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                setExpandedCard(expandedCard === career.id ? null : career.id);
+              }}
+              className="mt-4"
             >
               {expandedCard === career.id ? "Show Less" : "Learn More"}
-            </motion.button>
+            </Button>
           </motion.div>
         ))}
       </div>

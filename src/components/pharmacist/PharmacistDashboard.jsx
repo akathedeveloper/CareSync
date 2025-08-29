@@ -18,12 +18,6 @@ const PharmacistDashboard = () => {
     { name: "Out for Delivery", value: "8", icon: TruckIcon, color: "text-purple-600 dark:text-purple-400", bgColor: "bg-purple-100 dark:bg-purple-900/30" },
   ];
 
-  const pendingOrders = [
-    { id: "RX001", patient: "John Doe", doctor: "Dr. Smith", medicines: ["Metformin 500mg", "Lisinopril 10mg"], priority: "high", submittedAt: "2 hours ago" },
-    { id: "RX002", patient: "Sarah Wilson", doctor: "Dr. Johnson", medicines: ["Vitamin D3", "Calcium tablets"], priority: "normal", submittedAt: "4 hours ago" },
-    { id: "RX003", patient: "Michael Brown", doctor: "Dr. Davis", medicines: ["Ibuprofen 400mg"], priority: "low", submittedAt: "6 hours ago" },
-    { id: "RX004", patient: "Emily Johnson", doctor: "Dr. Wilson", medicines: ["Omeprazole 20mg", "Vitamin B12"], priority: "normal", submittedAt: "8 hours ago" },
-  ];
   const [pendingOrders, setPendingOrders] = useState([
     {
       id: "RX001",

@@ -88,7 +88,7 @@ export default function Footer() {
             <img
               src="/CareSync-Logo.png"
               alt="CareSync Logo"
-              className="h-12 object-contain"
+              className="object-contain h-12"
             />
           </div>
 

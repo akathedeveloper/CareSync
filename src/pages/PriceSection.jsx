@@ -52,14 +52,7 @@ export default function Pricing() {
     },
   ];
 
-<<<<<<< HEAD
   const [displayPrices, setDisplayPrices] = useState(plans.map(() => 0));
-=======
-  // State allows both number & string
-  const [displayPrices, setDisplayPrices] = useState(
-    plans.map(() => 0)
-  );
->>>>>>> upstream/main
 
   // Price counting animation
   useEffect(() => {

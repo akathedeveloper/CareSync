@@ -52,10 +52,7 @@ export default function Pricing() {
     },
   ];
 
-  // ✅ Fixed: Type allows both number & string
-  const [displayPrices, setDisplayPrices] = useState<(number | string)[]>(
-    plans.map(() => 0)
-  );
+  const [displayPrices, setDisplayPrices] = useState(plans.map(() => 0));
 
   // Price counting animation
   useEffect(() => {
@@ -79,7 +76,7 @@ export default function Pricing() {
             updated[i] = "Custom";
             return updated;
           });
-        }, 500); // delay for smooth fade-in
+        }, 500);
       }
     });
   }, []);

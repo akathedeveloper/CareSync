@@ -81,7 +81,7 @@ const LicensePage = () => {
     <div className="min-h-screen bg-white dark:bg-gray-950">
       {/* Navigation Spacer */}
       <div className="pt-16"></div>
-      <Navbar/>
+      <Navbar />
 
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 overflow-hidden">
@@ -164,14 +164,20 @@ const LicensePage = () => {
             {licenseTypes.map((license, index) => (
               <div key={index} className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-shadow duration-300">
                 <div className="text-center">
-                  <div className="w-16 h-16 gradient-accent rounded-2xl flex items-center justify-center mx-auto mb-6">
-                    <HeartIcon className="h-8 w-8 text-white" />
-                  </div>
-                  
+                <div className="w-24 h-24 rounded-2xl flex items-center justify-center mx-auto mb-6">
+  <img
+    src="/CareSync-Logo.png"
+    alt="CareSync Logo"
+    className="h-14 w-14 object-contain"
+  />
+</div>
+
+
+
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">
                     {license.name}
                   </h3>
-                  
+
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
                     {license.description}
                   </p>
@@ -215,16 +221,14 @@ const LicensePage = () => {
             {licenseTerms.map((term, index) => (
               <div key={index} className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700">
                 <div className="flex items-start space-x-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    term.type === 'allowed' 
-                      ? 'bg-emerald-100 dark:bg-emerald-900/30' 
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${term.type === 'allowed'
+                      ? 'bg-emerald-100 dark:bg-emerald-900/30'
                       : 'bg-red-100 dark:bg-red-900/30'
-                  }`}>
-                    <term.icon className={`h-6 w-6 ${
-                      term.type === 'allowed' 
-                        ? 'text-emerald-600 dark:text-emerald-400' 
+                    }`}>
+                    <term.icon className={`h-6 w-6 ${term.type === 'allowed'
+                        ? 'text-emerald-600 dark:text-emerald-400'
                         : 'text-red-600 dark:text-red-400'
-                    }`} />
+                      }`} />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">
@@ -264,8 +268,8 @@ const LicensePage = () => {
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">1. Grant of License</h3>
                   <p>
-                    Subject to the terms and conditions of this Agreement, CareSync Inc. grants you a non-exclusive, 
-                    non-transferable license to use the CareSync healthcare management platform in accordance with 
+                    Subject to the terms and conditions of this Agreement, CareSync Inc. grants you a non-exclusive,
+                    non-transferable license to use the CareSync healthcare management platform in accordance with
                     your subscription plan and applicable healthcare regulations.
                   </p>
                 </div>
@@ -273,8 +277,8 @@ const LicensePage = () => {
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">2. Healthcare Compliance</h3>
                   <p>
-                    This software is designed to comply with HIPAA, GDPR, and other applicable healthcare data 
-                    protection regulations. Users are responsible for implementing proper safeguards and following 
+                    This software is designed to comply with HIPAA, GDPR, and other applicable healthcare data
+                    protection regulations. Users are responsible for implementing proper safeguards and following
                     best practices for patient data protection.
                   </p>
                 </div>
@@ -282,8 +286,8 @@ const LicensePage = () => {
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">3. Permitted Uses</h3>
                   <p>
-                    You may use this software for legitimate healthcare operations including patient management, 
-                    appointment scheduling, prescription management, and healthcare analytics within your licensed 
+                    You may use this software for legitimate healthcare operations including patient management,
+                    appointment scheduling, prescription management, and healthcare analytics within your licensed
                     organization.
                   </p>
                 </div>
@@ -291,7 +295,7 @@ const LicensePage = () => {
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">4. Restrictions</h3>
                   <p>
-                    You may not redistribute, sublicense, reverse engineer, or use the software for any unlawful 
+                    You may not redistribute, sublicense, reverse engineer, or use the software for any unlawful
                     purposes. Commercial redistribution requires separate licensing agreements.
                   </p>
                 </div>
@@ -299,7 +303,7 @@ const LicensePage = () => {
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">5. Data Ownership</h3>
                   <p>
-                    You retain full ownership of all healthcare data entered into the system. CareSync provides 
+                    You retain full ownership of all healthcare data entered into the system. CareSync provides
                     data export capabilities to ensure you can access your data at any time.
                   </p>
                 </div>
@@ -307,7 +311,7 @@ const LicensePage = () => {
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">6. Support and Updates</h3>
                   <p>
-                    Licensed users receive software updates, security patches, and technical support according to 
+                    Licensed users receive software updates, security patches, and technical support according to
                     their subscription plan. Critical security updates are provided to all users regardless of plan.
                   </p>
                 </div>
@@ -323,8 +327,8 @@ const LicensePage = () => {
                     Important Legal Notice
                   </h4>
                   <p className="text-blue-800 dark:text-blue-200 text-sm leading-relaxed">
-                    This is a simplified version of our license agreement. The complete legal document 
-                    contains additional terms and conditions. By using CareSync, you agree to be bound 
+                    This is a simplified version of our license agreement. The complete legal document
+                    contains additional terms and conditions. By using CareSync, you agree to be bound
                     by the full license agreement available in your account dashboard.
                   </p>
                 </div>
@@ -357,7 +361,7 @@ const LicensePage = () => {
       </section>
 
       {/* Footer Spacer */}
-      <Footer/>
+      <Footer />
     </div>
   );
 };

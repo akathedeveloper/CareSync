@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { 
-  HeartIcon, 
-  UserGroupIcon, 
-  ShieldCheckIcon, 
-  LightBulbIcon, 
-  GlobeAltIcon, 
+import {
+  HeartIcon,
+  UserGroupIcon,
+  ShieldCheckIcon,
+  LightBulbIcon,
+  GlobeAltIcon,
   CodeBracketIcon,
   StarIcon,
   CheckCircleIcon,
@@ -115,9 +115,9 @@ const AboutPage = () => {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
+    visible: {
+      opacity: 1,
+      y: 0,
       transition: { duration: 0.6, ease: "easeOut" }
     }
   };
@@ -260,28 +260,28 @@ const AboutPage = () => {
       <section className="relative py-24 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 overflow-hidden pt-20">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <motion.div 
+          <motion.div
             className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-400/20 to-teal-400/20 dark:from-emerald-400/10 dark:to-teal-400/10 rounded-full blur-3xl"
-            animate={{ 
+            animate={{
               scale: [1, 1.2, 1],
-              rotate: [0, 180, 360] 
+              rotate: [0, 180, 360]
             }}
-            transition={{ 
-              duration: 20, 
-              repeat: Infinity, 
-              ease: "linear" 
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
             }}
           />
-          <motion.div 
+          <motion.div
             className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-teal-400/20 to-blue-400/20 dark:from-teal-400/10 dark:to-blue-400/10 rounded-full blur-3xl"
-            animate={{ 
+            animate={{
               scale: [1.2, 1, 1.2],
-              rotate: [360, 180, 0] 
+              rotate: [360, 180, 0]
             }}
-            transition={{ 
-              duration: 25, 
-              repeat: Infinity, 
-              ease: "linear" 
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear"
             }}
           />
         </div>
@@ -293,14 +293,14 @@ const AboutPage = () => {
             variants={containerVariants}
             className="text-center"
           >
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="inline-flex items-center bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 text-emerald-700 dark:text-emerald-300 px-6 py-3 rounded-full text-sm font-semibold shadow-sm mb-8"
             >
               🏥 Open Source Healthcare • GSSoC'25 Project
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               variants={itemVariants}
               className="text-5xl lg:text-7xl font-black text-gray-900 dark:text-gray-100 leading-tight mb-8"
             >
@@ -310,14 +310,14 @@ const AboutPage = () => {
               </span>
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               variants={itemVariants}
               className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-4xl mx-auto mb-12 font-medium"
             >
               An open source healthcare management platform built collaboratively by developers worldwide through GSSoC'25, connecting patients, doctors, and pharmacies with transparent, secure technology.
             </motion.p>
 
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-8 text-base text-gray-600 dark:text-gray-400"
             >
@@ -329,7 +329,7 @@ const AboutPage = () => {
               ))}
             </motion.div>
 
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
             >
@@ -342,11 +342,11 @@ const AboutPage = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
                 </svg>
                 View on GitHub
               </motion.a>
-              
+
               <motion.Link
                 to="/register"
                 className="inline-flex items-center gradient-accent text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
@@ -373,7 +373,11 @@ const AboutPage = () => {
             >
               <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-300">
                 <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                  <HeartIcon className="h-8 w-8 text-white" />
+                  <img
+                    src="/CareSync-Logo.png"
+                    alt="CareSync Logo"
+                    className="h-10 w-10 object-contain"
+                  />
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Our Mission</h3>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -415,13 +419,13 @@ const AboutPage = () => {
             variants={containerVariants}
             className="text-center mb-16"
           >
-            <motion.h2 
+            <motion.h2
               variants={itemVariants}
               className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4"
             >
               Our Core Values
             </motion.h2>
-            <motion.p 
+            <motion.p
               variants={itemVariants}
               className="text-xl text-gray-600 dark:text-gray-300"
             >
@@ -468,13 +472,13 @@ const AboutPage = () => {
             variants={containerVariants}
             className="text-center mb-16"
           >
-            <motion.h2 
+            <motion.h2
               variants={itemVariants}
               className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4"
             >
               Our Community
             </motion.h2>
-            <motion.p 
+            <motion.p
               variants={itemVariants}
               className="text-xl text-gray-600 dark:text-gray-300"
             >
@@ -553,13 +557,13 @@ const AboutPage = () => {
             variants={containerVariants}
             className="text-center mb-16"
           >
-            <motion.h2 
+            <motion.h2
               variants={itemVariants}
               className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4"
             >
               Project Timeline
             </motion.h2>
-            <motion.p 
+            <motion.p
               variants={itemVariants}
               className="text-xl text-gray-600 dark:text-gray-300"
             >
@@ -569,7 +573,7 @@ const AboutPage = () => {
 
           <div className="relative">
             <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-emerald-500 to-teal-500 rounded-full"></div>
-            
+
             <div className="space-y-12">
               {milestones.map((milestone, index) => (
                 <motion.div
@@ -578,9 +582,8 @@ const AboutPage = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.2 }}
                   viewport={{ once: true }}
-                  className={`relative flex items-center ${
-                    index % 2 === 0 ? 'justify-start' : 'justify-end'
-                  }`}
+                  className={`relative flex items-center ${index % 2 === 0 ? 'justify-start' : 'justify-end'
+                    }`}
                 >
                   <div className={`w-full lg:w-5/12 ${index % 2 === 0 ? 'lg:pr-16' : 'lg:pl-16'}`}>
                     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-shadow duration-300">
@@ -597,7 +600,7 @@ const AboutPage = () => {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full border-4 border-white dark:border-gray-950 shadow-lg"></div>
                 </motion.div>
               ))}
@@ -609,15 +612,15 @@ const AboutPage = () => {
       {/* Contribution CTA Section */}
       <section className="py-20 bg-gradient-to-br from-emerald-500 via-teal-600 to-blue-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/10" />
-        <motion.div 
+        <motion.div
           className="absolute inset-0 opacity-20"
-          animate={{ 
+          animate={{
             backgroundPosition: ['0% 0%', '100% 100%'],
           }}
-          transition={{ 
-            duration: 20, 
-            repeat: Infinity, 
-            repeatType: "reverse" 
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            repeatType: "reverse"
           }}
         >
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-y-12" />
@@ -630,20 +633,20 @@ const AboutPage = () => {
             viewport={{ once: true }}
             variants={containerVariants}
           >
-            <motion.h2 
+            <motion.h2
               variants={itemVariants}
               className="text-4xl lg:text-5xl font-black text-white mb-8"
             >
               Ready to Contribute to Open Source Healthcare?
             </motion.h2>
-            <motion.p 
+            <motion.p
               variants={itemVariants}
               className="text-xl lg:text-2xl text-white/90 mb-12 font-medium leading-relaxed max-w-3xl mx-auto"
             >
               Join our growing community of developers, designers, and healthcare professionals building the future of healthcare technology together.
             </motion.p>
 
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="flex flex-col sm:flex-row gap-6 justify-center mb-8"
             >
@@ -657,7 +660,7 @@ const AboutPage = () => {
               >
                 Start Contributing
               </motion.a>
-              
+
               <motion.Link
                 to="/register"
                 className="border-2 border-white text-white px-10 py-4 rounded-xl hover:bg-white hover:text-emerald-600 transition-all duration-300 font-bold text-lg backdrop-blur-sm"
@@ -668,7 +671,7 @@ const AboutPage = () => {
               </motion.Link>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-12 text-white/80 font-medium"
             >
@@ -688,7 +691,7 @@ const AboutPage = () => {
           </motion.div>
         </div>
       </section>
-      
+
       <Footer />
     </div>
   );

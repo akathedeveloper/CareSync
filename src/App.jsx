@@ -41,6 +41,7 @@ import GDPRCompliance from "./pages/GDPRCompliance";
 import TermsOfServices from "./pages/TermsOfServices";
 import LicensePage from "./pages/License";
 import Contributors from "./components/common/Contributor";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
@@ -131,6 +132,14 @@ const AppRoutes = () => {
         element={
           <PublicRoute authOnly={true}>
             <Register />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/forgot-password"
+        element={
+          <PublicRoute authOnly={true}>
+            <ForgotPassword />
           </PublicRoute>
         }
       />
@@ -250,7 +259,7 @@ function App() {
                     border: "1px solid var(--toast-border, #e5e7eb)",
                   },
                   success: {
-                    iconTheme: {
+                    iconTheme: {  
                       primary: "#10b981",
                       secondary: "#fff",
                     },

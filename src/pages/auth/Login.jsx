@@ -11,6 +11,8 @@ import {
   UserCheck 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Navbar from '../../components/common/Navbar';
+import Footer from '../Footer';
 
 const Login = () => {
   const { login, loginWithGoogle } = useAuth();
@@ -99,8 +101,9 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      
+    <>
+    <Navbar/>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated background decorative elements */}
       <motion.div 
         className="absolute top-10 left-10 w-20 h-20 bg-emerald-200/20 dark:bg-emerald-400/10 rounded-full"
@@ -126,26 +129,6 @@ const Login = () => {
         style={{ animationDelay: '1.5s' }}
       />
 
-      {/* Home Button */}
-      <motion.div
-        className="absolute top-6 left-6 z-20"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        <Link
-          to="/"
-          className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 dark:border-gray-700/50 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 group"
-        >
-          <motion.div
-            whileHover={{ x: -2 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Home className="w-5 h-5" />
-          </motion.div>
-          <span className="font-medium text-sm">Home</span>
-        </Link>
-      </motion.div>
 
       {/* Main Login Card */}
       <motion.div
@@ -388,6 +371,8 @@ const Login = () => {
         </form>
       </motion.div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

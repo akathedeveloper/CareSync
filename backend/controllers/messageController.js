@@ -1,10 +1,10 @@
 const Message = require('../db/models/Message');
 const Conversation = require('../db/models/Conversation');
-<<<<<<< HEAD
-const {User} = require('../db/models/User');
-=======
-const {User} = require('../db/models/User.js');
->>>>>>> upstream/main
+
+const getMessages = async (req, res) => {
+    res.json({ message: "Messages from branch" });
+}
+
 
 const getUserConversations = async (req, res) => {
   try {

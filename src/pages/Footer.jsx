@@ -115,7 +115,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-500"
             >
-              <i className="fa-brands fa-linkedin text-gray-700 dark:text-white"></i>
+              <i className="text-gray-700 fa-brands fa-linkedin dark:text-white"></i>
             </a>
             <a
             href="https://twitter.com/"
@@ -123,7 +123,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-sky-400"
             >
-              <i className="fa-brands fa-twitter text-gray-700 dark:text-white"></i>
+              <i className="text-gray-700 fa-brands fa-twitter dark:text-white"></i>
             </a>
             <a
             href="https://facebook.com/"
@@ -131,7 +131,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-600"
             >
-              <i className="fa-brands fa-facebook text-gray-700 dark:text-white"></i>
+              <i className="text-gray-700 fa-brands fa-facebook dark:text-white"></i>
             </a>
             <a
               href="/privacy-policy"

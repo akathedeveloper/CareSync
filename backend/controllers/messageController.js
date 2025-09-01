@@ -1,5 +1,6 @@
 const Message = require('../db/models/Message');
 const Conversation = require('../db/models/Conversation');
+
 const getMessages = async (req, res) => {
     res.json({ message: "Messages from branch" });
 }

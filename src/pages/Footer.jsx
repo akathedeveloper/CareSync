@@ -13,48 +13,48 @@ export default function Footer() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
- const linkSections = [
-  {
-    title: "Product",
-    links: [
-      { name: "Features", href: "/feature", isRoute: true },
-      { name: "Pricing", href: "#pricing", isRoute: false },
-      { name: "API Documentation", href: "#", isRoute: false },
-      { name: "Integrations", href: "#", isRoute: false },
-      { name: "Security", href: "#", isRoute: false },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { name: "About Us", href: "/about", isRoute: true },
-      { name: "Careers", href: "/career", isRoute: true },
-      { name: "Press", href: "#", isRoute: false },
-      { name: "Partners", href: "#", isRoute: false },
-      { name: "Contact", href: "/contact", isRoute: true },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { name: "Blog", href: "/blog", isRoute: true },
-      { name: "Help Center", href: "#", isRoute: false },
-      { name: "Community", href: "#", isRoute: false },
-      { name: "Webinars", href: "#", isRoute: false },
-      { name: "Status", href: "#", isRoute: false },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { name: "Privacy Policy", href: "/privacy-policy", isRoute: true },
-      { name: "Terms of Service", href: "/terms ", isRoute: true }, // only if you create this route
-      { name: "Cookie Policy", href: "/cookie-policy", isRoute: true },
-      { name: "GDPR Compliance", href: "/gdpr-compliance", isRoute: true },
-      { name: "Licenses", href: "/license", isRoute: true },
-    ],
-  },
-];
+  const linkSections = [
+    {
+      title: "Product",
+      links: [
+        { name: "Features", href: "/feature", isRoute: true },
+        { name: "Pricing", href: "#pricing", isRoute: false },
+        { name: "API Documentation", href: "#", isRoute: false },
+        { name: "Integrations", href: "#", isRoute: false },
+        { name: "Security", href: "#", isRoute: false },
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { name: "About Us", href: "/about", isRoute: true },
+        { name: "Careers", href: "/career", isRoute: true },
+        { name: "Press", href: "#", isRoute: false },
+        { name: "Partners", href: "#", isRoute: false },
+        { name: "Contact", href: "/contact", isRoute: true },
+      ],
+    },
+    {
+      title: "Resources",
+      links: [
+        { name: "Blog", href: "/blog", isRoute: true },
+        { name: "Help Center", href: "#", isRoute: false },
+        { name: "Community", href: "#", isRoute: false },
+        { name: "Webinars", href: "#", isRoute: false },
+        { name: "Status", href: "#", isRoute: false },
+      ],
+    },
+    {
+      title: "Legal",
+      links: [
+        { name: "Privacy Policy", href: "/privacy-policy", isRoute: true },
+        { name: "Terms of Service", href: "/terms ", isRoute: true }, // only if you create this route
+        { name: "Cookie Policy", href: "/cookie-policy", isRoute: true },
+        { name: "GDPR Compliance", href: "/gdpr-compliance", isRoute: true },
+        { name: "Licenses", href: "/license", isRoute: true },
+      ],
+    },
+  ];
 
   const [isVisible, setIsVisible] = React.useState(false);
 
@@ -85,11 +85,13 @@ export default function Footer() {
         {/* Brand + Social (centered) */}
         <div className="flex flex-col items-center mb-10 space-y-4 text-center">
           <div className="flex items-center justify-center">
-            <div className="flex items-center justify-center w-10 h-10 shadow-lg bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl">
-              <HeartIcon className="w-6 h-6 text-white" />
-            </div>
-            <span className="ml-2 text-xl font-bold">CareSync</span>
+            <img
+              src="/CareSync-Logo.png"
+              alt="CareSync Logo"
+              className="h-12 object-contain"
+            />
           </div>
+
 
           <p className="max-w-md text-sm leading-relaxed text-gray-600 dark:text-gray-400">
             Revolutionizing healthcare through seamless collaboration between
@@ -105,6 +107,31 @@ export default function Footer() {
               className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-emerald-400 dark:hover:bg-emerald-600"
             >
               <EnvelopeIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
+            </a>
+            {/* Add LinkedIn, Twitter, Facebook here */}
+            <a
+            href="https://www.linkedin.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-500"
+            >
+              <i className="fa-brands fa-linkedin text-gray-700 dark:text-white"></i>
+            </a>
+            <a
+            href="https://twitter.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-sky-400"
+            >
+              <i className="fa-brands fa-twitter text-gray-700 dark:text-white"></i>
+            </a>
+            <a
+            href="https://facebook.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-600"
+            >
+              <i className="fa-brands fa-facebook text-gray-700 dark:text-white"></i>
             </a>
             <a
               href="/privacy-policy"
@@ -177,8 +204,8 @@ export default function Footer() {
             >
               Terms
             </button>
-            <a 
-              href="https://github.com/akathedeveloper/CareSync" 
+            <a
+              href="https://github.com/akathedeveloper/CareSync"
               target="_blank"
               rel="noopener noreferrer"
               className="transition-colors hover:text-gray-900 dark:hover:text-white"

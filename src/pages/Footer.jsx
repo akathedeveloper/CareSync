@@ -108,6 +108,31 @@ export default function Footer() {
             >
               <EnvelopeIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
             </a>
+            {/* Add LinkedIn, Twitter, Facebook here */}
+            <a
+            href="https://www.linkedin.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-500"
+            >
+              <i className="fa-brands fa-linkedin text-gray-700 dark:text-white"></i>
+            </a>
+            <a
+            href="https://twitter.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-sky-400"
+            >
+              <i className="fa-brands fa-twitter text-gray-700 dark:text-white"></i>
+            </a>
+            <a
+            href="https://facebook.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-600"
+            >
+              <i className="fa-brands fa-facebook text-gray-700 dark:text-white"></i>
+            </a>
             <a
               href="/privacy-policy"
               aria-label="Terms & Conditions"

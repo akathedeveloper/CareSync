@@ -16,6 +16,8 @@ import {
   AlertCircle,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import Navbar from "../../components/common/Navbar";
+import Footer from '../Footer';
 
 const Register = () => {
   const { register, loginWithGoogle } = useAuth();
@@ -518,7 +520,9 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-emerald-50 to-emerald-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <>
+    <Navbar/>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated background decorative elements */}
       <motion.div
         variants={pulseVariants}
@@ -557,26 +561,6 @@ const Register = () => {
         className="absolute bottom-1/3 left-1/3 w-24 h-24 bg-gradient-to-br from-emerald-300/20 to-emerald-300/20 dark:from-emerald-400/10 dark:to-emerald-400/10 rounded-full blur-lg"
       />
 
-      {/* Home Button */}
-      <motion.div
-        className="absolute top-6 left-6 z-20"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-      >
-        <Link
-          to="/"
-          className="flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 dark:border-gray-700/50 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 group"
-        >
-          <motion.div
-            whileHover={{ x: -3 }}
-            transition={{ type: "spring", stiffness: 400 }}
-          >
-            <HomeIcon className="w-5 h-5" />
-          </motion.div>
-          <span className="font-medium text-sm">Home</span>
-        </Link>
-      </motion.div>
 
       <motion.div
         variants={containerVariants}
@@ -728,7 +712,7 @@ const Register = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="First Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="block w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700"
               />
             </motion.div>
             <motion.div
@@ -744,7 +728,7 @@ const Register = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="Last Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="block w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700"
               />
             </motion.div>
           </motion.div>
@@ -761,10 +745,10 @@ const Register = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Email Address"
-                className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 text-black ${
+                className={`block w-full pl-12 pr-4 py-3 border rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 ${
                   errors.email
-                    ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
-                    : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 dark:border-gray-600 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500"
                 }`}
                 whileFocus={{ scale: 1.02 }}
                 aria-invalid={!!errors.email}
@@ -793,10 +777,10 @@ const Register = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Phone Number"
-                className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 text-black ${
+                className={`block w-full pl-12 pr-4 py-3 border rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 ${
                   errors.phone
-                    ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
-                    : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 dark:border-gray-600 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500"
                 }`}
                 whileFocus={{ scale: 1.02 }}
                 aria-invalid={!!errors.phone}
@@ -813,7 +797,6 @@ const Register = () => {
               </p>
             )}
           </motion.div>
-
 
           {/* ROLE SPECIFIC */}
           <AnimatePresence mode="wait" initial={false}>
@@ -832,7 +815,7 @@ const Register = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-200/30 transition-all duration-300 placeholder-gray-400 text-black"
+                className="block w-full pl-12 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700"
                 whileFocus={{ scale: 1.02 }}
               />
               <motion.button
@@ -874,7 +857,7 @@ const Register = () => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl border border-gray-200 dark:border-gray-600 space-y-2"
+                className="bg-gray-50/70 dark:bg-gray-700/50 backdrop-blur-sm p-4 rounded-xl border border-gray-200 dark:border-gray-600 space-y-2"
               >
                 <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Password Requirements:
@@ -946,10 +929,10 @@ const Register = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Confirm Password"
-                  className={`w-full pl-12 pr-12 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 placeholder-gray-400 text-black ${
+                  className={`block w-full pl-12 pr-12 py-3 border rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 ${
                     errors.confirmPassword
-                      ? "border-red-500 focus:border-red-500 focus:ring-red-200/30"
-                      : "border-gray-200 focus:border-emerald-500 focus:ring-emerald-200/30"
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 dark:border-gray-600 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500"
                   }`}
                   whileFocus={{ scale: 1.02 }}
                   aria-invalid={!!errors.confirmPassword}
@@ -997,7 +980,6 @@ const Register = () => {
                 </p>
               )}
             </div>
-
           </motion.div>
 
           {/* TERMS */}
@@ -1134,6 +1116,8 @@ const Register = () => {
         </motion.form>
       </motion.div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

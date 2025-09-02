@@ -3,6 +3,7 @@ import { useAppointments } from "../../contexts/AppointmentContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { findDoctorById } from "../../data/dummyData";
 import { ChevronDownIcon, CalendarIcon, ClockIcon, UserIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
+import RatingFeedback from "../common/RatingFeedback";
 
 const Appointments = () => {
   const { user } = useAuth();
@@ -142,11 +143,22 @@ const Appointments = () => {
         </div>
 
         <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <span className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${
-            apt.isUpcoming ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
-          }`}>
-            {apt.isUpcoming ? "Upcoming" : "Past"}
-          </span>
+          <div className="flex items-center justify-between">
+            <span className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${
+              apt.isUpcoming ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+            }`}>
+              {apt.isUpcoming ? "Upcoming" : "Past"}
+            </span>
+            {!apt.isUpcoming && apt.status === "Confirmed" && (
+              <RatingFeedback
+                doctorId={apt.doctorId}
+                onSubmit={(feedback) => {
+                  console.log("Feedback submitted:", feedback);
+                  // Here you could update the appointment with feedback status
+                }}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

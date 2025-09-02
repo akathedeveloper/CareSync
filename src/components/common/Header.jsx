@@ -6,6 +6,7 @@ import {
   MoonIcon,
   SunIcon,
   XMarkIcon,
+  QuestionMarkCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import html2pdf from "html2pdf.js";
 import { DocumentArrowDownIcon } from "@heroicons/react/24/outline";
+import RatingFeedback from "../common/RatingFeedback";
 
 const prescriptionsData = [
   {
@@ -229,6 +230,23 @@ export default function Prescriptions() {
                 </span>
               )}
             </p>
+
+            {/* Rating Feedback for Pharmacist */}
+            {selected.status === "completed" && (
+              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                  Rate Your Pharmacist
+                </h4>
+                <RatingFeedback
+                  pharmacistId="PHARM001" // This would be dynamic in a real app
+                  onSubmit={(feedback) => {
+                    console.log("Pharmacist feedback submitted:", feedback);
+                    // Here you could update the prescription with feedback status
+                  }}
+                />
+              </div>
+            )}
+
             <button
               className="mt-4 w-full py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
               onClick={() => setSelected(null)}

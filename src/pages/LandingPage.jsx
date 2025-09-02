@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import FAQSection from "./FAQSection";
 import {
   CheckIcon,
   StarIcon,
@@ -28,18 +29,61 @@ import StatsSection from "./StatsSection";
 import Pricing from "./PriceSection";
 import Testimonials from "./Testimonials";
 import Footer from "./Footer";
-import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
 import Navbar from "../components/common/Navbar";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
+import ScrollProgress from "../components/common/ScrollProgress";
+//Make the heading typewriter
+const HeadingTypewriter = () => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
 
+  const fullText = 'Healthcare Management Made Simple';
+  const managementStartIndex = 11;
+  const managementEndIndex = 21;
+
+  useEffect(() => {
+    const typeInterval = setInterval(() => {
+      if (currentIndex < fullText.length) {
+        setDisplayedText(fullText.slice(0, currentIndex + 1));
+        setCurrentIndex(currentIndex + 1);
+      } else {
+        clearInterval(typeInterval);
+      }
+    }, 70);
+
+    return () => clearInterval(typeInterval);
+  }, [currentIndex, fullText.length]);
+
+
+  const renderText = () => {
+    const beforeManagement = displayedText.slice(0, managementStartIndex);
+    const management = displayedText.slice(managementStartIndex, managementEndIndex);
+    const afterManagement = displayedText.slice(managementEndIndex);
+
+    return (
+      <>
+        {beforeManagement}
+        <span className="gradient-accent bg-clip-text text-transparent">
+          {management}
+        </span>
+        {afterManagement}
+      </>
+    );
+  };
+
+  return (
+    <h1 className="text-5xl lg:text-7xl font-black text-gray-900 dark:text-gray-100 leading-tight">
+      {renderText()}
+    </h1>
+  );
+};
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  
   const { user, loading } = useAuth();
 
   const handleScheduleDemoClick = () => {
@@ -65,6 +109,7 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
+      <ScrollProgress />
       <Navbar />
 
       {/* Professional Hero Section */}
@@ -87,15 +132,8 @@ const LandingPage = () => {
                 Trusted by 500+ Healthcare Providers
               </div>
 
-              <h1 className="text-5xl lg:text-7xl font-black text-gray-900 dark:text-gray-100 leading-tight">
-                Healthcare
-                <span className="gradient-accent bg-clip-text text-transparent">
-                  {" "}
-                  Management
-                </span>
-                <br />
-                Made Simple
-              </h1>
+              <HeadingTypewriter />
+
 
               <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed font-medium max-w-2xl">
                 Streamline patient care with our comprehensive healthcare
@@ -142,7 +180,7 @@ const LandingPage = () => {
                 ))}
               </div>
             </div>
-            
+
             {/* Right Column - Dashboard Preview */}
             <div className="relative p-4">
               {user ? (
@@ -204,9 +242,14 @@ const LandingPage = () => {
                   {/* Dashboard Header */}
                   <div className="flex items-center justify-between mb-3 pb-3 border-b border-gray-100 dark:border-gray-700">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
-                        <HeartIcon className="h-6 w-6 text-white" />
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                        <img
+                          src="/CareSync-Logo.png"
+                          alt="CareSync Logo"
+                          className="h-8 w-8 object-contain"
+                        />
                       </div>
+
                       <div>
                         <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
                           CareSync Dashboard
@@ -330,13 +373,12 @@ const LandingPage = () => {
                         </div>
                         <div className="text-right">
                           <span
-                            className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                              activity.status === "completed"
+                            className={`inline-block w-2 h-2 rounded-full mr-2 ${activity.status === "completed"
                                 ? "bg-green-500"
                                 : activity.status === "new"
-                                ? "bg-blue-500"
-                                : "bg-yellow-500"
-                            }`}
+                                  ? "bg-blue-500"
+                                  : "bg-yellow-500"
+                              }`}
                           />
                           <span className="text-xs text-gray-500 dark:text-gray-400">
                             {activity.time}
@@ -357,16 +399,24 @@ const LandingPage = () => {
               )}
 
               {/* Subtle Decorative Elements */}
-              <div className="absolute -top-0 -left-10 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-4 rounded-2xl shadow-lg">
-                <HeartIcon className="h-8 w-8" />
-              </div>
+              <div className="flex items-center justify-center gap-6 mt-8 mb-6">
+                <div className="group relative">
+                  <div className="flex items-center justify-center bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <HeartIcon className="h-8 w-8" />
+                  </div>
+                </div>
 
-              <div className="absolute -bottom-0 -right-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-4 rounded-2xl shadow-lg">
-                <ShieldCheckIcon className="h-8 w-8" />
-              </div>
+                <div className="group relative">
+                  <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <ShieldCheckIcon className="h-8 w-8" />
+                  </div>
+                </div>
 
-              <div className="absolute top-1/2 -right-8 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 p-3 rounded-xl shadow-lg">
-                <ChartBarIcon className="h-6 w-6" />
+                <div className="group relative">
+                  <div className="flex items-center justify-center bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 p-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <ChartBarIcon className="h-8 w-8" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -436,12 +486,10 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Contributor */}
-      <Contributor />
-      
+         
       {/* Contact Us */}
       <ContactUs />
-      
+      <FAQSection />
       {/* Footer */}
       <Footer />
 

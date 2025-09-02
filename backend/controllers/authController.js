@@ -1,6 +1,6 @@
 const bcrypt= require("bcryptjs")
 const jwt= require("jsonwebtoken")
-const User= require("../models/User")
+const {User}= require("../db/models/User.js")
 
 // make a token for a user id
  const makeToken= (userId) => 
@@ -11,23 +11,27 @@ const User= require("../models/User")
 
 exports.register= async (req , res , next) => {
     try {
-        const {name, email, password}= req.body;
+        const {name, email, password, role = "patient"}= req.body;
 
         if (!name || !email || !password)
             return res.status(400).json({message: "All fields are required"});
 
+        // Validate role
+        if (!["patient", "doctor", "pharmacist"].includes(role)) {
+            return res.status(400).json({message: "Invalid role specified"});
+        }
 
         const exists = await User.findOne({ email });
         if (exists) return res.status(400).json({ message: "Email already in use" });
 
         const hashed = await bcrypt.hash(password, 10);
-        const user = await User.create({ name, email, password: hashed });
+        const user = await User.create({ name, email, password: hashed, role });
 
         const token = makeToken(user._id);
         res.status(201).json({
             message: "Registered successfully",
             token,
-            user: { id: user._id, name: user.name, email: user.email }
+            user: { id: user._id, name: user.name, email: user.email, role: user.role }
         });
     } catch (err) {
         next(err);  
@@ -52,7 +56,7 @@ exports.login = async (req, res, next) => {
         res.json({
             message: "Logged in",
             token,
-            user: { id: user._id, name: user.name, email: user.email }
+            user: { id: user._id, name: user.name, email: user.email, role: user.role }
         });
     } catch (err) {
         next(err)

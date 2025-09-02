@@ -1,14 +1,8 @@
 import React, { useMemo, useState, useEffect } from "react";
-import {
-  PlusIcon,
-  FunnelIcon,
-  ArrowDownTrayIcon,
-  TrashIcon,
-  PencilSquareIcon,
-} from "@heroicons/react/24/outline";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+import { PlusIcon, PencilSquareIcon, TrashIcon, FunnelIcon, ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 
+import { predefinedTypes, vitalTypes } from '../../data/vitals.js'
+import {VitalInput} from "../../data/vitalInput.jsx"
 // --- Dummy initial data
 const initialVitals = [
   {
@@ -146,49 +140,63 @@ const HealthLogs = () => {
   const [activeTab, setActiveTab] = useState("vitals");
   const [vitals, setVitals] = useState(initialVitals);
   const [symptoms, setSymptoms] = useState(initialSymptoms);
-
+  const [customTypes, setCustomTypes] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState({
     kind: "vital",
     date: parseDateKey(new Date()),
-    type: "Heart Rate",
-    value: "",
-    unit: "",
-    status: "",
-    symptom: "",
-    severity: "mild",
-    notes: "",
-  });
+    type: '',
+    value: '',
+    unit: '',
+    customType: '',
+    customUnit: '',
+    status: 'auto',
+    symptom: '',
+    severity: 'mild',
+    notes: '',
+  })
 
-  const [filterType, setFilterType] = useState("all");
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const [searchText, setSearchText] = useState("");
+  const [filterType, setFilterType] = useState('all')
+  
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo, setDateTo] = useState('')
+  const [searchText, setSearchText] = useState('')
 
-  const filteredVitals = useMemo(() => {
-    const from = parseDateKey(dateFrom);
-    const to = parseDateKey(dateTo);
-    return vitals
-      .filter((v) => {
-        if (filterType !== "all" && v.type !== filterType) return false;
-        if (from && v.date < from) return false;
-        if (to && v.date > to) return false;
-        if (searchText) {
-          const q = searchText.toLowerCase();
-          if (
-            !(
-              v.type.toLowerCase().includes(q) ||
-              String(v.value).toLowerCase().includes(q) ||
-              (v.unit || "").toLowerCase().includes(q)
-            )
+  const allVitalTypes = [...vitalTypes, ...customTypes]; // inside component
+
+const filteredVitals = useMemo(() => {
+  const from = parseDateKey(dateFrom);
+  const to = parseDateKey(dateTo);
+
+  return vitals
+    .filter(v => {
+      // Filter by vital type
+      if (filterType !== 'all' && v.type !== filterType) return false;
+
+      // Filter by date
+      if (from && v.date < from) return false;
+      if (to && v.date > to) return false;
+
+      // Filter by search text
+      if (searchText) {
+        const q = searchText.toLowerCase();
+        if (
+          !(
+            v.type.toLowerCase().includes(q) ||
+            String(v.value).toLowerCase().includes(q) ||
+            (v.unit || '').toLowerCase().includes(q)
           )
-            return false;
+        ) {
+          return false;
         }
-        return true;
-      })
-      .sort((a, b) => b.date.localeCompare(a.date));
-  }, [vitals, filterType, dateFrom, dateTo, searchText]);
+      }
+
+      return true;
+    })
+    .sort((a, b) => b.date.localeCompare(a.date));
+}, [vitals, filterType, dateFrom, dateTo, searchText]);
+
 
   const filteredSymptoms = useMemo(() => {
     const from = parseDateKey(dateFrom);
@@ -269,39 +277,49 @@ const HealthLogs = () => {
   };
 
   const handleSave = () => {
-    if (form.kind === "vital") {
-      if (!form.type || !form.date || !form.value) {
-        alert("Please provide date, type and value for the vital sign.");
-        return;
-      }
-      const auto = detectStatus({ type: form.type, value: form.value });
-      const status = form.status && form.status !== "auto" ? form.status : auto;
-      if (editing) {
-        setVitals((prev) =>
-          prev.map((v) =>
-            v.id === editing.id
-              ? {
-                  ...v,
-                  date: form.date,
-                  type: form.type,
-                  value: form.value,
-                  unit: form.unit,
-                  status,
-                }
-              : v
-          )
-        );
-      } else {
-        const newEntry = {
-          id: nextId(),
-          date: form.date,
-          type: form.type,
-          value: form.value,
-          unit: form.unit,
-          status,
-        };
-        setVitals((prev) => [newEntry, ...prev]);
-      }
+  if (form.kind === 'vital') {
+    if (!form.type || !form.date || !form.value) {
+      alert('Please provide date, type and value for the vital sign.');
+      return;
+    }
+
+    // If type is "Other", use customType and customUnit (optional)
+    const finalType = form.type === 'Other' ? form.customType : form.type;
+    const finalUnit = form.type === 'Other' ? (form.customUnit || "") : form.unit;
+
+    if (!finalType) {
+      alert('Please enter a custom vital type.');
+      return;
+    }
+ 
+    if (form.type === 'Other' && finalType && !customTypes.includes(finalType)) {
+      setCustomTypes(prev => [...prev, finalType]);
+    }
+
+    const auto = detectStatus({ type: finalType, value: form.value });
+    const status = form.status && form.status !== 'auto' ? form.status : auto;
+
+    if (editing) {
+      setVitals(prev => prev.map(v => 
+        v.id === editing.id 
+          ? { ...v, date: form.date, type: finalType, value: form.value, unit: finalUnit, status } 
+          : v
+      ));
+    } else {
+      const newEntry = { 
+        id: nextId(), 
+        date: form.date, 
+        type: finalType, 
+        value: form.value, 
+        unit: finalUnit, 
+        status 
+      };
+      setVitals(prev => [newEntry, ...prev]); 
+    }
+    setForm({ kind: 'vital', date: '', type: '', value: '', unit: '', customType: '', customUnit: '', status: 'auto' });
+    setEditing(null);
+    setModalOpen(false);
+
     } else {
       if (!form.symptom || !form.date) {
         alert("Please provide symptom and date.");
@@ -411,10 +429,7 @@ const HealthLogs = () => {
     doc.save(`health_report_${new Date().toISOString().slice(0, 10)}.pdf`);
   };
 
-  const vitalTypes = useMemo(() => {
-    const set = new Set(vitals.map((v) => v.type));
-    return ["all", ...Array.from(set)];
-  }, [vitals]);
+ 
 
   useEffect(() => {
     setFilterType("all");
@@ -553,18 +568,17 @@ const HealthLogs = () => {
       <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4">
         <div className="flex items-center gap-2">
           <FunnelIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-          {activeTab === "vitals" ? (
+          {activeTab === 'vitals' ? (
             <select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-              className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+               value={filterType}
+                onChange={e => setFilterType(e.target.value)}
             >
-              {vitalTypes.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
+            <option value="all">All</option>
+               {allVitalTypes.map(t => (
+                 <option key={t.value} value={t.value}>{t.label}</option>
+                ))}
             </select>
+
           ) : (
             <select
               value={filterType}
@@ -755,70 +769,117 @@ const HealthLogs = () => {
                 />
               </div>
 
-              {form.kind === "vital" && (
-                <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Type
-                    </label>
-                    <input
-                      type="text"
-                      value={form.type}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, type: e.target.value }))
-                      }
-                      className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Value
-                      </label>
-                      <input
-                        type="text"
-                        value={form.value}
-                        onChange={(e) =>
-                          /^[0-9+\-*/%.]*$/.test(e.target.value) &&
-                          setForm((f) => ({ ...f, value: e.target.value }))
-                        }
-                        className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Unit
-                      </label>
-                      <input
-                        type="text"
-                        value={form.unit}
-                        onChange={(e) =>
-                          setForm((f) => ({ ...f, unit: e.target.value }))
-                        }
-                        className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Status
-                    </label>
-                    <select
-                      value={form.status}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, status: e.target.value }))
-                      }
-                      className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                    >
-                      <option value="auto">Auto-detect</option>
-                      <option value="normal">Normal</option>
-                      <option value="high">High</option>
-                      <option value="low">Low</option>
-                      <option value="unknown">Unknown</option>
-                    </select>
-                  </div>
-                </>
-              )}
+              {form.kind === 'vital' && (
+  <>
+    {/* Type selection */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Type
+      </label>
+      <select
+        value={form.type}
+        onChange={e => {
+          const selectedType = e.target.value;
+          setForm(f => ({
+            ...f,
+            type: selectedType,
+            unit: selectedType !== "Other"
+              ? predefinedTypes.find(v => v.type === selectedType)?.unit || f.unit
+              : ""
+          }));
+        }}
+        className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+      >
+        <option value="">Select a vital type</option>
+        {predefinedTypes.map(vital => (
+          <option key={vital.type} value={vital.type}>
+            {vital.type}
+          </option>
+        ))}
+        {customTypes.map(type => (
+          <option key={type} value={type}>
+            {type}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    {/* Custom type/unit fields if "Other" selected */}
+    {form.type === "Other" && (
+      <div className="mt-3 grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Custom Type
+          </label>
+          <input
+            type="text"
+            value={form.customType || ""}
+            onChange={e => setForm(f => ({ ...f, customType: e.target.value }))}
+            placeholder="Enter vital name"
+            className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Custom Unit (optional)
+          </label>
+          <input
+            type="text"
+            value={form.customUnit || ""}
+            onChange={e => setForm(f => ({ ...f, customUnit: e.target.value }))}
+            placeholder="Enter unit (if known)"
+            className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+          />
+        </div>
+      </div>
+    )}
+
+    {/* Value + Unit fields */}
+    <div className="grid grid-cols-2 gap-4">
+        <div>
+          <VitalInput vitalType={form.type} form={form} setForm={setForm} />
+        </div>
+        <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Unit
+        </label>
+        <input
+          type="text"
+          value={
+            form.type === "Other"
+              ? form.customUnit || ""
+              : form.unit
+          }
+          onChange={e =>
+            form.type === "Other"
+              ? setForm(f => ({ ...f, customUnit: e.target.value }))
+              : setForm(f => ({ ...f, unit: e.target.value }))
+          }
+          className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+        />
+      </div>
+    </div>
+
+    {/* Status */}
+    <div className="mt-3">
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Status
+      </label>
+      <select
+        value={form.status}
+        onChange={e => setForm(f => ({ ...f, status: e.target.value }))}
+        className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+      >
+        <option value="auto">Auto-detect</option>
+        <option value="normal">Normal</option>
+        <option value="high">High</option>
+        <option value="low">Low</option>
+        <option value="unknown">Unknown</option>
+      </select>
+    </div>
+  </>
+)}
+
 
               {form.kind === "symptom" && (
                 <>

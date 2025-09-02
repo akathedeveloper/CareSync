@@ -52,10 +52,7 @@ export default function Pricing() {
     },
   ];
 
-  // ✅ Fixed: Type allows both number & string
-  const [displayPrices, setDisplayPrices] = useState<(number | string)[]>(
-    plans.map(() => 0)
-  );
+  const [displayPrices, setDisplayPrices] = useState(plans.map(() => 0));
 
   // Price counting animation
   useEffect(() => {
@@ -79,7 +76,7 @@ export default function Pricing() {
             updated[i] = "Custom";
             return updated;
           });
-        }, 500); // delay for smooth fade-in
+        }, 500);
       }
     });
   }, []);
@@ -113,6 +110,73 @@ export default function Pricing() {
             to { opacity: 1; transform: translateY(0); }
           }
           .fade-in-custom { animation: fadeInCustom 0.5s ease forwards; }
+          
+          @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+          }
+          
+          .pricing-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            transform: translateZ(0) scale(0.98);
+            will-change: transform, box-shadow;
+          }
+          
+          .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 1rem;
+            padding: 2px;
+            background: linear-gradient(45deg, #10b981, #34d399);
+            -webkit-mask: 
+              linear-gradient(#fff 0 0) content-box, 
+              linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+          }
+          
+          .pricing-card:hover {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            z-index: 10;
+          }
+          
+          .pricing-card:hover::before {
+            opacity: 1;
+          }
+          
+          .pricing-card:hover .popular-badge {
+            animation: float 2s ease-in-out infinite;
+          }
+          
+          .feature-item {
+            transition: all 0.3s ease;
+          }
+          
+          .pricing-card:hover .feature-item {
+            transform: translateX(5px);
+          }
+          
+          .pricing-card:hover .feature-item:nth-child(2n) {
+            transition-delay: 0.1s;
+          }
+          
+          .pricing-card:hover .feature-item:nth-child(3n) {
+            transition-delay: 0.2s;
+          }
         `}
       </style>
 
@@ -139,14 +203,13 @@ export default function Pricing() {
               key={index}
               data-aos="zoom-in"
               data-aos-delay={index * 150}
-              className={`flex flex-col bg-white dark:bg-gray-800 rounded-2xl p-8 relative transform transition-transform duration-300 hover:rotate-x-2 hover:rotate-y-2 hover:scale-105 hover:shadow-xl dark:hover:shadow-gray-900/50 ${
-                plan.popular ? "ring-2 ring-primary-600 scale-105" : ""
-              }`}
-              style={{ transformStyle: "preserve-3d" }}
+              className={`flex flex-col bg-white dark:bg-gray-800 p-8 relative pricing-card ${
+                plan.popular ? "scale-105" : ""
+              } `}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 badge-bounce">
-                  <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium shadow-md">
+                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 badge-bounce popular-badge">
+                  <span className="bg-emerald-400 text-white px-4 py-1 rounded-full text-sm font-medium shadow-md">
                     Most Popular
                   </span>
                 </div>
@@ -179,7 +242,7 @@ export default function Pricing() {
                 {plan.features.map((feature, idx) => (
                   <li
                     key={idx}
-                    className="flex items-center text-sm text-gray-600 dark:text-gray-300"
+                    className="flex items-center text-sm text-gray-600 dark:text-gray-300 feature-item"
                   >
                     <CheckIcon className="h-4 w-4 text-green-500 mr-3 tick-animate" />
                     {feature}
@@ -188,13 +251,36 @@ export default function Pricing() {
               </ul>
 
               <button
-                className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors ${
+                className={`relative overflow-hidden group w-full py-3 px-4 rounded-lg font-semibold transition-all duration-300 ${
                   plan.popular
-                    ? "bg-primary-600 text-white hover:bg-primary-700 pulse-once"
-                    : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
+                    ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:shadow-lg hover:shadow-emerald-500/20"
+                    : "bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 text-gray-900 dark:text-gray-100 hover:from-emerald-50 hover:to-teal-50 dark:hover:from-emerald-900/20 dark:hover:to-teal-900/20 hover:text-emerald-600 dark:hover:text-emerald-400"
                 }`}
               >
-                {plan.cta}
+                <span className="relative z-10 flex items-center justify-center">
+                  <span className="transition-transform group-hover:scale-105">
+                    {plan.cta}
+                  </span>
+                  {!plan.popular && (
+                    <svg
+                      className="w-4 h-4 ml-2 transition-all transform -translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      />
+                    </svg>
+                  )}
+                </span>
+                {plan.popular && (
+                  <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
+                )}
               </button>
             </div>
           ))}

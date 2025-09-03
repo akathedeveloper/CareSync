@@ -21,6 +21,7 @@ import ProfilePage from "./pages/ProfilePage";
 import "./index.css";
 import Prescriptions from "./components/patient/Prescriptions";
 import { AppointmentProvider } from "./contexts/AppointmentContext";
+import { OfflineProvider } from "./contexts/OfflineContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
@@ -242,13 +243,19 @@ function App() {
 
   return (
     <AuthProvider>
+
+      <AppointmentProvider>
+        <OfflineProvider>
       <MessageProvider>
         <AppointmentProvider>
           <Router>
             <div className="App bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
               <AppRoutes />
               <Toaster
+
+                position="bottom-right" // Change this to alter the position of the toast.
                 position="bottom-right"
+
                 toastOptions={{
                   duration: 4000,
                   style: {
@@ -259,7 +266,11 @@ function App() {
                     border: "1px solid var(--toast-border, #e5e7eb)",
                   },
                   success: {
+
+                    iconTheme: {
+
                     iconTheme: {  
+
                       primary: "#10b981",
                       secondary: "#fff",
                     },
@@ -288,8 +299,13 @@ function App() {
               />
             </div>
           </Router>
+
+        </OfflineProvider>
+      </AppointmentProvider>
+
         </AppointmentProvider>
       </MessageProvider>
+
     </AuthProvider>
   );
 }

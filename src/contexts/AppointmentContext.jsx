@@ -12,7 +12,15 @@ export const useAppointments = () => {
 };
 
 const AppointmentProvider = ({ children }) => {
-  const { isOnline, queuedActions, syncQueuedActions } = useOffline();
+  // Add error handling for useOffline hook
+  const offlineContext = useOffline();
+  
+  // Provide default values if context is undefined
+  const { 
+    isOnline = true, 
+    queuedActions = [], 
+    syncQueuedActions = () => {} 
+  } = offlineContext || {};
 
   const [appointments, setAppointments] = useState(() => {
     try {

@@ -205,10 +205,10 @@ export default function Pricing() {
               data-aos-delay={index * 150}
               className={`flex flex-col bg-white dark:bg-gray-800 p-8 relative pricing-card ${
                 plan.popular ? "scale-105" : ""
-              }`}
+              } `}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 badge-bounce popular-badge">
+                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 badge-bounce popular-badge">
                   <span className="bg-emerald-400 text-white px-4 py-1 rounded-full text-sm font-medium shadow-md">
                     Most Popular
                   </span>

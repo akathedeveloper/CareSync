@@ -4,6 +4,8 @@ import { useAuth } from '../../contexts/AuthContext'; // Assuming useAuth provid
 import { Mail, Loader2, ArrowLeft, CheckCircle, AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
+import Navbar from '../../components/common/Navbar';
+import Footer from '../Footer';
 
 const ForgotPassword = () => {
   const { resetPassword } = useAuth(); // Assumes resetPassword function exists in your AuthContext
@@ -57,6 +59,8 @@ const ForgotPassword = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       
       {/* Reusing the animated background from your other pages */}
@@ -183,6 +187,8 @@ const ForgotPassword = () => {
         </motion.div>
       </motion.div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

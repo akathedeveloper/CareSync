@@ -4,6 +4,8 @@ import { useAppointments } from "../../contexts/AppointmentContext";
 import Prescriptions from "./Prescriptions";
 import Appointments from "./Appointments";
 import HealthLogs from "./HealthLogs";
+import { motion } from "framer-motion";
+
 import MedicineReminders from "./MedicineReminders";
 import {
   HeartIcon,
@@ -72,19 +74,27 @@ const DashboardOverview = ({ user, apptCount }) => {
 
   return (
     <div className="space-y-6">
-      <div>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
           Welcome back, {user?.name}!
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
           Here's your health overview for today.
         </p>
-      </div>
-
+      </motion.div>
+  
+      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat) => (
-          <div
+        {stats.map((stat, i) => (
+          <motion.div
             key={stat.name}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: i * 0.1 }}
             className="bg-surface p-6 rounded-lg shadow-sm border border-subtle hover:shadow-md transition-shadow"
           >
             <div className="flex items-center">
@@ -102,13 +112,26 @@ const DashboardOverview = ({ user, apptCount }) => {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
-
+  
+      {/* Medicine Reminders + Health Logs */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <MedicineReminders />
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <MedicineReminders />
+        </motion.div>
+  
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
+          className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+        >
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
             Recent Health Logs
           </h3>
@@ -133,8 +156,11 @@ const DashboardOverview = ({ user, apptCount }) => {
                 status: "normal",
               },
             ].map((log, index) => (
-              <div
+              <motion.div
                 key={index}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
                 className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
               >
                 <div>
@@ -153,13 +179,14 @@ const DashboardOverview = ({ user, apptCount }) => {
                     {log.status}
                   </span>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
+  
 };
 
 export default PatientDashboard;

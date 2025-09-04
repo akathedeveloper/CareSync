@@ -74,7 +74,7 @@ export default function Footer() {
       {/* Scroll to top button */}
       {isVisible && (
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth"})}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed z-50 w-10 h-10 p-2 mb-16 text-xl font-bold text-white transition rounded-lg cursor-pointer bottom-8 right-8 bg-gradient-to-r from-medical-500 to-primary-600 hover:from-primary-500 hover:to-medical-600 hover:scale-110"
         >
           <ChevronDoubleUpIcon />
@@ -92,7 +92,6 @@ export default function Footer() {
             />
           </div>
 
-
           <p className="max-w-md text-sm leading-relaxed text-gray-600 dark:text-gray-400">
             Revolutionizing healthcare through seamless collaboration between
             patients, doctors, and pharmacists.
@@ -104,52 +103,56 @@ export default function Footer() {
               href="/contact"
               aria-label="Contact Us"
               title="Contact Us"
-              className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-emerald-400 dark:hover:bg-emerald-600"
+              className="flex items-center justify-center w-10 h-10 transition-transform duration-300 transform bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-emerald-400 dark:hover:bg-emerald-600 hover:scale-110"
             >
-              <EnvelopeIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
+              <EnvelopeIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white dark:hover:text-white" />
             </a>
-            {/* Add LinkedIn, Twitter, Facebook here */}
+
             <a
-            href="https://www.linkedin.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-500"
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-10 h-10 transition-transform duration-300 transform bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-blue-500 hover:scale-110"
             >
-              <i className="text-gray-700 fa-brands fa-linkedin dark:text-white"></i>
+              <i className="fa-brands fa-linkedin text-gray-700 dark:text-white hover:text-white dark:hover:text-white transition-colors duration-300"></i>
             </a>
+
             <a
-            href="https://twitter.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-sky-400"
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-10 h-10 transition-transform duration-300 transform bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-sky-400 dark:hover:bg-sky-400 hover:scale-110"
             >
-              <i className="text-gray-700 fa-brands fa-twitter dark:text-white"></i>
+              <i className="fa-brands fa-twitter text-gray-700 dark:text-white hover:text-white dark:hover:text-white transition-colors duration-300"></i>
             </a>
+
             <a
-            href="https://facebook.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-600"
+              href="https://facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-10 h-10 transition-transform duration-300 transform bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-600 dark:hover:bg-blue-600 hover:scale-110"
             >
-              <i className="text-gray-700 fa-brands fa-facebook dark:text-white"></i>
+              <i className="fa-brands fa-facebook text-gray-700 dark:text-white hover:text-white dark:hover:text-white transition-colors duration-300"></i>
             </a>
+
             <a
               href="/privacy-policy"
               aria-label="Terms & Conditions"
               title="Terms & Conditions"
-              className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-400 dark:hover:bg-blue-600"
+              className="flex items-center justify-center w-10 h-10 transition-transform duration-300 transform bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-violet-500 dark:hover:bg-violet-600 hover:scale-110"
             >
-              <DocumentTextIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
+              <DocumentTextIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white dark:hover:text-white" />
             </a>
+
             <a
               href="https://github.com/akathedeveloper/CareSync"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Repository"
               title="GitHub Repository"
-              className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-gray-900 dark:hover:bg-gray-600"
+              className="flex items-center justify-center w-10 h-10 transition-transform duration-300 transform bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-gray-900 dark:hover:bg-gray-600 hover:scale-110"
             >
-              <CodeBracketIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
+              <CodeBracketIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white dark:hover:text-white" />
             </a>
           </div>
         </div>

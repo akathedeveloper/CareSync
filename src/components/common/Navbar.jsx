@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Bars3Icon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useAuth } from "../../contexts/AuthContext";
-
-import Contributor from "./Contributor";
 import { useNavigate } from "react-router-dom";
-
 import useScrollSpy from "../../hooks/useScrollSpy";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const { user } = useAuth();
+  const location = useLocation();
   
+  const handleMenuClick = (id) => (e) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("/", { state: { scrollTo: id } });
+    }
+  };
+    
   // Define section IDs for scroll spy
   const sectionIds = ['home', 'features', 'pricing', 'testimonials', 'contact-form'];
   const activeSection = useScrollSpy(sectionIds, 100);
@@ -44,10 +51,7 @@ const Navbar = () => {
           <a
             key="Home"
             href="#home"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={handleMenuClick('home')}
           >   
             <div className="flex items-center">
               <div className="w-10 h-10">
@@ -72,10 +76,7 @@ const Navbar = () => {
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={handleMenuClick(item.id)}
                 className={`relative transition-all duration-300 font-medium group px-2 py-1 rounded-md ${
                   activeSection === item.id
                     ? "text-emerald-600 dark:text-emerald-400 font-semibold drop-shadow-sm bg-emerald-50 dark:bg-emerald-900/20"
@@ -170,7 +171,10 @@ const Navbar = () => {
                     ? "text-emerald-600 dark:text-emerald-400 after:scale-x-100 bg-emerald-50 dark:bg-emerald-900/20 font-semibold shadow-sm"
                     : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
                 }`}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(e) => {
+                  handleMenuClick(item.id)(e);
+                  setIsMobileMenuOpen(false);
+                }}
               >
                 {item.name}
               </a>

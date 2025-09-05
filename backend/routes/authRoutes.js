@@ -1,4 +1,14 @@
 const express= require("express")
+const {
+  forgotPassword,
+  resetPassword,
+  verifyResetToken
+} = require('../controllers/passwordResetController');
+
+// Then, add these new lines where your other routes are defined:
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
+router.get('/verify-reset-token/:token', verifyResetToken);
 const { register, login, me } = require("../controllers/authController");
 const { forgotPassword, resetPassword, verifyResetToken } = require("../controllers/passwordResetController");
 const auth = require("../middleware/auth");

@@ -1,6 +1,7 @@
+// src/contexts/AuthContext.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth, signInWithGoogle, signOutUser } from "../firebase";
-import { onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import { allUsers as initialAllUsers, addUser } from "../data/dummyData";
 
@@ -67,10 +68,10 @@ export const AuthProvider = ({ children }) => {
       try {
         const token = localStorage.getItem("token");
         const storedUser = localStorage.getItem("caresync_user");
-
+        
         console.log("Checking localStorage for token:", token ? "exists" : "none");
         console.log("Checking localStorage for user:", storedUser ? "exists" : "none");
-
+        
         if (token && storedUser) {
           // Verify token with backend
           try {
@@ -79,7 +80,7 @@ export const AuthProvider = ({ children }) => {
                 'Authorization': `Bearer ${token}`,
               },
             });
-
+            
             if (response.ok) {
               const userData = JSON.parse(storedUser);
               console.log("Found and verified stored user:", userData);
@@ -154,7 +155,7 @@ export const AuthProvider = ({ children }) => {
     });
     return unsubscribe;
   }, [user]);
-
+   
   const updateUser = (data) => {
     setUser((prevUser) => {
       if (!prevUser) return null;
@@ -163,8 +164,8 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("caresync_user", JSON.stringify(updatedUser));
       return updatedUser;
     });
-  };
-
+  }; 
+  
   // Login with Google (Firebase)
   const loginWithGoogle = async () => {
     setLoading(true);
@@ -202,26 +203,26 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await response.json();
-
+      
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
 
       // Store JWT token
       localStorage.setItem('token', data.token);
-
+      
       // Create user object with role
-      const backendUser = {
-        ...data.user,
+      const backendUser = { 
+        ...data.user, 
         role: role || 'patient', // Use provided role or default to patient
-        isBackendUser: true
+        isBackendUser: true 
       };
-
+      
       console.log("Setting user in context:", backendUser);
       setUser(backendUser);
       localStorage.setItem("caresync_user", JSON.stringify(backendUser));
       console.log("User and token stored successfully");
-
+      
       return { success: true, user: backendUser };
     } catch (error) {
       console.error('Login error:', error);
@@ -250,44 +251,30 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await response.json();
-
+      
       if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
       }
 
       // Store JWT token
       localStorage.setItem('token', data.token);
-
+      
       // Create user object with role
-      const backendUser = {
-        ...data.user,
+      const backendUser = { 
+        ...data.user, 
         role: userData.role || 'patient',
-        isBackendUser: true
+        isBackendUser: true 
       };
-
+      
       setUser(backendUser);
       localStorage.setItem("caresync_user", JSON.stringify(backendUser));
-
+      
       return { success: true, user: backendUser };
     } catch (error) {
       console.error('Registration error:', error);
       throw new Error(error.message);
     } finally {
       setLoading(false);
-    }
-  };
-
-  /**
-   * Added the resetPassword function here.
-   * This function uses Firebase's sendPasswordResetEmail to handle the password reset flow.
-   * Your existing frontend component can now call this function via useAuth().
-   */
-  const resetPassword = async (email) => {
-    try {
-        await sendPasswordResetEmail(auth, email);
-    } catch (error) {
-        console.error("Firebase password reset failed:", error);
-        throw error;
     }
   };
 
@@ -328,7 +315,6 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     updateUser,
-    resetPassword, // Make sure to expose the new function
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

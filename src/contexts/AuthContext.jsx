@@ -1,9 +1,8 @@
-// src/contexts/AuthContext.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { auth, signInWithGoogle, signOutUser } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { auth, signInWithGoogle, signOutUser } from "../firebase.js";
+import { onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
-import { allUsers as initialAllUsers, addUser } from "../data/dummyData";
+import { allUsers as initialAllUsers, addUser } from "../data/dummyData.js";
 
 const db = getFirestore();
 const AuthContext = createContext();
@@ -68,26 +67,17 @@ export const AuthProvider = ({ children }) => {
       try {
         const token = localStorage.getItem("token");
         const storedUser = localStorage.getItem("caresync_user");
-        
-        console.log("Checking localStorage for token:", token ? "exists" : "none");
-        console.log("Checking localStorage for user:", storedUser ? "exists" : "none");
-        
         if (token && storedUser) {
-          // Verify token with backend
           try {
             const response = await fetch('http://localhost:5000/api/auth/me', {
               headers: {
                 'Authorization': `Bearer ${token}`,
               },
             });
-            
             if (response.ok) {
               const userData = JSON.parse(storedUser);
-              console.log("Found and verified stored user:", userData);
               setUser(userData);
             } else {
-              // Token is invalid, clear storage
-              console.log("Token verification failed, clearing storage");
               localStorage.removeItem("token");
               localStorage.removeItem("caresync_user");
             }
@@ -97,14 +87,10 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem("caresync_user");
           }
         } else if (storedUser) {
-          // Legacy local user without backend auth
           const userData = JSON.parse(storedUser);
           if (!userData.isBackendUser) {
-            console.log("Found legacy local user:", userData);
             setUser(userData);
           }
-        } else {
-          console.log("No stored user found in localStorage");
         }
       } catch (error) {
         console.error("Error checking existing session:", error);
@@ -113,8 +99,6 @@ export const AuthProvider = ({ children }) => {
       }
       setLoading(false);
     };
-
-    // Check localStorage first for immediate session restoration
     checkExistingSession();
   }, []);
 
@@ -129,11 +113,9 @@ export const AuthProvider = ({ children }) => {
 
   // Firebase auth listener - only run if no local user exists
   useEffect(() => {
-    // If we already have a user from localStorage, don't run Firebase listener
     if (user && !user.uid?.startsWith("firebase_")) {
       return;
     }
-
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         await createUserDocumentIfNotExists(firebaseUser);
@@ -146,7 +128,6 @@ export const AuthProvider = ({ children }) => {
           role,
         });
       } else {
-        // Only clear user if it's a Firebase user
         if (user && user.uid?.startsWith("firebase_")) {
           setUser(null);
         }
@@ -155,18 +136,16 @@ export const AuthProvider = ({ children }) => {
     });
     return unsubscribe;
   }, [user]);
-   
+
   const updateUser = (data) => {
     setUser((prevUser) => {
       if (!prevUser) return null;
       const updatedUser = { ...prevUser, ...data };
-      // Persist to localStorage so changes are not lost on refresh
       localStorage.setItem("caresync_user", JSON.stringify(updatedUser));
       return updatedUser;
     });
-  }; 
-  
-  // Login with Google (Firebase)
+  };
+
   const loginWithGoogle = async () => {
     setLoading(true);
     try {
@@ -190,7 +169,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Backend API login
   const login = async (email, password, role) => {
     setLoading(true);
     try {
@@ -201,28 +179,18 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify({ email, password }),
       });
-
       const data = await response.json();
-      
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
-
-      // Store JWT token
       localStorage.setItem('token', data.token);
-      
-      // Create user object with role
-      const backendUser = { 
-        ...data.user, 
-        role: role || 'patient', // Use provided role or default to patient
-        isBackendUser: true 
+      const backendUser = {
+        ...data.user,
+        role: role || 'patient',
+        isBackendUser: true
       };
-      
-      console.log("Setting user in context:", backendUser);
       setUser(backendUser);
       localStorage.setItem("caresync_user", JSON.stringify(backendUser));
-      console.log("User and token stored successfully");
-      
       return { success: true, user: backendUser };
     } catch (error) {
       console.error('Login error:', error);
@@ -232,7 +200,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Backend API register
   const register = async (userData) => {
     setLoading(true);
     const { firstName, lastName, email, password, role = "patient" } = userData;
@@ -249,26 +216,18 @@ export const AuthProvider = ({ children }) => {
           role,
         }),
       });
-
       const data = await response.json();
-      
       if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
       }
-
-      // Store JWT token
       localStorage.setItem('token', data.token);
-      
-      // Create user object with role
-      const backendUser = { 
-        ...data.user, 
+      const backendUser = {
+        ...data.user,
         role: userData.role || 'patient',
-        isBackendUser: true 
+        isBackendUser: true
       };
-      
       setUser(backendUser);
       localStorage.setItem("caresync_user", JSON.stringify(backendUser));
-      
       return { success: true, user: backendUser };
     } catch (error) {
       console.error('Registration error:', error);
@@ -278,25 +237,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout for both Firebase & backend
+  // ADDED: The missing resetPassword function
+  const resetPassword = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+      console.error("Firebase password reset failed:", error);
+      throw error;
+    }
+  };
+
   const logout = async () => {
     setLoading(true);
     try {
-      // Try Firebase logout first (only if it's a Firebase user)
       if (user && !user.isBackendUser && !user.isLocalUser) {
         try {
           await signOutUser();
         } catch {
-          // If Firebase logout fails, continue with local logout
           console.log("Firebase logout failed, continuing with local logout");
         }
       }
-
-      // Clear backend auth state
       setUser(null);
       localStorage.removeItem("caresync_user");
       localStorage.removeItem("token");
-
       return { success: true };
     } catch (error) {
       console.error("Logout failed:", error);
@@ -315,6 +278,7 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     updateUser,
+    resetPassword,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

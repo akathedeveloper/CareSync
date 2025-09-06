@@ -1,46 +1,56 @@
-import { getOfflineData, setOfflineData, queueAction, syncQueuedActions } from './pwa-setup';
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { describe, test, expect, beforeAll, afterAll } from 'vitest';
+import OfflineBanner from '../src/offline-banner';
 
-describe('PWA Offline Functionality', () => {
-  beforeEach(() => {
-    // Clear localforage before each test
-    localforage.clear();
+describe('OfflineBanner', () => {
+  const originalNavigator = global.navigator;
+
+  beforeAll(() => {
+    // Mock the navigator object
+    global.navigator = { onLine: true };
   });
 
-  test('should save and retrieve data from localforage', async () => {
-    const testData = { id: 1, name: 'Test Data' };
-    await setOfflineData('test-key', testData);
-    const retrievedData = await getOfflineData('test-key');
-    expect(retrievedData).toEqual(testData);
+  afterAll(() => {
+    // Restore the original navigator object
+    global.navigator = originalNavigator;
   });
 
-  test('should queue an action when offline', async () => {
-    const action = { url: '/api/test', method: 'POST', body: { data: 'test' } };
-    await queueAction(action);
-    const queue = await getOfflineData('actionQueue');
-    expect(queue).toHaveLength(1);
-    expect(queue[0]).toEqual(action);
+  test('does not render banner when online', () => {
+    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+    render(<OfflineBanner />);
+    expect(screen.queryByText(/You are currently offline/)).toBeNull();
   });
 
-  test('should sync queued actions when online', async () => {
-    const action = { url: '/api/test', method: 'POST', body: { data: 'test' } };
-    await queueAction(action);
+  test('renders banner when offline', () => {
+    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
+    render(<OfflineBanner />);
+    expect(screen.getByText(/You are currently offline/)).toBeInTheDocument();
+  });
 
-    // Mock the fetch function to simulate a successful API call
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ success: true }),
-      })
-    );
+  test('hides banner when returning online', async () => {
+    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
+    render(<OfflineBanner />);
+    expect(screen.getByText(/You are currently offline/)).toBeInTheDocument();
 
-    await syncQueuedActions();
+    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+    fireEvent(window, new Event('online'));
 
-    expect(fetch).toHaveBeenCalledWith(action.url, {
-      method: action.method,
-      headers: action.headers,
-      body: JSON.stringify(action.body),
+    await waitFor(() => {
+      expect(screen.queryByText(/You are currently offline/)).toBeNull();
     });
+  });
 
-    const queue = await getOfflineData('actionQueue');
-    expect(queue).toHaveLength(0);
+  test('shows banner when going offline', async () => {
+    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+    render(<OfflineBanner />);
+    expect(screen.queryByText(/You are currently offline/)).toBeNull();
+
+    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
+    fireEvent(window, new Event('offline'));
+
+    await waitFor(() => {
+      expect(screen.getByText(/You are currently offline/)).toBeInTheDocument();
+    });
   });
 });

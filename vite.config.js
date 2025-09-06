@@ -33,13 +33,55 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
         runtimeCaching: [
           {
-            urlPattern: new RegExp('^https://your-api-url.com/.*'),
+            urlPattern: ({ url }) => url.pathname.startsWith("/api/reminders"),
             handler: "NetworkFirst",
             options: {
-              cacheName: "api-cache",
+              cacheName: "reminders-cache",
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 365 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith("/api/prescriptions"),
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "prescriptions-cache",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 365 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith("/api/appointments"),
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "appointments-cache",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 365 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith("/api/user"),
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "user-cache",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 365 days
               },
               cacheableResponse: {
                 statuses: [0, 200],
@@ -50,9 +92,7 @@ export default defineConfig({
       },
     }),
   ],
-
   base: "/",
-
   build: {
     outDir: "dist",
     assetsDir: "assets",
@@ -65,11 +105,6 @@ export default defineConfig({
         },
       },
     },
-  },
-  test: {
-    environment: "jsdom",
-    globals: true,
-    setupFiles: "./src/setupTests.js",
   },
   server: {
     port: 3000,

@@ -41,4 +41,22 @@
   color: var(--neutral-500);
 }
 
+/* Light mode hover */
+.social-icon:hover .icon {
+  color: white;
+}
+
+/* Dark mode hover */
+.dark .social-icon:hover .icon {
+  color: white;
+}
+
+/* Default icon colors */
+.icon {
+  color: #4b5563; /* Tailwind's gray-700 */
+}
+
+.dark .icon {
+  color: #d1d5db; /* Tailwind's gray-300 */
+}
 

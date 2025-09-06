@@ -82,14 +82,49 @@ define(['./workbox-e755d862'], (function (workbox) { 'use strict';
     "revision": "3ca0b8505b4bec776b69afdba2768812"
   }, {
     "url": "index.html",
-    "revision": "0.ppn01mgh2h"
+    "revision": "0.f80t7hs8m54"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
     allowlist: [/^\/$/]
   }));
-  workbox.registerRoute(/^https:\/\/your-api-url.com\/.*/, new workbox.NetworkFirst({
-    "cacheName": "api-cache",
+  workbox.registerRoute(({
+    url
+  }) => url.pathname.startsWith("/api/reminders"), new workbox.NetworkFirst({
+    "cacheName": "reminders-cache",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 10,
+      maxAgeSeconds: 31536000
+    }), new workbox.CacheableResponsePlugin({
+      statuses: [0, 200]
+    })]
+  }), 'GET');
+  workbox.registerRoute(({
+    url
+  }) => url.pathname.startsWith("/api/prescriptions"), new workbox.NetworkFirst({
+    "cacheName": "prescriptions-cache",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 10,
+      maxAgeSeconds: 31536000
+    }), new workbox.CacheableResponsePlugin({
+      statuses: [0, 200]
+    })]
+  }), 'GET');
+  workbox.registerRoute(({
+    url
+  }) => url.pathname.startsWith("/api/appointments"), new workbox.NetworkFirst({
+    "cacheName": "appointments-cache",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 10,
+      maxAgeSeconds: 31536000
+    }), new workbox.CacheableResponsePlugin({
+      statuses: [0, 200]
+    })]
+  }), 'GET');
+  workbox.registerRoute(({
+    url
+  }) => url.pathname.startsWith("/api/user"), new workbox.NetworkFirst({
+    "cacheName": "user-cache",
     plugins: [new workbox.ExpirationPlugin({
       maxEntries: 10,
       maxAgeSeconds: 31536000

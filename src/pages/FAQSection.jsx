@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect} from "react";
 
 const faqs = [
   {
@@ -25,38 +25,60 @@ const faqs = [
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState(null);
+  const contentRefs = useRef([]);
 
   const toggle = (i) => {
     setOpenIndex(openIndex === i ? null : i);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      contentRefs.current.forEach((ref, idx) => {
+        if (ref) {
+          ref.style.maxHeight = openIndex === idx? 
+             `${ref.scrollHeight}px`
+            : "0px";
+        }
+      });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [openIndex]);
+
+
+
   return (
     <section className="bg-gray-100 dark:bg-gray-900 py-12 px-4 md:px-8">
-  <h2 className="text-3xl font-semibold text-center mb-8">
-    Frequently Asked Questions
-  </h2>
+    <h2 className="text-3xl font-semibold text-center mb-8">
+       Frequently Asked Questions
+    </h2>
 
-  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+    <div className="flex flex-col gap-4 max-w-3xl mx-auto">
     {faqs.map((faq, idx) => (
       <div
         key={idx}
-        className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow hover:shadow-lg transition cursor-pointer"
+        className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer p-8"
         onClick={() => toggle(idx)}
       >
-        <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100">
+      <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">
           {faq.question}
-        </h3>
+      </h3>
 
-        <p
-          className={`mt-2 text-gray-700 dark:text-gray-300 transition-[max-height] duration-300 overflow-hidden ${
-            openIndex === idx ? "max-h-96" : "max-h-0"
-          }`}
-        >
-          {faq.answer}
-        </p>
-      </div>
-    ))}
-  </div>
+      
+
+  <div
+  ref={(el) => (contentRefs.current[idx] = el)}
+  style={{
+    height: openIndex === idx ? "auto" : "0",
+    overflow: "hidden",
+    transition: "height 0.3s ease",
+  }}
+>
+  <div className="p-6 mb-1">{faq.answer}</div>
+</div>
+    </div>
+ ))}
+</div>
 </section>
   );
 };

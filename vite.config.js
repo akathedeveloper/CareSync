@@ -1,21 +1,67 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: "autoUpdate",
+      devOptions: {
+        enabled: true,
+      },
+      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      manifest: {
+        name: "CareSync",
+        short_name: "CareSync",
+        description: "A healthcare web application with offline support.",
+        theme_color: "#ffffff",
+        icons: [
+          {
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
+      },
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        runtimeCaching: [
+          {
+            urlPattern: new RegExp('^https://your-api-url.com/.*'),
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "api-cache",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
+      },
+    }),
+  ],
 
-  // ✅ This is correct: assets served from root (important on Vercel)
   base: "/",
 
   build: {
-    outDir: "dist", // ✅ Vercel expects dist as output
-    assetsDir: "assets", // ✅ default is "assets", good to keep
-    sourcemap: false, // ✅ smaller build
+    outDir: "dist",
+    assetsDir: "assets",
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ["react", "react-dom"], // ✅ splits vendor bundle
-          router: ["react-router-dom"], // ✅ splits router bundle
+          vendor: ["react", "react-dom"],
+          router: ["react-router-dom"],
         },
       },
     },
@@ -26,7 +72,7 @@ export default defineConfig({
     setupFiles: "./src/setupTests.js",
   },
   server: {
-    port: 3000, // ✅ only used locally
-    host: true, // ✅ allows LAN access during dev
+    port: 3000,
+    host: true,
   },
 });

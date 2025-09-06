@@ -3,6 +3,7 @@ import { useAppointments } from "../../contexts/AppointmentContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { useOffline } from "../../contexts/OfflineContext";
 import { findDoctorById } from "../../data/dummyData";
+import { SkeletonCard } from "../common/SkeletonLoader";
 import { ChevronDownIcon, CalendarIcon, ClockIcon, UserIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import RatingFeedback from "../common/RatingFeedback";
 

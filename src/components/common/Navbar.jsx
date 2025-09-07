@@ -32,6 +32,50 @@ const Navbar = () => {
     }
   }, [isMobileMenuOpen]);
 
+  // Function to handle navigation to sections
+  const handleNavigation = (id) => {
+    // If we're already on the home page, just scroll to the section
+    if (location.pathname === '/') {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // If we're on a different page, navigate to home and then scroll to section
+      navigate('/', { 
+        state: { scrollTo: id }
+      });
+    }
+  };
+
+  // Function to handle logo click
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      // If already on home page, scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // If on different page, navigate to home
+      navigate('/');
+    }
+  };
+
+  // Function to scroll to section after page load
+  useEffect(() => {
+    // Check if we have a scroll target in location state
+    if (location.state && location.state.scrollTo) {
+      const element = document.getElementById(location.state.scrollTo);
+      if (element) {
+        // Small timeout to ensure the page has rendered
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+          // Clear the state to prevent scrolling on every render
+          window.history.replaceState({}, document.title);
+        }, 100);
+      }
+    }
+  }, [location]);
+
   // show only home link on auth pages
   const menuItems = isAuthPage 
     ? [{ name: "Home", id: "home" }]
@@ -51,15 +95,8 @@ const Navbar = () => {
           <div className="flex items-center space-x-6">
             <a
               key="Logo"
-              href={isAuthPage ? "/" : "#home"}
-              onClick={(e) => {
-                e.preventDefault();
-                if (isAuthPage) {
-                  navigate('/');
-                } else {
-                  document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
+              href="/"
+              onClick={handleLogoClick}
             >   
               <div className="flex items-center">
                 <div className="w-10 h-10">
@@ -102,7 +139,7 @@ const Navbar = () => {
                   href={`#${item.id}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                    handleNavigation(item.id);
                   }}
                   className={`relative transition-all duration-300 font-medium group px-2 py-1 rounded-md ${
                     activeSection === item.id
@@ -191,7 +228,7 @@ const Navbar = () => {
             {menuItems.map((item) => (
               <a
                 key={item.id}
-                href={isAuthPage ? "/" : `#${item.id}`}
+                href={`#${item.id}`}
                 className={`block text-center py-3 transition-all duration-300 font-medium relative group
                 after:content-[''] after:absolute after:left-0 after:bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
                 hover:after:scale-x-100 ${
@@ -202,11 +239,7 @@ const Navbar = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   setIsMobileMenuOpen(false);
-                  if (isAuthPage) {
-                    navigate('/');
-                  } else {
-                    document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
-                  }
+                  handleNavigation(item.id);
                 }}
               >
                 {item.name}

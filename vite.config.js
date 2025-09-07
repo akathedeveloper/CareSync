@@ -31,6 +31,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // allow up to 5MB
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.startsWith("/api/reminders"),

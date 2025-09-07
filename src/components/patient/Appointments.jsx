@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import { useAppointments } from "../../contexts/AppointmentContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { useOffline } from "../../contexts/OfflineContext";
 import { findDoctorById } from "../../data/dummyData";
 import { ChevronDownIcon, CalendarIcon, ClockIcon, UserIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import RatingFeedback from "../common/RatingFeedback";
@@ -8,6 +9,7 @@ import RatingFeedback from "../common/RatingFeedback";
 const Appointments = () => {
   const { user } = useAuth();
   const { appointments, doctors, bookAppointment } = useAppointments();
+  const { isOnline, queueAction } = useOffline();
 
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
@@ -55,14 +57,29 @@ const Appointments = () => {
   const handleBooking = (e) => {
     e.preventDefault();
     if (selectedDoctor && selectedDate && selectedTime && patientName) {
-      bookAppointment({
-        patientId: user.id,
-        doctorId: selectedDoctor,
-        date: selectedDate,
-        time: selectedTime,
-        patientName: patientName,
-        notes: notes,
-      });
+      if (isOnline) {
+        bookAppointment({
+          patientId: user.id,
+          doctorId: selectedDoctor,
+          date: selectedDate,
+          time: selectedTime,
+          patientName: patientName,
+          notes: notes,
+        });
+      } else {
+        queueAction({
+          type: 'bookAppointment',
+          data: {
+            patientId: user.id,
+            doctorId: selectedDoctor,
+            date: selectedDate,
+            time: selectedTime,
+            patientName: patientName,
+            notes: notes,
+          },
+        });
+        alert('Appointment booked offline. It will be synced when you reconnect.');
+      }
       setSelectedDoctor("");
       setSelectedDate("");
       setSelectedTime("");

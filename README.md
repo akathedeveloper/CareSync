@@ -142,7 +142,8 @@ Thanks to these amazing people who have contributed to the **CareSync** project:
 
 <!-- readme: contributors -start -->
 <p align="center">
-    <img src="https://api.vaunt.dev/v1/github/entities/akathedeveloper/repositories/CareSync/contributors?format=svg&limit=54" width="1000" />
+    <img src="https://api.vaunt.dev/v1/github/entities/akathedeveloper/repositories/CareSync/contributors?format=svg&limit=54" width="1000" 
+    alt="List of CareSync project contributors"/>
 </p>
 <!-- readme: contributors -end -->
 
@@ -195,7 +196,7 @@ If CareSync has helped you, please consider:
 <p align="center">
   Thank you for your support!
   <a href="https://github.com/akathedeveloper/CareSync/stargazers">
-    <img src="https://img.shields.io/github/stars/akathedeveloper/CareSync?style=for-the-badge&logo=github&color=FFC107&logoColor=white" alt="GitHub Stars">
+    <img src="https://img.shields.io/github/stars/akathedeveloper/CareSync?style=for-the-badge&logo=github&color=FFC107&logoColor=white" alt="CareSync GitHub repository stars badge"/>
   </a>
 </p>
 

@@ -7,9 +7,12 @@ import {
   SunIcon,
   XMarkIcon,
   QuestionMarkCircleIcon,
+  WifiIcon,
+  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useOffline } from "../../contexts/OfflineContext";
 import PropTypes from "prop-types";
 import NotificationDropdown from "../NotificationDropdown";
 
@@ -58,6 +61,7 @@ ConfirmationModal.propTypes = {
 const Header = () => {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
+  const { isOnline, queuedActions } = useOffline();
   const navigate = useNavigate();
 
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
@@ -89,68 +93,99 @@ const Header = () => {
     user?.name || user?.displayName || user?.email || "User";
 
   return (
-    <header className="bg-surface border-subtle border-b shadow-sm">
-      <div className="px-6 py-2">
-        <div className="flex justify-between items-center">
-          <div
-            className="flex items-center cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            <h1 className="text-2xl font-bold text-primary">CareSync</h1>
-            <span className="ml-2 px-2 py-1 bg-primary-100/80 text-primary-800 text-xs rounded-full dark:bg-primary-900/30 dark:text-primary-200">
-              Beta
-            </span>
-          </div>
-
-          <div className="flex items-center space-x-2 sm:space-x-4">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800 transition-colors"
-              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-              aria-label="Toggle dark mode"
+    <>
+      <header className="bg-surface border-subtle border-b shadow-sm">
+        <div className="px-6 py-2">
+          <div className="flex justify-between items-center">
+            <div
+              className="flex items-center cursor-pointer"
+              onClick={() => navigate("/")}
             >
-              {isDark ? (
-                <SunIcon className="h-6 w-6" />
-              ) : (
-                <MoonIcon className="h-6 w-6" />
-              )}
-            </button>
+              <h1 className="text-2xl font-bold text-primary">CareSync</h1>
+              <span className="ml-2 px-2 py-1 bg-primary-100/80 text-primary-800 text-xs rounded-full dark:bg-primary-900/30 dark:text-primary-200">
+                Beta
+              </span>
+            </div>
 
-            <NotificationDropdown />
-
-            <div className="flex items-center space-x-2">
-              <Link
-                to="/dashboard/profile"
-                className="flex items-center space-x-2 hover:bg-gray-100 rounded-md p-2 dark:hover:bg-gray-800"
-              >
-                <UserCircleIcon className="h-8 w-8 text-gray-600 dark:text-gray-300" />
-                <div className="text-sm">
-                  <p className="font-medium text-gray-900 dark:text-gray-100">
-                    {displayName}
-                  </p>
-                  <p className="text-gray-500 dark:text-gray-400">
-                    {getRoleDisplay(user?.role)}
-                  </p>
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              {!isOnline && (
+                <div className="flex items-center space-x-2 px-3 py-2 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded-lg">
+                  <ExclamationTriangleIcon className="h-5 w-5" />
+                  <span className="text-sm font-medium">Offline</span>
+                  {queuedActions.length > 0 && (
+                    <span className="text-xs bg-red-200 dark:bg-red-800 px-2 py-1 rounded-full">
+                      {queuedActions.length} queued
+                    </span>
+                  )}
                 </div>
-              </Link>
+              )}
+
               <button
-                onClick={() => setIsLogoutModalOpen(true)}
-                className="ml-2 p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors dark:text-gray-300 dark:hover:text-red-400 dark:hover:bg-red-950/30"
-                title="Logout"
+                onClick={toggleTheme}
+                className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800 transition-colors"
+                title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                aria-label="Toggle dark mode"
               >
-                <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                {isDark ? (
+                  <SunIcon className="h-6 w-6" />
+                ) : (
+                  <MoonIcon className="h-6 w-6" />
+                )}
               </button>
+
+              <NotificationDropdown />
+
+              <div className="flex items-center space-x-2">
+                <Link
+                  to="/dashboard/profile"
+                  className="flex items-center space-x-2 hover:bg-gray-100 rounded-md p-2 dark:hover:bg-gray-800"
+                >
+                  <UserCircleIcon className="h-8 w-8 text-gray-600 dark:text-gray-300" />
+                  <div className="text-sm">
+                    <p className="font-medium text-gray-900 dark:text-gray-100">
+                      {displayName}
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      {getRoleDisplay(user?.role)}
+                    </p>
+                  </div>
+                </Link>
+                <button
+                  onClick={() => setIsLogoutModalOpen(true)}
+                  className="ml-2 p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors dark:text-gray-300 dark:hover:text-red-400 dark:hover:bg-red-950/30"
+                  title="Logout"
+                >
+                  <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </header>
+
+      {!isOnline && (
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border-b border-yellow-200 dark:border-yellow-800 px-6 py-3">
+          <div className="flex items-center justify-center space-x-2 text-yellow-800 dark:text-yellow-200">
+            <WifiIcon className="h-5 w-5" />
+            <span className="text-sm font-medium">
+              You're currently offline. Your actions will be synced when connection is restored.
+            </span>
+            {queuedActions.length > 0 && (
+              <span className="text-xs bg-yellow-200 dark:bg-yellow-800 px-2 py-1 rounded-full">
+                {queuedActions.length} action{queuedActions.length !== 1 ? 's' : ''} queued
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
       {isLogoutModalOpen && (
         <ConfirmationModal
           onClose={() => setIsLogoutModalOpen(false)}
           onConfirm={handleLogout}
         />
       )}
-    </header>
+    </>
   );
 };
 

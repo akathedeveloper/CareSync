@@ -21,6 +21,7 @@ import ProfilePage from "./pages/ProfilePage";
 import "./index.css";
 import Prescriptions from "./components/patient/Prescriptions";
 import { AppointmentProvider } from "./contexts/AppointmentContext";
+import { OfflineProvider } from "./contexts/OfflineContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
@@ -242,54 +243,56 @@ function App() {
 
   return (
     <AuthProvider>
-      <MessageProvider>
-        <AppointmentProvider>
-          <Router>
-            <div className="App bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
-              <AppRoutes />
-              <Toaster
-                position="bottom-right"
-                toastOptions={{
-                  duration: 4000,
-                  style: {
-                    background: "var(--toast-bg, #fff)",
-                    color: "var(--toast-color, #333)",
-                    borderRadius: "12px",
-                    boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
-                    border: "1px solid var(--toast-border, #e5e7eb)",
-                  },
-                  success: {
-                    iconTheme: {  
-                      primary: "#10b981",
-                      secondary: "#fff",
-                    },
+      <AppointmentProvider>
+        <OfflineProvider>
+          <MessageProvider>
+            <Router>
+              <div className="App bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+                <AppRoutes />
+                <Toaster
+                  position="bottom-right"
+                  toastOptions={{
+                    duration: 4000,
                     style: {
-                      background: "#f0fdf4",
-                      color: "#065f46",
-                      border: "1px solid #bbf7d0",
+                      background: "var(--toast-bg, #fff)",
+                      color: "var(--toast-color, #333)",
+                      borderRadius: "12px",
+                      boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+                      border: "1px solid var(--toast-border, #e5e7eb)",
                     },
-                  },
-                  error: {
-                    iconTheme: {
-                      primary: "#ef4444",
-                      secondary: "#fff",
+                    success: {
+                      iconTheme: {
+                        primary: "#10b981",
+                        secondary: "#fff",
+                      },
+                      style: {
+                        background: "#f0fdf4",
+                        color: "#065f46",
+                        border: "1px solid #bbf7d0",
+                      },
                     },
-                    style: {
-                      background: "#fef2f2",
-                      color: "#991b1b",
-                      border: "1px solid #fecaca",
+                    error: {
+                      iconTheme: {
+                        primary: "#ef4444",
+                        secondary: "#fff",
+                      },
+                      style: {
+                        background: "#fef2f2",
+                        color: "#991b1b",
+                        border: "1px solid #fecaca",
+                      },
                     },
-                  },
-                }}
-                containerStyle={{
-                  top: 20,
-                  right: 20,
-                }}
-              />
-            </div>
-          </Router>
-        </AppointmentProvider>
-      </MessageProvider>
+                  }}
+                  containerStyle={{
+                    top: 20,
+                    right: 20,
+                  }}
+                />
+              </div>
+            </Router>
+          </MessageProvider>
+        </OfflineProvider>
+      </AppointmentProvider>
     </AuthProvider>
   );
 }

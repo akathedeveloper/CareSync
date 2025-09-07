@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRef } from "react";
 import {
   StarIcon,
   ChevronLeftIcon,
@@ -8,6 +9,9 @@ import {
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/solid";
 import { motion, AnimatePresence } from "framer-motion";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function Testimonials() {
   const testimonials = [
@@ -77,13 +81,30 @@ export default function Testimonials() {
     },
   ];
 
-  const [currentPage, setCurrentPage] = useState(0);
+  const sliderRef = useRef(null);
+
+  
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
   const [hoveredCard, setHoveredCard] = useState(null);
   
   // Responsive cards per page
   const [cardsPerPage, setCardsPerPage] = useState(3);
+
+  //Slider settings
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: cardsPerPage,
+    slidesToScroll: 1,
+    afterChange: (index) => setCurrentSlide(index),
+    responsive: [
+    { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+    { breakpoint: 640, settings: { slidesToShow: 1, slidesToScroll: 1 } }
+  ]
+  };
   
   useEffect(() => {
     const updateCardsPerPage = () => {
@@ -97,42 +118,11 @@ export default function Testimonials() {
     return () => window.removeEventListener('resize', updateCardsPerPage);
   }, []);
 
-  const totalPages = Math.ceil(testimonials.length / cardsPerPage);
-
-  // Auto-scroll functionality
-  useEffect(() => {
-    if (!isAutoScrolling) return;
-
-    const interval = setInterval(() => {
-      setDirection(1);
-      setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [currentPage, isAutoScrolling, totalPages]);
-
-  const handlePrev = () => {
-    setIsAutoScrolling(false);
-    setDirection(-1);
-    setCurrentPage((prev) => (prev > 0 ? prev - 1 : totalPages - 1));
-    setTimeout(() => setIsAutoScrolling(true), 8000);
-  };
-
-  const handleNext = () => {
-    setIsAutoScrolling(false);
-    setDirection(1);
-    setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
-    setTimeout(() => setIsAutoScrolling(true), 8000);
-  };
 
   const toggleAutoScroll = () => {
     setIsAutoScrolling(!isAutoScrolling);
   };
 
-  const currentCards = testimonials.slice(
-    currentPage * cardsPerPage,
-    currentPage * cardsPerPage + cardsPerPage
-  );
 
   const variants = {
     enter: (dir) => ({
@@ -243,126 +233,109 @@ export default function Testimonials() {
 
         {/* Main Testimonials Container */}
         <div className="relative">
-          {/* Enhanced Gradient Overlays */}
-          {/* <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-white via-white/95 to-transparent dark:from-gray-950 dark:via-gray-950/95 dark:to-transparent z-20 pointer-events-none" />
-          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-white via-white/95 to-transparent dark:from-gray-950 dark:via-gray-950/95 dark:to-transparent z-20 pointer-events-none" /> */}
 
           {/* Testimonials Grid */}
           <div className="relative min-h-[450px] lg:min-h-[425px] overflow-hidden">
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={currentPage}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ 
-                  duration: 0.8, 
-                  ease: [0.16, 1, 0.3, 1],
-                  type: "tween"
-                }}
-                className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 px-4"
-              >
-                {currentCards.map((testimonial, index) => (
-                  <motion.div
-                    key={`${currentPage}-${index}`}
-                    initial={{ opacity: 0, y: 60, scale: 0.9 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ 
-                      delay: index * 0.15,
-                      duration: 0.7,
-                      ease: "easeOut"
-                    }}
-                    onHoverStart={() => setHoveredCard(index)}
-                    onHoverEnd={() => setHoveredCard(null)}
-                    className="group relative"
-                  >
-                    {/* Enhanced Hover Glow */}
-                    <div className={`absolute -inset-4 bg-gradient-to-r from-emerald-500/20 via-emerald-400/30 to-emerald-600/20 dark:from-emerald-400/10 dark:via-emerald-300/15 dark:to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-3xl blur-2xl scale-110`} />
-                    
-                    {/* Card Container */}
-                    <div className="relative top-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl dark:shadow-gray-900/50 transition-all duration-500 transform hover:-translate-y-4 hover:shadow-2xl border border-gray-200/50 dark:border-gray-700/50 h-full flex flex-col">
+            <Slider ref={sliderRef} {...settings}>
+              {testimonials.map((testimonial, index) => (
+                <motion.div
+                      key={`${currentSlide}-${index}`}
+                      initial={{ opacity: 0, y: 60, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ 
+                        delay: index * 0.15,
+                        duration: 0.7,
+                        ease: "easeOut"
+                      }}
+                      onHoverStart={() => setHoveredCard(index)}
+                      onHoverEnd={() => setHoveredCard(null)}
+                      className="group relative px-4 py-6 flex h-full"
+                >
+                      {/* Enhanced Hover Glow */}
+                      <div className="absolute -inset-4 bg-gradient-to-r from-emerald-500/20 via-emerald-400/30 to-emerald-600/20 dark:from-emerald-400/10 dark:via-emerald-300/15 dark:to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-3xl blur-2xl scale-110" />
                       
-                      {/* Floating Quote Icon */}
-                      <motion.div
-                        animate={hoveredCard === index ? { 
-                          rotate: [0, 5, -5, 0],
-                          scale: [1, 1.1, 1]
-                        } : {}}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 dark:from-emerald-400 dark:to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg"
-                      >
-                        <ChatBubbleLeftRightIcon className="w-6 h-6 text-white" />
-                      </motion.div>
-
-                      {/* Rating Stars */}
-                      <div className="flex items-center mb-6">
-                        {[...Array(5)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            initial={{ opacity: 0, scale: 0, rotate: -180 }}
-                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                            transition={{ 
-                              delay: 0.3 + i * 0.1, 
-                              type: "spring",
-                              stiffness: 200
-                            }}
-                          >
-                            <StarIcon 
-                              className={`h-5 w-5 ${
-                                i < testimonial.rating 
-                                  ? 'text-yellow-400' 
-                                  : 'text-gray-300 dark:text-gray-600'
-                              } fill-current drop-shadow-sm`} 
-                            />
-                          </motion.div>
-                        ))}
-                      </div>
-
-                      {/* Testimonial Content */}
-                      <blockquote className="text-gray-700 dark:text-gray-200 mb-8 leading-relaxed text-base flex-grow relative">
-                        <span className="text-4xl text-emerald-500/30 dark:text-emerald-400/30 absolute -top-2 -left-2 font-serif">"</span>
-                        <span className="relative z-10 italic">{testimonial.content}</span>
-                        <span className="text-4xl text-emerald-500/30 dark:text-emerald-400/30 absolute -bottom-4 -right-2 font-serif">"</span>
-                      </blockquote>
-
-                      {/* User Info */}
-                      <div className="flex items-center mt-auto">
-                        <div className="relative">
-                          <motion.div
-                            animate={hoveredCard === index ? { scale: [1, 1.05, 1] } : {}}
-                            transition={{ duration: 2, repeat: Infinity }}
-                            className="w-14 h-14 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-900/50 dark:to-emerald-800/50 rounded-2xl flex items-center justify-center mr-4 font-bold text-emerald-600 dark:text-emerald-400 text-lg shadow-lg border border-emerald-200/50 dark:border-emerald-700/50"
-                          >
-                            {testimonial.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </motion.div>
-                          <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400/30 to-emerald-600/30 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        </div>
+                      {/* Card Container */}
+                      <div className="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl dark:shadow-gray-900/50 transition-all duration-500 transform hover:-translate-y-4 hover:shadow-2xl border border-gray-200/50 dark:border-gray-700/50 h-full w-full flex flex-col min-h-[380px]">
                         
-                        <div>
-                          <div className="font-bold text-gray-900 dark:text-gray-100 text-lg mb-1">
-                            {testimonial.name}
+                        {/* Floating Quote Icon */}
+                        <motion.div
+                          animate={hoveredCard === index ? { 
+                            rotate: [0, 5, -5, 0],
+                            scale: [1, 1.1, 1]
+                          } : {}}
+                          transition={{ duration: 2, repeat: Infinity }}
+                          className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 dark:from-emerald-400 dark:to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg"
+                        >
+                          <ChatBubbleLeftRightIcon className="w-6 h-6 text-white" />
+                        </motion.div>
+
+                        {/* Rating Stars */}
+                        <div className="flex items-center mb-6">
+                          {[...Array(5)].map((_, i) => (
+                            <motion.div
+                              key={i}
+                              initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                              viewport={{ once: true, amount: 0.5 }}
+                              transition={{ 
+                                delay: 0.3 + i * 0.1, 
+                                type: "spring",
+                                stiffness: 200
+                              }}
+                            >
+                              <StarIcon 
+                                className={`h-5 w-5 ${
+                                  i < testimonial.rating 
+                                    ? 'text-yellow-400' 
+                                    : 'text-gray-300 dark:text-gray-600'
+                                } fill-current drop-shadow-sm`} 
+                              />
+                            </motion.div>
+                          ))}
+                        </div>
+
+                        {/* Testimonial Content */}
+                        <blockquote className="text-gray-700 dark:text-gray-200 mb-8 leading-relaxed text-base flex-grow relative">
+                          <span className="text-1xl text-emerald-500 dark:text-emerald-400 font-serif align-top mr-2">"</span>
+                          <span className="relative z-10 italic">{testimonial.content}</span>
+                          <span className="text-1xl text-emerald-500 dark:text-emerald-400 font-serif align-bottom ml-2">"</span>
+                        </blockquote>
+
+                        {/* User Info */}
+                        <div className="flex items-center mt-auto">
+                          <div className="relative">
+                            <motion.div
+                              animate={hoveredCard === index ? { scale: [1, 1.05, 1] } : {}}
+                              transition={{ duration: 2, repeat: Infinity }}
+                              className="w-14 h-14 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-900/50 dark:to-emerald-800/50 rounded-2xl flex items-center justify-center mr-4 font-bold text-emerald-600 dark:text-emerald-400 text-lg shadow-lg border border-emerald-200/50 dark:border-emerald-700/50"
+                            >
+                              {testimonial.name
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
+                            </motion.div>
+                            <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400/30 to-emerald-600/30 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                           </div>
-                          <div className="text-sm text-emerald-600 dark:text-emerald-400 font-medium mb-1">
-                            {testimonial.role}
-                          </div>
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
-                            {testimonial.hospital}
+                          
+                          <div>
+                            <div className="font-bold text-gray-900 dark:text-gray-100 text-lg mb-1">
+                              {testimonial.name}
+                            </div>
+                            <div className="text-sm text-emerald-600 dark:text-emerald-400 font-medium mb-1">
+                              {testimonial.role}
+                            </div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              {testimonial.hospital}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+                </motion.div>
+              ))}
+            </Slider>
           </div>
         </div>
-
+        
         {/* Enhanced Control Panel */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -375,7 +348,7 @@ export default function Testimonials() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handlePrev}
+              onClick={() => sliderRef.current.slickPrev()}
               className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl shadow-xl dark:shadow-gray-900/50 rounded-2xl p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 group"
               aria-label="Previous testimonials"
             >
@@ -385,7 +358,7 @@ export default function Testimonials() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleNext}
+              onClick={() => sliderRef.current.slickNext()}
               className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl shadow-xl dark:shadow-gray-900/50 rounded-2xl p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 group"
               aria-label="Next testimonials"
             >
@@ -412,7 +385,7 @@ export default function Testimonials() {
             <div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
             
             <span className="text-gray-600 dark:text-gray-300 font-medium">
-              {currentPage + 1} of {totalPages}
+              {currentSlide + 1} of {Math.ceil(testimonials.length)}
             </span>
             
             {isAutoScrolling && (
@@ -430,24 +403,20 @@ export default function Testimonials() {
 
         {/* Enhanced Progress Indicators */}
         <div className="flex justify-center gap-3 mt-8">
-          {Array.from({ length: totalPages }).map((_, index) => (
+          {testimonials.map((_, index) => (
             <motion.button
               key={index}
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.9 }}
-              onClick={() => {
-                setCurrentPage(index);
-                setIsAutoScrolling(false);
-                setTimeout(() => setIsAutoScrolling(true), 8000);
-              }}
+              onClick={() => sliderRef.current.slickGoTo(index)}
               className="relative overflow-hidden rounded-full transition-all duration-500"
             >
               <div className={`h-3 rounded-full transition-all duration-500 ${
-                index === currentPage 
+                index === currentSlide
                   ? 'w-10 bg-gradient-to-r from-emerald-500 to-emerald-600 shadow-lg' 
                   : 'w-3 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
               }`} />
-              {index === currentPage && (
+              {index === currentSlide && (
                 <motion.div
                   layoutId="activeIndicator"
                   className="absolute inset-0 bg-emerald-400/50 rounded-full blur-sm"

@@ -184,11 +184,7 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.message || 'Login failed');
       }
       localStorage.setItem('token', data.token);
-      const backendUser = {
-        ...data.user,
-        role: role || 'patient',
-        isBackendUser: true
-      };
+      const backendUser = { ...data.user, role: role || 'patient', isBackendUser: true };
       setUser(backendUser);
       localStorage.setItem("caresync_user", JSON.stringify(backendUser));
       return { success: true, user: backendUser };
@@ -221,11 +217,7 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.message || 'Registration failed');
       }
       localStorage.setItem('token', data.token);
-      const backendUser = {
-        ...data.user,
-        role: userData.role || 'patient',
-        isBackendUser: true
-      };
+      const backendUser = { ...data.user, role: userData.role || 'patient', isBackendUser: true };
       setUser(backendUser);
       localStorage.setItem("caresync_user", JSON.stringify(backendUser));
       return { success: true, user: backendUser };

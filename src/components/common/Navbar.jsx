@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Bars3Icon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useAuth } from "../../contexts/AuthContext";
@@ -13,6 +13,10 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const { user } = useAuth();
+  const location = useLocation();
+  
+  // check if current page is login or register
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
   
   // Define section IDs for scroll spy
   const sectionIds = ['home', 'features', 'pricing', 'testimonials', 'contact-form'];
@@ -28,72 +32,134 @@ const Navbar = () => {
     }
   }, [isMobileMenuOpen]);
 
-  const menuItems = [
-    { name: "Home", id: "home" },
-    { name: "Features", id: "features" },
-    { name: "Pricing", id: "pricing" },
-    { name: "Testimonials", id: "testimonials" },
-    { name: "Contact", id: "contact-form" }
-  ];
+  // Function to handle navigation to sections
+  const handleNavigation = (id) => {
+    // If we're already on the home page, just scroll to the section
+    if (location.pathname === '/') {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // If we're on a different page, navigate to home and then scroll to section
+      navigate('/', { 
+        state: { scrollTo: id }
+      });
+    }
+  };
+
+  // Function to handle logo click
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      // If already on home page, scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // If on different page, navigate to home
+      navigate('/');
+    }
+  };
+
+  // Function to scroll to section after page load
+  useEffect(() => {
+    // Check if we have a scroll target in location state
+    if (location.state && location.state.scrollTo) {
+      const element = document.getElementById(location.state.scrollTo);
+      if (element) {
+        // Small timeout to ensure the page has rendered
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+          // Clear the state to prevent scrolling on every render
+          window.history.replaceState({}, document.title);
+        }, 100);
+      }
+    }
+  }, [location]);
+
+  // show only home link on auth pages
+  const menuItems = isAuthPage 
+    ? [{ name: "Home", id: "home" }]
+    : [
+        { name: "Home", id: "home" },
+        { name: "Features", id: "features" },
+        { name: "Pricing", id: "pricing" },
+        { name: "Testimonials", id: "testimonials" },
+        { name: "Contact", id: "contact-form" }
+      ];
 
   return (
     <nav className="fixed top-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo with smooth scroll functionality */}
-          <a
-            key="Home"
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
-            }}
-          >   
-            <div className="flex items-center">
-              <div className="w-10 h-10">
-                <img
-                  src="/CareSync-Logo.png"
-                  alt="CareSync Logo"
-                  className="w-full h-full"
-                />
+          {/* Logo and Home link section */}
+          <div className="flex items-center space-x-6">
+            <a
+              key="Logo"
+              href="/"
+              onClick={handleLogoClick}
+            >   
+              <div className="flex items-center">
+                <div className="w-10 h-10">
+                  <img
+                    src="/CareSync-Logo.png"
+                    alt="CareSync Logo"
+                    className="w-full h-full"
+                  />
+                </div>
+                <span
+                  className="ml-3 font-bold text-emerald-600 dark:text-emerald-400"
+                  style={{ fontSize: "1.375rem" }}
+                >
+                  CareSync
+                </span>
               </div>
-              <span
-                className="ml-3 font-bold text-emerald-600 dark:text-emerald-400"
-                style={{ fontSize: "1.375rem" }}
-              >
-                CareSync
-              </span>
-            </div>
-          </a>
-
-          {/* Desktop Menu with scroll spy functionality */}
-          <div className="hidden md:flex items-center space-x-8">
-            {menuItems.map((item) => (
+            </a>
+            
+            {/* Home link on auth pages */}
+            {isAuthPage && (
               <a
-                key={item.id}
-                href={`#${item.id}`}
+                href="/"
                 onClick={(e) => {
                   e.preventDefault();
-                  document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                  navigate('/');
                 }}
-                className={`relative transition-all duration-300 font-medium group px-2 py-1 rounded-md ${
-                  activeSection === item.id
-                    ? "text-emerald-600 dark:text-emerald-400 font-semibold drop-shadow-sm bg-emerald-50 dark:bg-emerald-900/20"
-                    : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-50 dark:hover:bg-gray-800/50"
-                }`}
+                className="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium"
               >
-                {item.name}
-                <span 
-                  className={`absolute left-0 -bottom-1 h-[2px] bg-emerald-600 transition-all duration-300 ${
-                    activeSection === item.id ? "w-full" : "w-0 group-hover:w-full"
-                  }`} 
-                />
-                {activeSection === item.id && (
-                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                )}
+                Home
               </a>
-            ))}
+            )}
           </div>
+
+          {/* Desktop Menu with navigation functionality */}
+          {!isAuthPage && (
+            <div className="hidden md:flex items-center space-x-8">
+              {menuItems.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation(item.id);
+                  }}
+                  className={`relative transition-all duration-300 font-medium group px-2 py-1 rounded-md ${
+                    activeSection === item.id
+                      ? "text-emerald-600 dark:text-emerald-400 font-semibold drop-shadow-sm bg-emerald-50 dark:bg-emerald-900/20"
+                      : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                  }`}
+                >
+                  {item.name}
+                  <span 
+                    className={`absolute left-0 -bottom-1 h-[2px] bg-emerald-600 transition-all duration-300 ${
+                      activeSection === item.id ? "w-full" : "w-0 group-hover:w-full"
+                    }`} 
+                  />
+                  {activeSection === item.id && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                  )}
+                </a>
+              ))}
+            </div>
+          )}
 
 
           {/* Mobile Menu Button */}
@@ -170,7 +236,11 @@ const Navbar = () => {
                     ? "text-emerald-600 dark:text-emerald-400 after:scale-x-100 bg-emerald-50 dark:bg-emerald-900/20 font-semibold shadow-sm"
                     : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
                 }`}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMobileMenuOpen(false);
+                  handleNavigation(item.id);
+                }}
               >
                 {item.name}
               </a>

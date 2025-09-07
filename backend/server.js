@@ -1,14 +1,14 @@
-const express= require("express");
-const http = require("http");
-const { Server } = require("socket.io");
-const cors= require("cors")
-const morgan= require("morgan")
-const dotenv= require("dotenv")
-const connectDB = require("./config/db")
-const authRoutes= require("./routes/authRoutes")
-const messageRoutes = require("./routes/messageRoutes")
-const {notFound, errorHandler}= require("./middleware/error")
-const { handleSocketConnection } = require("./controllers/socketController")
+import express from 'express'
+import http from 'http'
+import cors from 'cors'
+import morgan from 'morgan';
+import dotenv from 'dotenv'
+import connectDB from './config/db'
+import messageRoutes from './routes/messageRoutes'
+import authRoutes from './routes/authRoutes'
+import { handleSocketConnection } from './controllers/socketController';
+import Server from 'socket.io'
+import {notFound, errorHandler} from './middleware/error'
 
 
 dotenv.config({ path: './config.env' });

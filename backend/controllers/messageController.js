@@ -1,12 +1,12 @@
-const Message = require('../db/models/Message');
-const Conversation = require('../db/models/Conversation');
+import {Message} from '../db/models/Message.js'
+import {Conversation} from '../db/models/Conversation.js'
 
 const getMessages = async (req, res) => {
     res.json({ message: "Messages from branch" });
 }
 
 
-const getUserConversations = async (req, res) => {
+export const getUserConversations = async (req, res) => {
   try {
     const userId = req.user.id;
     
@@ -30,7 +30,7 @@ const getUserConversations = async (req, res) => {
   }
 };
 
-const getConversationMessages = async (req, res) => {
+export const getConversationMessages = async (req, res) => {
   try {
     const { conversationId } = req.params;
     const userId = req.user.id;
@@ -79,7 +79,7 @@ const getConversationMessages = async (req, res) => {
   }
 };
 
-const sendMessage = async (req, res) => {
+export const sendMessage = async (req, res) => {
   try {
     const { conversationId, content, messageType = 'text' } = req.body;
     const senderId = req.user.id;
@@ -127,7 +127,7 @@ const sendMessage = async (req, res) => {
   }
 };
 
-const createOrGetConversation = async (req, res) => {
+export const createOrGetConversation = async (req, res) => {
   try {
     const { participantId } = req.body;
     const currentUserId = req.user.id;
@@ -175,11 +175,4 @@ const createOrGetConversation = async (req, res) => {
       message: 'Failed to create conversation'
     });
   }
-};
-
-module.exports = {
-  getUserConversations,
-  getConversationMessages,
-  sendMessage,
-  createOrGetConversation
 };

@@ -1,26 +1,100 @@
 import React, { useState } from "react";
-
+//   Updated FAQ Data Array
 const faqs = [
   {
-    question: "What is CareSync?",
+    question: "What is CareSync and who can benefit from it?",
     answer:
-      "CareSync is a role‑based healthcare assistant platform that simplifies communication between doctors, pharmacists, and patients.",
+      "CareSync is a role-based healthcare assistant platform tailored for patients, doctors, and pharmacists. It streamlines prescription management, reminders, appointment coordination, and secure communication.",
   },
   {
-    question: "How do I manage prescriptions?",
+    question: "How do I manage my prescriptions using CareSync?",
     answer:
-      "You can manage prescriptions in your dashboard—add, view, and receive reminders in real time.",
+      "Within your dashboard, you can add, view, and update prescriptions. CareSync also sends real-time reminders to help patients stay on track with their medication.",
   },
   {
-    question: "Is my data secure?",
+    question: "How secure is my data with CareSync?",
     answer:
-      "Yes, the platform is designed with security in mind, using modern best practices to protect your health data.",
+      "CareSync is HIPAA-compliant and uses industry-standard encryption and authentication to safeguard all your personal and medical information.",
   },
   {
-    question: "Who can use CareSync?",
+    question: "Can I access CareSync on any device?",
     answer:
-      "CareSync is designed for patients, pharmacists, and doctors—each user sees tools relevant to their role.",
+      "Absolutely—CareSync is fully responsive, supporting usage on desktops, tablets, and mobile devices through modern browsers.",
   },
+  {
+    question: "How do I switch between Dark Mode and Light Mode?",
+    answer:
+      "You can toggle between themes using the sun/moon icon in the navigation bar—this ensures a comfortable experience in any lighting condition.",
+  },
+  {
+    question: "What if I forget my password?",
+    answer:
+      "Simply click the 'Forgot Password' link on the login page and follow the steps. A password reset link will be sent to your registered email.",
+  },
+  {
+    question: "How do I reach out for help or support?",
+    answer:
+      "Head to the Contact section and fill out the form or use the provided contact details—you’ll get help promptly from our 24/7 support team.",
+  },
+  {
+    question: "Is CareSync free to use?",
+    answer:
+      "CareSync offers a free tier with core features. Enhanced tools and integrations are available via premium subscription plans.",
+  },
+  {
+      question: "How much does CareSync cost?",
+      answer:
+        "CareSync offers flexible pricing based on your organization’s size and needs. Visit our Pricing page or contact our sales team for a custom quote.",
+    },
+  {
+    question: "How does CareSync ensure secure communication between users?",
+    answer:
+      "All communications—whether between doctors, pharmacists, and patients—are protected using encrypted channels and access controls to maintain privacy.",
+  },
+  {
+    question: "Can I sync my care data across multiple accounts?",
+    answer:
+      "CareSync supports synchronized access across your devices using the same account, ensuring a seamless experience wherever you log in.",
+  },
+  {
+    question: "Does CareSync send appointment reminders as well?",
+    answer:
+      "Yes! In addition to prescription reminders, CareSync can notify you about upcoming appointments if your provider sets them in the system.",
+  },
+  {
+    question: "Where can I find more information about CareSync’s compliance and privacy policies?",
+    answer:
+      "Visit the GDPR Compliance, Privacy, or Terms of Service sections in the footer for full details on policies, legal standards, and data handling practices.",
+  }, {
+      question: "Does CareSync offer an API?",
+      answer:
+        "Yes, CareSync provides a secure API with detailed documentation, allowing healthcare providers and partners to integrate our platform with their existing systems.",
+    },
+    {
+      question: "What integrations are available with CareSync?",
+      answer:
+        "CareSync integrates with major Electronic Health Record (EHR) systems, scheduling tools, and other healthcare software to ensure smooth data flow and collaboration.",
+    },
+    {
+      question: "Where can I find product documentation?",
+      answer:
+        "You can access our full API documentation and user guides from the Documentation section of the website.",
+    },
+    {
+      question: "What resources does CareSync provide for support?",
+      answer:
+        "We offer a Help Center, a Community forum, Webinars, and a Status page to keep you updated. You can also contact support anytime through our Contact page.",
+    },
+    {
+      question: "How does CareSync comply with privacy laws?",
+      answer:
+        "CareSync follows GDPR, HIPAA, and other international compliance standards. You can review details in our Privacy Policy, Terms of Service, and Cookie Policy pages.",
+    },
+    {
+      question: "Where can I learn about careers at CareSync?",
+      answer:
+        "Check out the Careers page to explore open positions and learn about our culture and values.",
+    },
 ];
 
 const FAQSection = () => {

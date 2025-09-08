@@ -7,42 +7,56 @@ import {
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { MessageProvider } from "./contexts/MessageContext";
-import LandingPage from "./pages/LandingPage";
-import ContactPage from "./pages/ContactPage";
-import AboutPage from "./pages/AboutPage";
-import Layout from "./components/common/Layout";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import PatientDashboard from "./components/patient/PatientDashboard";
-import DoctorDashboard from "./components/doctor/DoctorDashboard";
-import PharmacistDashboard from "./components/pharmacist/PharmacistDashboard";
-import LoadingSpinner from "./components/common/LoadingSpinner";
-import ProfilePage from "./pages/ProfilePage";
-import "./index.css";
-import Prescriptions from "./components/patient/Prescriptions";
 import { AppointmentProvider } from "./contexts/AppointmentContext";
 import { OfflineProvider } from "./contexts/OfflineContext";
-import Appointments from "./components/patient/Appointments";
-import Schedule from "./components/doctor/Schedule";
-import HealthLogs from "./components/patient/HealthLogs";
-import Blog from "./pages/Blog";
-import Career from "./pages/Career1";
-import Notifications from "./pages/Notifications";
-import PrivacyPolicy from "./pages/privacy";
-import Feature from "./pages/Feature";
-import Patients from "./components/doctor/Patients";
-import Messages from "./components/common/Messages";
-import Settings from "./components/common/Settings";
-import Inventory from "./components/patient/Inventory";
-import Prescription from "./components/pharmacist/Prescriptions";
-import PharmacistInventory from "./components/pharmacist/Inventory";
+import LoadingSpinner from "./components/common/LoadingSpinner";
+import LazyWrapper from "./components/common/LazyWrapper";
+import PerformanceMonitor from "./components/common/PerformanceMonitor";
 import { Toaster } from "react-hot-toast";
-import CookiePolicy from "./pages/Policy";
-import GDPRCompliance from "./pages/GDPRCompliance";
-import TermsOfServices from "./pages/TermsOfServices";
-import LicensePage from "./pages/License";
-import Contributors from "./components/common/Contributor";
-import ForgotPassword from "./pages/auth/ForgotPassword";
+import { initializePerformanceMonitoring } from "./utils/performance";
+import { 
+  usePerformanceMetrics, 
+  useMemoryMonitoring, 
+  useBundlePerformance 
+} from "./hooks/usePerformanceMetrics";
+import "./index.css";
+
+// Lazy-loaded components
+import {
+  LazyLandingPage,
+  LazyContactPage,
+  LazyAboutPage,
+  LazyBlog,
+  LazyCareer,
+  LazyFeature,
+  LazyPrivacyPolicy,
+  LazyCookiePolicy,
+  LazyGDPRCompliance,
+  LazyTermsOfServices,
+  LazyLicensePage,
+  LazyContributors,
+  LazyLogin,
+  LazyRegister,
+  LazyForgotPassword,
+  LazyPatientDashboard,
+  LazyDoctorDashboard,
+  LazyPharmacistDashboard,
+  LazyPrescriptions,
+  LazyAppointments,
+  LazyHealthLogs,
+  LazyInventory,
+  LazySchedule,
+  LazyPatients,
+  LazyPharmacistPrescriptions,
+  LazyPharmacistInventory,
+  LazyMessages,
+  LazySettings,
+  LazyProfilePage,
+  LazyNotifications,
+  LazyLayout,
+  preloadCriticalRoutes,
+  preloadUserRoutes,
+} from "./components/lazy/LazyRoutes";
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
@@ -83,6 +97,15 @@ const PublicRoute = ({ children, authOnly = false }) => {
 const AppRoutes = () => {
   const { user, loading } = useAuth();
 
+  // Preload routes based on user authentication
+  useEffect(() => {
+    preloadCriticalRoutes();
+    
+    if (user && user.role) {
+      preloadUserRoutes(user.role);
+    }
+  }, [user]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
@@ -102,29 +125,108 @@ const AppRoutes = () => {
       <Route
         path="/"
         element={
-          <>
-            <LandingPage />
-          </>
+          <LazyWrapper>
+            <LazyLandingPage />
+          </LazyWrapper>
         }
       />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/cookie-policy" element={<CookiePolicy />} />
-      <Route path="/feature" element={<Feature />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      <Route path="/gdpr-compliance" element={<GDPRCompliance />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/blog" element={<Blog />} />
-      <Route path="/career" element={<Career />} />
-      <Route path="/terms" element={<TermsOfServices />} />
-      <Route path="/contributor" element={<Contributors />} />
-      <Route path="/license" element={<LicensePage />} />
+      <Route 
+        path="/contact" 
+        element={
+          <LazyWrapper>
+            <LazyContactPage />
+          </LazyWrapper>
+        } 
+      />
+      <Route 
+        path="/cookie-policy" 
+        element={
+          <LazyWrapper>
+            <LazyCookiePolicy />
+          </LazyWrapper>
+        } 
+      />
+      <Route 
+        path="/feature" 
+        element={
+          <LazyWrapper>
+            <LazyFeature />
+          </LazyWrapper>
+        } 
+      />
+      <Route 
+        path="/privacy-policy" 
+        element={
+          <LazyWrapper>
+            <LazyPrivacyPolicy />
+          </LazyWrapper>
+        } 
+      />
+      <Route 
+        path="/gdpr-compliance" 
+        element={
+          <LazyWrapper>
+            <LazyGDPRCompliance />
+          </LazyWrapper>
+        } 
+      />
+      <Route 
+        path="/about" 
+        element={
+          <LazyWrapper>
+            <LazyAboutPage />
+          </LazyWrapper>
+        } 
+      />
+      <Route 
+        path="/blog" 
+        element={
+          <LazyWrapper>
+            <LazyBlog />
+          </LazyWrapper>
+        } 
+      />
+      <Route 
+        path="/career" 
+        element={
+          <LazyWrapper>
+            <LazyCareer />
+          </LazyWrapper>
+        } 
+      />
+      <Route 
+        path="/terms" 
+        element={
+          <LazyWrapper>
+            <LazyTermsOfServices />
+          </LazyWrapper>
+        } 
+      />
+      <Route 
+        path="/contributor" 
+        element={
+          <LazyWrapper>
+            <LazyContributors />
+          </LazyWrapper>
+        } 
+      />
+      <Route 
+        path="/license" 
+        element={
+          <LazyWrapper>
+            <LazyLicensePage />
+          </LazyWrapper>
+        } 
+      />
 
       {/* Auth Routes */}
       <Route
         path="/login"
         element={
           <PublicRoute authOnly={true}>
-            <Login />
+            <LazyWrapper>
+              <LazyLogin />
+            </LazyWrapper>
           </PublicRoute>
         }
       />
@@ -132,7 +234,9 @@ const AppRoutes = () => {
         path="/register"
         element={
           <PublicRoute authOnly={true}>
-            <Register />
+            <LazyWrapper>
+              <LazyRegister />
+            </LazyWrapper>
           </PublicRoute>
         }
       />
@@ -140,7 +244,9 @@ const AppRoutes = () => {
         path="/forgot-password"
         element={
           <PublicRoute authOnly={true}>
-            <ForgotPassword />
+            <LazyWrapper>
+              <LazyForgotPassword />
+            </LazyWrapper>
           </PublicRoute>
         }
       />
@@ -149,11 +255,20 @@ const AppRoutes = () => {
       <Route
         element={
           <ProtectedRoute>
-            <Layout />
+            <LazyWrapper>
+              <LazyLayout />
+            </LazyWrapper>
           </ProtectedRoute>
         }
       >
-        <Route path="/notifications" element={<Notifications />} />
+        <Route 
+          path="/notifications" 
+          element={
+            <LazyWrapper>
+              <LazyNotifications />
+            </LazyWrapper>
+          } 
+        />
       </Route>
 
       {/* Patient Routes */}
@@ -161,18 +276,76 @@ const AppRoutes = () => {
         path="/patient"
         element={
           <ProtectedRoute requiredRole="patient">
-            <Layout />
+            <LazyWrapper>
+              <LazyLayout />
+            </LazyWrapper>
           </ProtectedRoute>
         }
       >
-        <Route index element={<PatientDashboard />} />
-        <Route path="prescriptions" element={<Prescriptions />} />
-        <Route path="appointments" element={<Appointments />} />
-        <Route path="health-logs" element={<HealthLogs />} />
-        <Route path="messages" element={<Messages />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="inventory" element={<Inventory />} />
+        <Route 
+          index 
+          element={
+            <LazyWrapper>
+              <LazyPatientDashboard />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="prescriptions" 
+          element={
+            <LazyWrapper>
+              <LazyPrescriptions />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="appointments" 
+          element={
+            <LazyWrapper>
+              <LazyAppointments />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="health-logs" 
+          element={
+            <LazyWrapper>
+              <LazyHealthLogs />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="messages" 
+          element={
+            <LazyWrapper>
+              <LazyMessages />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="profile" 
+          element={
+            <LazyWrapper>
+              <LazyProfilePage />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="settings" 
+          element={
+            <LazyWrapper>
+              <LazySettings />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="inventory" 
+          element={
+            <LazyWrapper>
+              <LazyInventory />
+            </LazyWrapper>
+          } 
+        />
       </Route>
 
       {/* Doctor Routes */}
@@ -180,16 +353,60 @@ const AppRoutes = () => {
         path="/doctor"
         element={
           <ProtectedRoute requiredRole="doctor">
-            <Layout />
+            <LazyWrapper>
+              <LazyLayout />
+            </LazyWrapper>
           </ProtectedRoute>
         }
       >
-        <Route index element={<DoctorDashboard />} />
-        <Route path="schedule" element={<Schedule />} />
-        <Route path="patients" element={<Patients />} />
-        <Route path="messages" element={<Messages />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="settings" element={<Settings />} />
+        <Route 
+          index 
+          element={
+            <LazyWrapper>
+              <LazyDoctorDashboard />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="schedule" 
+          element={
+            <LazyWrapper>
+              <LazySchedule />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="patients" 
+          element={
+            <LazyWrapper>
+              <LazyPatients />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="messages" 
+          element={
+            <LazyWrapper>
+              <LazyMessages />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="profile" 
+          element={
+            <LazyWrapper>
+              <LazyProfilePage />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="settings" 
+          element={
+            <LazyWrapper>
+              <LazySettings />
+            </LazyWrapper>
+          } 
+        />
       </Route>
 
       {/* Pharmacist Routes */}
@@ -197,16 +414,60 @@ const AppRoutes = () => {
         path="/pharmacist"
         element={
           <ProtectedRoute requiredRole="pharmacist">
-            <Layout />
+            <LazyWrapper>
+              <LazyLayout />
+            </LazyWrapper>
           </ProtectedRoute>
         }
       >
-        <Route index element={<PharmacistDashboard />} />
-        <Route path="messages" element={<Messages />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="prescriptions" element={<Prescription />} />
-        <Route path="inventory" element={<PharmacistInventory />} />
+        <Route 
+          index 
+          element={
+            <LazyWrapper>
+              <LazyPharmacistDashboard />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="messages" 
+          element={
+            <LazyWrapper>
+              <LazyMessages />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="profile" 
+          element={
+            <LazyWrapper>
+              <LazyProfilePage />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="settings" 
+          element={
+            <LazyWrapper>
+              <LazySettings />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="prescriptions" 
+          element={
+            <LazyWrapper>
+              <LazyPharmacistPrescriptions />
+            </LazyWrapper>
+          } 
+        />
+        <Route 
+          path="inventory" 
+          element={
+            <LazyWrapper>
+              <LazyPharmacistInventory />
+            </LazyWrapper>
+          } 
+        />
       </Route>
 
       {/* Catch-All Redirect */}
@@ -225,6 +486,21 @@ const AppRoutes = () => {
 };
 
 function App() {
+  const { measureOperation } = usePerformanceMetrics('App');
+  
+  // Initialize performance monitoring
+  useEffect(() => {
+    measureOperation('initialize', () => {
+      initializePerformanceMonitoring();
+    });
+  }, [measureOperation]);
+
+  // Monitor memory usage
+  useMemoryMonitoring();
+  
+  // Monitor bundle performance
+  useBundlePerformance();
+
   useEffect(() => {
     if (
       "serviceWorker" in navigator &&
@@ -249,6 +525,7 @@ function App() {
             <Router>
               <div className="App bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
                 <AppRoutes />
+                <PerformanceMonitor />
                 <Toaster
                   position="bottom-right"
                   toastOptions={{

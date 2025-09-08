@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
   plugins: [
@@ -92,23 +93,73 @@ export default defineConfig({
         ],
       },
     }),
+    // Bundle analyzer plugin
+    visualizer({
+      filename: "dist/stats.html",
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+    }),
   ],
   base: "/",
   build: {
     outDir: "dist",
     assetsDir: "assets",
     sourcemap: false,
+    target: 'esnext',
+    minify: 'terser',
     rollupOptions: {
       output: {
         manualChunks: {
+          // Core vendor chunks
           vendor: ["react", "react-dom"],
           router: ["react-router-dom"],
+          
+          // UI and styling chunks
+          ui: ["framer-motion", "react-hot-toast", "@heroicons/react"],
+          
+          // Authentication and context chunks
+          auth: ["firebase/app", "firebase/auth", "firebase/firestore"],
+          
+          // Chart and visualization libraries
+          charts: ["chart.js", "react-chartjs-2"],
+          
+          // Utilities and other libraries
+          utils: ["localforage", "socket.io-client"],
         },
+        // Better file naming for caching
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
       },
     },
+    // Enable tree shaking and compression
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    // Chunk size warning limit
+    chunkSizeWarningLimit: 1000,
   },
   server: {
     port: 3000,
     host: true,
+    // Enable HMR optimizations
+    hmr: {
+      overlay: false,
+    },
+  },
+  // Optimize dependency pre-bundling
+  optimizeDeps: {
+    include: [
+      'react', 
+      'react-dom', 
+      'react-router-dom',
+      'react-hot-toast',
+      'framer-motion'
+    ],
+    exclude: ['@vite/client', '@vite/env'],
   },
 });

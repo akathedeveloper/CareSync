@@ -1,8 +1,8 @@
-const crypto = require('crypto');
-const bcrypt = require('bcryptjs');
-const User = require('../db/models/User');
-const PasswordReset = require('../db/models/PasswordReset');
-const nodemailer = require('nodemailer');
+import crypto from 'crypto'
+import bcrypt from 'bcryptjs'
+import { User } from '../db/models/User.js'
+import nodemailer from 'nodemailer'
+import PasswordReset from '../db/models/PasswordReset.js'
 
 // Configure nodemailer (you should update with your email settings)
 const transporter = nodemailer.createTransport({
@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // POST /api/auth/forgot-password
-exports.forgotPassword = async (req, res) => {
+export const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
 
@@ -103,7 +103,7 @@ exports.forgotPassword = async (req, res) => {
 };
 
 // POST /api/auth/reset-password/:token
-exports.resetPassword = async (req, res) => {
+export const resetPassword = async (req, res) => {
     try {
         const { token } = req.params;
         const { password } = req.body;
@@ -177,7 +177,7 @@ exports.resetPassword = async (req, res) => {
 };
 
 // GET /api/auth/verify-reset-token/:token
-exports.verifyResetToken = async (req, res) => {
+export const verifyResetToken = async (req, res) => {
     try {
         const { token } = req.params;
 

@@ -1,6 +1,6 @@
-const bcrypt= require("bcryptjs")
-const jwt= require("jsonwebtoken")
-const {User}= require("../db/models/User.js")
+import bcrypt from 'bcryptjs'
+import {User} from '../db/models/User.js'
+import jwt from 'jsonwebtoken'
 
 // make a token for a user id
  const makeToken= (userId) => 
@@ -9,7 +9,7 @@ const {User}= require("../db/models/User.js")
 // post /api/auth/register
 // sign controller
 
-exports.register= async (req , res , next) => {
+export const register= async (req , res , next) => {
     try {
         const {name, email, password, role = "patient"}= req.body;
 
@@ -42,7 +42,7 @@ exports.register= async (req , res , next) => {
 //POST /api/auth/login
 // Login Controller
 
-exports.login = async (req, res, next) => {
+export const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
@@ -66,6 +66,6 @@ exports.login = async (req, res, next) => {
 
 // GET /api/auth/me (need login)
 
-exports.me = async (req, res) => {
+export const me = async (req, res) => {
   res.json({ user: req.user }); // req.user comes from auth middleware
 };

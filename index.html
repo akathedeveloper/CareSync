@@ -7,9 +7,16 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="manifest" href="/manifest.json" />
     <title>CareSync – Smart Healthcare Assistant Platform</title>
+    <style>
+      /* Focus highlight for accessibility */
+      :focus {
+        outline: 3px solid #3b82f6; /* Blue outline for focused element */
+        outline-offset: 2px;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" tabindex="0"></div> <!-- Added tabindex for keyboard focus -->
     <!-- ✅ Vite will replace this with built assets in dist/ -->
     <script type="module" src="/src/main.jsx"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>

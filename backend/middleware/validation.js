@@ -130,10 +130,3 @@ export const validateAuth = {
         next();
     }
 };
-
-module.exports = {
-    validateInput,
-    rateLimit,
-    validateAuth,
-    sanitizeObject
-};

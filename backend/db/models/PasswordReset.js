@@ -17,7 +17,7 @@ const passwordResetSchema = new mongoose.Schema({
     },
     used: {
         type: Boolean,
-        default: false
+        default: false      
     }
 }, {
     timestamps: true
@@ -26,4 +26,5 @@ const passwordResetSchema = new mongoose.Schema({
 // Index for automatic cleanup
 passwordResetSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-export const PasswordReset = mongoose.model('PasswordReset', passwordResetSchema);
+const PasswordReset = mongoose.model('PasswordReset', passwordResetSchema);
+export default PasswordReset

@@ -1,7 +1,7 @@
 import express from 'express'
-import { login, me, register } from '../controllers/authController';
-import { forgotPassword, resetPassword, verifyResetToken } from '../controllers/passwordResetController';
-import { isAuthenticated } from '../middleware/auth';
+import { login, me, register } from '../controllers/authController.js';
+import { forgotPassword, resetPassword, verifyResetToken } from '../controllers/passwordResetController.js';
+import { isAuthenticated } from '../middleware/auth.js';
 // const auth = require("../middleware/auth");
 // const { validateAuth } = require("../middleware/validation");
 

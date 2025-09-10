@@ -25,34 +25,17 @@ const patientMenuItems = [
     icon: ClipboardDocumentListIcon,
   },
   { name: "Health Logs", href: "/patient/health-logs", icon: UserGroupIcon },
-  {
-    name: "Notifications",
-    href: "/notifications",
-    icon: BellIcon,
-  },
-  {
-    name: "Messages",
-    href: "/patient/messages",
-    icon: ChatBubbleLeftRightIcon,
-  },
+  { name: "Notifications", href: "/notifications", icon: BellIcon },
+  { name: "Messages", href: "/patient/messages", icon: ChatBubbleLeftRightIcon },
   { name: "Settings", href: "/patient/settings", icon: CogIcon },
 ];
 
 const doctorMenuItems = [
   { name: "Dashboard", href: "/doctor", icon: HomeIcon },
-  {
-    name: "Schedule",
-    href: "/doctor/schedule",
-    icon: ClipboardDocumentListIcon,
-  },
+  { name: "Schedule", href: "/doctor/schedule", icon: ClipboardDocumentListIcon },
   { name: "Patients", href: "/doctor/patients", icon: UserGroupIcon },
-  {
-    name: "Notifications",
-    href: "/notifications",
-    icon: BellIcon,
-  },
+  { name: "Notifications", href: "/notifications", icon: BellIcon },
   { name: "Messages", href: "/doctor/messages", icon: ChatBubbleLeftRightIcon },
-  
   { name: "Settings", href: "/doctor/settings", icon: CogIcon },
 ];
 
@@ -64,11 +47,7 @@ const pharmacistMenuItems = [
     icon: ClipboardDocumentListIcon,
   },
   { name: "Inventory", href: "/pharmacist/inventory", icon: UserGroupIcon },
-  {
-    name: "Notifications",
-    href: "/notifications",
-    icon: BellIcon,
-  },
+  { name: "Notifications", href: "/notifications", icon: BellIcon },
   {
     name: "Messages",
     href: "/pharmacist/messages",
@@ -128,6 +107,8 @@ export default function Sidebar() {
           className="fixed inset-0 bg-black/40 z-40 lg:hidden"
           onClick={() => setOpen(false)}
           aria-label="Sidebar overlay"
+          role="button"
+          tabIndex={0}
         />
       )}
 
@@ -153,8 +134,9 @@ export default function Sidebar() {
           <div className="ml-auto lg:hidden">
             <button
               aria-label="Close Sidebar"
-              className="p-1"
+              className="p-1 focus:outline-none focus:ring-2 focus:ring-primary-400"
               onClick={() => setOpen(false)}
+              tabIndex={0}
             >
               <XMarkIcon className="h-7 w-7 text-gray-500 dark:text-gray-300" />
             </button>
@@ -170,7 +152,9 @@ export default function Sidebar() {
                 <li key={item.name}>
                   <Link
                     to={item.href}
-                    className={`flex items-center px-4 py-2 text-base rounded-lg transition-colors group ${
+                    tabIndex={0}
+                    aria-label={item.name}
+                    className={`flex items-center px-4 py-2 text-base rounded-lg transition-colors group focus:outline-none focus:ring-2 focus:ring-primary-400 ${
                       isActive
                         ? "bg-primary-100 text-primary-700 font-semibold shadow-inner dark:bg-primary-900/20 dark:text-primary-200"
                         : "text-gray-700 hover:bg-primary-50 hover:text-primary-700 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-primary-200"

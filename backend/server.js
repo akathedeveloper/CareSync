@@ -3,13 +3,19 @@ import http from 'http'
 import cors from 'cors'
 import morgan from 'morgan';
 import dotenv from 'dotenv'
-import connectDB from './config/db'
-import messageRoutes from './routes/messageRoutes'
-import authRoutes from './routes/authRoutes'
-import { handleSocketConnection } from './controllers/socketController';
-import Server from 'socket.io'
-import {notFound, errorHandler} from './middleware/error'
+import {connectDB} from './config/db.js'
+import messageRoutes from './routes/messageRoutes.js'
+import authRoutes from './routes/authRoutes.js'
+import { handleSocketConnection } from './controllers/socketController.js';
+import {Server} from 'socket.io'
+import errorMiddleware from './middleware/error.js';
 
+// handle uncaught error
+process.on("uncaughtException", (err)=>{
+  console.log(`Error: ${err.message}`);
+  console.log('Shutting down the server due to uncaught exception');
+  process.exit(1)
+})
 
 dotenv.config({ path: './config.env' });
 connectDB();
@@ -43,8 +49,17 @@ app.get("/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-app.use(notFound);
-app.use(errorHandler);
+// middleware for errors
+app.use(errorMiddleware)
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT} with Socket.IO`));
+const myServer = server.listen(PORT, () => console.log(`Server running on port ${PORT} with Socket.IO`));
+
+// unhandled Promise rejection
+process.on("unhandledRejection", (err)=>{
+  console.log(`Error: ${err.message}`);
+  console.log('Shutting down the server due to unhandled Promise rejection');
+  myServer.close(()=>{
+    process.exit(1)
+  })
+})

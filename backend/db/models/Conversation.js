@@ -32,4 +32,6 @@ const conversationSchema = new mongoose.Schema({
 conversationSchema.index({ participants: 1 });
 conversationSchema.index({ lastMessageTime: -1 });
 
-export const Conversation = mongoose.model('Conversation', conversationSchema);
+const Conversation = mongoose.model('Conversation', conversationSchema);
+
+export default Conversation

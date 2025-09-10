@@ -1,5 +1,5 @@
 // Input validation and sanitization middleware
-const validateInput = (req, res, next) => {
+export const validateInput = (req, res, next) => {
     // Sanitize request body
     if (req.body && typeof req.body === 'object') {
         sanitizeObject(req.body);
@@ -14,7 +14,7 @@ const validateInput = (req, res, next) => {
 };
 
 // Input sanitization helper
-function sanitizeObject(obj) {
+export function sanitizeObject(obj) {
     for (const key in obj) {
         if (typeof obj[key] === 'string') {
             // Remove potential XSS vectors
@@ -30,7 +30,7 @@ function sanitizeObject(obj) {
 }
 
 // Rate limiting middleware
-const rateLimit = (maxRequests = 100, windowMs = 15 * 60 * 1000) => {
+export const rateLimit = (maxRequests = 100, windowMs = 15 * 60 * 1000) => {
     const requests = new Map();
     
     return (req, res, next) => {
@@ -60,7 +60,7 @@ const rateLimit = (maxRequests = 100, windowMs = 15 * 60 * 1000) => {
 };
 
 // Validation rules for auth routes
-const validateAuth = {
+export const validateAuth = {
     register: (req, res, next) => {
         const { name, email, password, role } = req.body;
         

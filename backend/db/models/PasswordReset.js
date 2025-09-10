@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const passwordResetSchema = new mongoose.Schema({
     userId: {
@@ -26,4 +26,4 @@ const passwordResetSchema = new mongoose.Schema({
 // Index for automatic cleanup
 passwordResetSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-module.exports = mongoose.model('PasswordReset', passwordResetSchema);
+export const PasswordReset = mongoose.model('PasswordReset', passwordResetSchema);

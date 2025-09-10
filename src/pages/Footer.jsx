@@ -48,90 +48,153 @@ export default function Footer() {
       title: "Legal",
       links: [
         { name: "Privacy Policy", href: "/privacy-policy", isRoute: true },
-        { name: "Terms of Service", href: "/terms", isRoute: true },
-        { name: "Cookie Policy", href: "/cookie-policy", isRoute: true },
-        { name: "GDPR Compliance", href: "/gdpr-compliance", isRoute: true },
-        { name: "Licenses", href: "#", isRoute: false },
-      ],
-    },
-  ];
 
-  const [isVisible, setIsVisible] = React.useState(false);
 
-  React.useEffect(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY > 300);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+            {/* Scroll to top button */}
 
-  return (
-    <footer
-      id="contact"
-      className="z-50 w-full bg-primary-100 dark:bg-primary-900/10 text-primary-900 dark:text-primary-50"
-    >
-      {/* Scroll to top button */}
-      {isVisible && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          tabIndex="0"
-          className="fixed w-10 h-10 p-2 text-xl font-bold text-white transition rounded-lg cursor-pointer bottom-8 right-8 bg-gradient-to-r from-medical-500 to-primary-600 hover:from-primary-500 hover:to-medical-600 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500"
-          aria-label="Scroll to Top"
-        >
-          <ChevronDoubleUpIcon />
-        </button>
-      )}
+{isVisible && (
 
-      <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {/* Brand + Social (centered) */}
-        <div className="flex flex-col items-center mb-10 space-y-4 text-center">
-          <div className="flex items-center justify-center">
-            <div className="flex items-center justify-center w-10 h-10 shadow-lg bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl">
-              <HeartIcon className="w-6 h-6 text-white" />
-            </div>
-            <span className="ml-2 text-xl font-bold">CareSync</span>
-          </div>
+  <button
 
-          <p className="max-w-md text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            Revolutionizing healthcare through seamless collaboration between
-            patients, doctors, and pharmacists.
-          </p>
+    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
 
-          {/* Social icons */}
-          <div className="flex justify-center gap-3">
-            <a
-              href="/contact"
-              tabIndex="0"
-              aria-label="Contact Us"
-              title="Contact Us"
-              className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-emerald-400 dark:hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              <EnvelopeIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
-            </a>
-            <a
-              href="/privacy-policy"
-              tabIndex="0"
-              aria-label="Terms & Conditions"
-              title="Terms & Conditions"
-              className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-400 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <DocumentTextIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
-            </a>
-            <a
-              href="https://github.com/akathedeveloper/CareSync"
-              target="_blank"
-              rel="noopener noreferrer"
-              tabIndex="0"
-              aria-label="GitHub Repository"
-              title="GitHub Repository"
-              className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-gray-900 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
-            >
-              <CodeBracketIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white" />
-            </a>
-          </div>
-        </div>
+    tabIndex={0} // ✅ keyboard focus
 
+    className="fixed w-10 h-10 p-2 text-xl font-bold text-white transition rounded-lg cursor-pointer bottom-8 right-8 bg-gradient-to-r from-medical-500 to-primary-600 hover:from-primary-500 hover:to-medical-600 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500"
+
+    aria-label="Scroll to Top"
+
+  >
+
+    <ChevronDoubleUpIcon />
+
+  </button>
+
+)}
+
+{/* Social icons */}
+
+<div className="flex justify-center gap-3">
+
+  <a
+
+    href="/contact"
+
+    tabIndex={0} // ✅ keyboard focus
+
+    aria-label="Contact Us"
+
+    title="Contact Us"
+
+    className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-emerald-400 dark:hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+
+  >
+
+    <EnvelopeIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white dark:hover:text-white" />
+
+  </a>
+
+  <a
+
+    href="https://www.linkedin.com/"
+
+    target="_blank"
+
+    rel="noopener noreferrer"
+
+    tabIndex={0}
+
+    aria-label="LinkedIn"
+
+    className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+  >
+
+    <i className="fa-brands fa-linkedin text-gray-700 dark:text-white hover:text-white dark:hover:text-white transition-colors duration-300"></i>
+
+  </a>
+
+  <a
+
+    href="https://twitter.com/"
+
+    target="_blank"
+
+    rel="noopener noreferrer"
+
+    tabIndex={0}
+
+    aria-label="Twitter"
+
+    className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-sky-400 dark:hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500"
+
+  >
+
+    <i className="fa-brands fa-twitter text-gray-700 dark:text-white hover:text-white dark:hover:text-white transition-colors duration-300"></i>
+
+  </a>
+
+  <a
+
+    href="https://facebook.com/"
+
+    target="_blank"
+
+    rel="noopener noreferrer"
+
+    tabIndex={0}
+
+    aria-label="Facebook"
+
+    className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-blue-600 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
+
+  >
+
+    <i className="fa-brands fa-facebook text-gray-700 dark:text-white hover:text-white dark:hover:text-white transition-colors duration-300"></i>
+
+  </a>
+
+  <a
+
+    href="/privacy-policy"
+
+    tabIndex={0}
+
+    aria-label="Terms & Conditions"
+
+    title="Terms & Conditions"
+
+    className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-violet-500 dark:hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-500"
+
+  >
+
+    <DocumentTextIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white dark:hover:text-white" />
+
+  </a>
+
+  <a
+
+    href="https://github.com/akathedeveloper/CareSync"
+
+    target="_blank"
+
+    rel="noopener noreferrer"
+
+    tabIndex={0}
+
+    aria-label="GitHub Repository"
+
+    title="GitHub Repository"
+
+    className="flex items-center justify-center w-10 h-10 transition bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-gray-900 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+
+  >
+
+    <CodeBracketIcon className="w-5 h-5 text-gray-700 dark:text-white hover:text-white dark:hover:text-white" />
+
+  </a>
+
+</div>
         {/* Link Sections (under social) */}
         <div className="grid grid-cols-2 gap-10 text-center md:grid-cols-4 md:text-left">
           {linkSections.map((section) => (

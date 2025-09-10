@@ -1,21 +1,32 @@
-<h1 align="center">
-  <img width="50" height="50" alt="CareSync Logo" src="https://github.com/user-attachments/assets/d3b506b8-2605-45ae-ade7-21bdbe28829d" />
-  <br>
-  CareSync
-</h1>
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=1abc9c&height=200&section=header&text=Welcome+to+CareSync!&fontSize=40&fontColor=fff&animation=twinkling" alt="CareSync Banner"/>
+  <br/>
+  <img width="120" height="120" src="https://github.com/user-attachments/assets/d3b506b8-2605-45ae-ade7-21bdbe28829d" alt="CareSync Logo"/>
+</div>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" height="6"/>
+</p>
+
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=38&duration=2500&pause=1000&color=1ABC9C&center=true&vCenter=true&width=800&lines=Revolutionizing+Healthcare+🚑;Organized+Data+%7C+Easy+Appointments;Join+the+Mission+💚" alt="Typing Animation" />
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" height="6"/>
+</p>
 
 <p align="center">
   <b>This project is now OFFICIALLY accepted for:</b>
 </p>
 
-
 <div align="center">
   <img src="https://github.com/apu52/METAVERSE/assets/114172928/e79eb6de-81b1-4ffb-b6ed-f018bb977e88" alt="GSSOC" width="80%">
 </div>
 
+---
 
-  **📊 Project Insights**
+## 📊 Project Insights
 
 <table align="center">
     <thead align="center">
@@ -42,24 +53,24 @@
     </tbody>
 </table>
 
-
 ---
 
----
 > **💡 Tired of scattered medical records and endless paperwork?**  
 > **CareSync** transforms healthcare management with:  
 > ✨ **Organized health data**  
 > ✨ **Hassle-free appointments**  
 > ✨ **Seamless doctor-patient communication**  
-> *Built with cutting-edge tech—for everyone, by everyone.*  
+> *Built with cutting-edge tech - for everyone, by everyone.*  
+
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=1000&color=FF5733&center=true&vCenter=true&width=500&lines=Welcome+to+CareSync!;Healthcare+Made+Smarter+💡;Open+Source+For+All+🌍" alt="Typing Animation"/>
+</p>
 
 ---
-🤝 Join the Mission: Contribute, innovate, and make healthcare truly accessible!
 
----
-**📂 Folder Structure**
+## 📂 Folder Structure
 
-```bash
+```bash 
 care-sync-app/
 ├── public/                 # Static assets
 │   ├── vite.svg            # Default Vite icon
@@ -83,11 +94,17 @@ care-sync-app/
 ├── tailwind.config.js      # Tailwind CSS config
 └── vite.config.js          # Vite configuration
 ```
-
 ---
+
+
 <h1 align="center">Supported By <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Folded%20Hands%20Light%20Skin%20Tone.png" alt="Folded Hands Light Skin Tone" width="25" height="25" /></h1>
 
 ---
+![Built with Love](https://img.shields.io/badge/Built%20With-❤️-red?style=for-the-badge)
+![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)
+![Maintained](https://img.shields.io/badge/Maintained-Yes-blue?style=for-the-badge)
+
+
 ## 📥 Submitting a Pull Request
 
 Follow these steps to contribute your changes to **CareSync**:
@@ -142,7 +159,8 @@ Thanks to these amazing people who have contributed to the **CareSync** project:
 
 <!-- readme: contributors -start -->
 <p align="center">
-    <img src="https://api.vaunt.dev/v1/github/entities/akathedeveloper/repositories/CareSync/contributors?format=svg&limit=54" width="1000" />
+    <img src="https://api.vaunt.dev/v1/github/entities/akathedeveloper/repositories/CareSync/contributors?format=svg&limit=54" width="1000" 
+    alt="List of CareSync project contributors"/>
 </p>
 <!-- readme: contributors -end -->
 
@@ -195,7 +213,7 @@ If CareSync has helped you, please consider:
 <p align="center">
   Thank you for your support!
   <a href="https://github.com/akathedeveloper/CareSync/stargazers">
-    <img src="https://img.shields.io/github/stars/akathedeveloper/CareSync?style=for-the-badge&logo=github&color=FFC107&logoColor=white" alt="GitHub Stars">
+    <img src="https://img.shields.io/github/stars/akathedeveloper/CareSync?style=for-the-badge&logo=github&color=FFC107&logoColor=white" alt="CareSync GitHub repository stars badge"/>
   </a>
 </p>
 

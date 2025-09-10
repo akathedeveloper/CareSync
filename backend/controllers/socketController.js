@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const Message = require('../models/Message');
-const Conversation = require('../models/Conversation');
+import jwt from 'jsonwebtoken'
+import { User } from '../db/models/User.js'
+import Message from '../db/models/Message.js'
+import Conversation from '../db/models/Conversation.js'
 
-const authenticateSocket = async (socket, next) => {
+export const authenticateSocket = async (socket, next) => {
   try {
     const token = socket.handshake.auth.token;
     
@@ -26,7 +26,7 @@ const authenticateSocket = async (socket, next) => {
   }
 };
 
-const handleSocketConnection = (io) => {
+export const handleSocketConnection = (io) => {
   io.use(authenticateSocket);
 
   io.on('connection', (socket) => {
@@ -221,5 +221,3 @@ const handleSocketConnection = (io) => {
     });
   });
 };
-
-module.exports = { handleSocketConnection };

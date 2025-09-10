@@ -41,7 +41,8 @@ export default function Blog() {
       {/* Back Button */}
       <Link
         to="/"
-        className="absolute top-6 left-6 flex items-center gap-2 text-green-700 dark:text-green-300 font-semibold hover:scale-105 transition-transform"
+        tabIndex={0}
+        className="absolute top-6 left-6 flex items-center gap-2 text-green-700 dark:text-green-300 font-semibold hover:scale-105 focus:outline focus:outline-2 focus:outline-green-500 transition-transform"
       >
         <ArrowLeft className="w-5 h-5" />
         Back
@@ -57,7 +58,9 @@ export default function Blog() {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="bg-white dark:bg-green-800/90 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden group"
+            tabIndex={0}
+            aria-label={`Read blog: ${post.title}`}
+            className="bg-white dark:bg-green-800/90 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 focus:outline focus:outline-2 focus:outline-green-500 transition-all duration-300 overflow-hidden group cursor-pointer"
           >
             <div className="overflow-hidden">
               <img

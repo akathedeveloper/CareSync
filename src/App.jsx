@@ -111,11 +111,15 @@ const AppRoutes = () => {
       <Route path="/cookie-policy" element={<CookiePolicy />} />
       <Route path="/feature" element={<Feature />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+  {/* Legacy redirects for older links */}
+  <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
       <Route path="/gdpr-compliance" element={<GDPRCompliance />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/career" element={<Career />} />
       <Route path="/terms" element={<TermsOfServices />} />
+  {/* Legacy redirect */}
+  <Route path="/terms-of-service" element={<Navigate to="/terms" replace />} />
       <Route path="/contributor" element={<Contributors />} />
       <Route path="/license" element={<LicensePage />} />
 
@@ -298,3 +302,4 @@ function App() {
 }
 
 export default App;
+

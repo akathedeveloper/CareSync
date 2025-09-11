@@ -99,76 +99,35 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route
-        path="/"
-        element={
-          <>
-            <LandingPage />
-          </>
-        }
-      />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/cookie-policy" element={<CookiePolicy />} />
       <Route path="/feature" element={<Feature />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-  {/* Legacy redirects for older links */}
-  <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+      {/* Legacy redirects for older links */}
+      <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
       <Route path="/gdpr-compliance" element={<GDPRCompliance />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/career" element={<Career />} />
       <Route path="/terms" element={<TermsOfServices />} />
-  {/* Legacy redirect */}
-  <Route path="/terms-of-service" element={<Navigate to="/terms" replace />} />
+      {/* Legacy redirect */}
+      <Route path="/terms-of-service" element={<Navigate to="/terms" replace />} />
       <Route path="/contributor" element={<Contributors />} />
       <Route path="/license" element={<LicensePage />} />
 
       {/* Auth Routes */}
-      <Route
-        path="/login"
-        element={
-          <PublicRoute authOnly={true}>
-            <Login />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <PublicRoute authOnly={true}>
-            <Register />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/forgot-password"
-        element={
-          <PublicRoute authOnly={true}>
-            <ForgotPassword />
-          </PublicRoute>
-        }
-      />
+      <Route path="/login" element={<PublicRoute authOnly={true}><Login /></PublicRoute>} />
+      <Route path="/register" element={<PublicRoute authOnly={true}><Register /></PublicRoute>} />
+      <Route path="/forgot-password" element={<PublicRoute authOnly={true}><ForgotPassword /></PublicRoute>} />
 
       {/* Shared Authenticated Routes */}
-      <Route
-        element={
-          <ProtectedRoute>
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
+      <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         <Route path="/notifications" element={<Notifications />} />
       </Route>
 
       {/* Patient Routes */}
-      <Route
-        path="/patient"
-        element={
-          <ProtectedRoute requiredRole="patient">
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
+      <Route path="/patient" element={<ProtectedRoute requiredRole="patient"><Layout /></ProtectedRoute>}>
         <Route index element={<PatientDashboard />} />
         <Route path="prescriptions" element={<Prescriptions />} />
         <Route path="appointments" element={<Appointments />} />
@@ -180,14 +139,7 @@ const AppRoutes = () => {
       </Route>
 
       {/* Doctor Routes */}
-      <Route
-        path="/doctor"
-        element={
-          <ProtectedRoute requiredRole="doctor">
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
+      <Route path="/doctor" element={<ProtectedRoute requiredRole="doctor"><Layout /></ProtectedRoute>}>
         <Route index element={<DoctorDashboard />} />
         <Route path="schedule" element={<Schedule />} />
         <Route path="patients" element={<Patients />} />
@@ -197,14 +149,7 @@ const AppRoutes = () => {
       </Route>
 
       {/* Pharmacist Routes */}
-      <Route
-        path="/pharmacist"
-        element={
-          <ProtectedRoute requiredRole="pharmacist">
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
+      <Route path="/pharmacist" element={<ProtectedRoute requiredRole="pharmacist"><Layout /></ProtectedRoute>}>
         <Route index element={<PharmacistDashboard />} />
         <Route path="messages" element={<Messages />} />
         <Route path="profile" element={<ProfilePage />} />
@@ -214,26 +159,14 @@ const AppRoutes = () => {
       </Route>
 
       {/* Catch-All Redirect */}
-      <Route
-        path="*"
-        element={
-          user ? (
-            <Navigate to={`/${user.role}`} replace />
-          ) : (
-            <Navigate to="/" replace />
-          )
-        }
-      />
+      <Route path="*" element={user ? <Navigate to={`/${user.role}`} replace /> : <Navigate to="/" replace />} />
     </Routes>
   );
 };
 
 function App() {
   useEffect(() => {
-    if (
-      "serviceWorker" in navigator &&
-      window.location.hostname !== "localhost"
-    ) {
+    if ("serviceWorker" in navigator && window.location.hostname !== "localhost") {
       navigator.serviceWorker
         .register("/service-worker.js", { scope: "/" })
         .then((registration) => {
@@ -265,32 +198,15 @@ function App() {
                       border: "1px solid var(--toast-border, #e5e7eb)",
                     },
                     success: {
-                      iconTheme: {
-                        primary: "#10b981",
-                        secondary: "#fff",
-                      },
-                      style: {
-                        background: "#f0fdf4",
-                        color: "#065f46",
-                        border: "1px solid #bbf7d0",
-                      },
+                      iconTheme: { primary: "#10b981", secondary: "#fff" },
+                      style: { background: "#f0fdf4", color: "#065f46", border: "1px solid #bbf7d0" },
                     },
                     error: {
-                      iconTheme: {
-                        primary: "#ef4444",
-                        secondary: "#fff",
-                      },
-                      style: {
-                        background: "#fef2f2",
-                        color: "#991b1b",
-                        border: "1px solid #fecaca",
-                      },
+                      iconTheme: { primary: "#ef4444", secondary: "#fff" },
+                      style: { background: "#fef2f2", color: "#991b1b", border: "1px solid #fecaca" },
                     },
                   }}
-                  containerStyle={{
-                    top: 20,
-                    right: 20,
-                  }}
+                  containerStyle={{ top: 20, right: 20 }}
                 />
               </div>
             </Router>
@@ -302,4 +218,3 @@ function App() {
 }
 
 export default App;
-

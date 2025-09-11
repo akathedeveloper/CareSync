@@ -1,6 +1,8 @@
-const bcrypt= require("bcryptjs")
-const jwt= require("jsonwebtoken")
-const {User}= require("../db/models/User.js")
+import bcrypt from 'bcryptjs'
+import {User} from '../db/models/User.js'
+import jwt from 'jsonwebtoken'
+import ErrorHandler from '../utils/errorHandler.js';
+import catchAsync from '../middleware/catchAsyncError.js'
 
 // make a token for a user id
  const makeToken= (userId) => 
@@ -9,20 +11,19 @@ const {User}= require("../db/models/User.js")
 // post /api/auth/register
 // sign controller
 
-exports.register= async (req , res , next) => {
-    try {
+export const register = catchAsync(async (req , res , next) => {
         const {name, email, password, role = "patient"}= req.body;
 
         if (!name || !email || !password)
-            return res.status(400).json({message: "All fields are required"});
+            return next(new ErrorHandler("All fields are required", 400))
 
         // Validate role
         if (!["patient", "doctor", "pharmacist"].includes(role)) {
-            return res.status(400).json({message: "Invalid role specified"});
+            return next(new ErrorHandler("Invalid role specified", 400))
         }
 
         const exists = await User.findOne({ email });
-        if (exists) return res.status(400).json({ message: "Email already in use" });
+        if (exists) return next(new ErrorHandler("Email already in use", 400));
 
         const hashed = await bcrypt.hash(password, 10);
         const user = await User.create({ name, email, password: hashed, role });
@@ -33,24 +34,18 @@ exports.register= async (req , res , next) => {
             token,
             user: { id: user._id, name: user.name, email: user.email, role: user.role }
         });
-    } catch (err) {
-        next(err);  
-    }
-};
-
-
+});
 //POST /api/auth/login
 // Login Controller
 
-exports.login = async (req, res, next) => {
-    try {
+export const login = catchAsync(async (req, res, next) => {
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ message: "Invalid email or password" });
+        if (!user)  return next(new ErrorHandler("Invalid Email or Password", 400));
 
         const ok = await bcrypt.compare(password, user.password);
-        if (!ok) return res.status(400).json({ message: "Invalid email or password" });
+        if (!ok)  return next(new ErrorHandler("Invalid Email or Password", 400));
 
         const token = makeToken(user._id);
         res.json({
@@ -58,14 +53,11 @@ exports.login = async (req, res, next) => {
             token,
             user: { id: user._id, name: user.name, email: user.email, role: user.role }
         });
-    } catch (err) {
-        next(err)
-    }
-};
+});
 
 
 // GET /api/auth/me (need login)
 
-exports.me = async (req, res) => {
+export const me = async (req, res) => {
   res.json({ user: req.user }); // req.user comes from auth middleware
 };

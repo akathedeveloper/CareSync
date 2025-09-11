@@ -1,16 +1,12 @@
-const mongoose = require("mongoose");
-const { User } = require("./models/User.js");
-const { Doctor } = require("./models/Doctor.js");
-const { Patient } = require("./models/patient.js");
-const {Pharmacy} = require("./models/Pharmacist.js"); // since you exported default
-
- 
+import mongoose from 'mongoose'
+import { User } from './models/User.js';
+import { Doctor } from './models/Doctor.js';
+import { Patient } from './models/Patient.js'
+import { Pharmacy } from './models/Pharmacist.js'
 
 const seedData = async () => {
   try {
-     
     
-
     // ================= USERS =================
     const userPatient = await User.create({
       name: "John Doe",

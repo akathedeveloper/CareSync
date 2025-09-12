@@ -43,15 +43,25 @@ const Navbar = () => {
   }, [isMobileMenuOpen]);
 
   // Function to handle navigation to sections
-  const handleNavigation = (id) => {
-    // If we're already on the home page, just scroll to the section
+  const handleNavigation = (id, isSection = true, path = null) => {
+    if (path) {
+      // For blog and similar full-page routes, navigate directly
+      navigate(path, { replace: true });
+      return;
+    }
+    if (!isSection) {
+      // For non-section routes like '/contributor'
+      navigate(`/${id}`, { replace: true });
+      return;
+    }
+    // For sections on the home page
     if (location.pathname === '/') {
       const element = document.getElementById(id);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      // If we're on a different page, navigate to home and then scroll to section
+      // If on a different page, navigate to home then scroll to section
       navigate('/', { 
         state: { scrollTo: id }
       });
@@ -90,11 +100,12 @@ const Navbar = () => {
   const menuItems = isAuthPage 
     ? [{ name: "Home", id: "home" }]
     : [
-        { name: "Home", id: "home" },
-        { name: "Features", id: "features" },
-        { name: "Pricing", id: "pricing" },
-        { name: "Testimonials", id: "testimonials" },
-        { name: "Contact", id: "contact-form" }
+        { name: "Home", id: "home", isSection: true },
+        { name: "Features", id: "features", isSection: true },
+        { name: "Pricing", id: "pricing", isSection: true },
+        { name: "Blog", path: "/blog", isSection: false },
+        { name: "Testimonials", id: "testimonials", isSection: true },
+        { name: "Contact", id: "contact-form", isSection: true }
       ];
 
   return (
@@ -146,13 +157,13 @@ const Navbar = () => {
               {menuItems.map((item) => (
                 <a
                   key={item.id}
-                  href={`#${item.id}`}
+                  href={item.path ? item.path : `#${item.id}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    handleNavigation(item.id);
+                    handleNavigation(item.id, item.isSection, item.path)
                   }}
                   className={`relative transition-all duration-300 font-medium group px-2 py-1 rounded-md text-sm xl:text-base ${
-                    activeSection === item.id
+                    (item.path ? location.pathname === item.path : activeSection === item.id)
                       ? "text-emerald-600 dark:text-emerald-400 font-semibold drop-shadow-sm bg-emerald-50 dark:bg-emerald-900/20"
                       : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-50 dark:hover:bg-gray-800/50"
                   }`}
@@ -262,18 +273,18 @@ const Navbar = () => {
             {menuItems.map((item) => (
               <a
                 key={item.id}
-                href={`#${item.id}`}
+                href={item.path ? item.path : `#${item.id}`}
                 className={`block py-3 px-6 transition-all duration-300 font-medium relative group
                 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
                 hover:after:scale-x-100 ${
-                  activeSection === item.id
+                  (item.path ? location.pathname === item.path : activeSection === item.id)
                     ? "text-emerald-600 dark:text-emerald-400 after:scale-x-100 bg-emerald-50 dark:bg-emerald-900/20 font-semibold"
                     : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
                 }`}
                 onClick={(e) => {
                   e.preventDefault();
                   setIsMobileMenuOpen(false);
-                  handleNavigation(item.id);
+                  handleNavigation(item.id, item.isSection, item.path)
                 }}
               >
                 {item.name}

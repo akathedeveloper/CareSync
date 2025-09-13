@@ -44,6 +44,7 @@ import LicensePage from "./pages/License";
 import Contributors from "./components/common/Contributor";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import CursorBurst from "./components/common/CursorBurst"; // Import the new component
+import ScrollToTop from "./components/common/ScrollToTop";
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
@@ -256,6 +257,7 @@ function App() {
         <OfflineProvider>
           <MessageProvider>
             <Router>
+              <ScrollToTop />
               <div className="App bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
                 <AppRoutes />
                 <Toaster

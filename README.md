@@ -72,27 +72,179 @@
 
 ```bash 
 care-sync-app/
-├── public/                 # Static assets
-│   ├── vite.svg            # Default Vite icon
-│   └── (other assets)      # Other static files
-├── src/                    # Source code
-│   ├── assets/             # Images, fonts, etc.
-│   ├── components/         # React components
-│   ├── pages/              # Page components
-│   ├── App.jsx             # Main app component
-│   ├── main.jsx            # Entry point
-│   └── index.css           # Global styles
-├── CODE_OF_CONDUCT.md      # Community guidelines
-├── CONTRIBUTING.md         # Contribution guide
-├── LICENSE                 # Project license
-├── README.md               # Project documentation
-├── eslint.config.js        # ESLint configuration
-├── index.html              # Main HTML file
-├── package.json            # Project dependencies
-├── package-lock.json       # Lock file
-├── postcss.config.js       # PostCSS config
-├── tailwind.config.js      # Tailwind CSS config
-└── vite.config.js          # Vite configuration
+├── .github/                          # GitHub configs & workflows
+│   ├── ISSUE_TEMPLATE/               # Issue templates
+│   │   ├── bug_report.yml
+│   │   ├── config.yml
+│   │   └── feature_request.yml
+│   ├── PULL_REQUEST_TEMPLATE.md      # Pull request template
+│   └── workflows/                    # GitHub Actions workflows
+│       └── cicd.yml
+├── .vscode/                          # VSCode configs
+│   └── tasks.json
+├── backend/                          # Backend (Node.js + Express + DB)
+│   ├── config/                       # App/DB configuration
+│   │   └── db.js
+│   ├── controllers/                  # Controllers (auth, messages, etc.)
+│   │   ├── authController.js
+│   │   ├── messageController.js
+│   │   ├── passwordResetController.js
+│   │   └── socketController.js
+│   ├── db/                           # Database models & seeders
+│   │   ├── models/
+│   │   │   ├── Conversation.js
+│   │   │   ├── Doctor.js
+│   │   │   ├── Message.js
+│   │   │   ├── PasswordReset.js
+│   │   │   ├── Patient.js
+│   │   │   ├── Pharmacist.js
+│   │   │   └── User.js
+│   │   └── seed.js
+│   ├── middleware/                   # Middlewares
+│   │   ├── auth.js
+│   │   ├── catchAsyncError.js
+│   │   ├── error.js
+│   │   └── validation.js
+│   ├── routes/                       # API routes
+│   │   ├── authRoutes.js
+│   │   └── messageRoutes.js
+│   ├── utils/                        # Utility helpers
+│   │   └── errorHandler.js
+│   ├── .env.example                  # Example env file
+│   ├── config.env                    # Config variables
+│   ├── PASSWORD_RESET.md             # Password reset flow docs
+│   ├── README.md                     # Backend documentation
+│   ├── package.json                  # Backend dependencies
+│   ├── package-lock.json             # Lock file
+│   └── server.js                     # Backend entry point
+├── public/                           # Static assets (served as-is)
+│   ├── CareSync-Complete-Logo.png
+│   ├── CareSync-Logo.png
+│   ├── cursors/
+│   │   ├── custompointer.cur
+│   │   └── custuomCursor.cur
+│   ├── favicon.png
+│   ├── favicon_128px.png
+│   ├── favicon_192px.png
+│   ├── manifest.json
+│   ├── offline.html
+│   ├── screenshot-desktop.png
+│   ├── screenshot-mobile.png
+│   ├── service-worker.js
+│   ├── underconstruction.svg
+│   └── vite.svg
+├── src/                              # Frontend source code
+│   ├── assets/                       # Images, icons, logos
+│   │   ├── gssoc logo.png
+│   │   ├── react.svg
+│   │   └── (screenshots & misc)
+│   ├── components/                   # UI components
+│   │   ├── common/                   # Shared components
+│   │   │   ├── CalendarModal.{jsx,css}
+│   │   │   ├── Contributor.jsx
+│   │   │   ├── CursorBurst.jsx
+│   │   │   ├── GitHubStatsSection.jsx
+│   │   │   ├── Header.jsx
+│   │   │   ├── Layout.jsx
+│   │   │   ├── LoadingSpinner.jsx
+│   │   │   ├── Messages.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── RatingFeedback.jsx
+│   │   │   ├── ScrollProgress.jsx
+│   │   │   ├── Settings.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── SkeletonLoader.jsx
+│   │   │   └── UnderConstruction.jsx
+│   │   ├── doctor/                   # Doctor dashboard components
+│   │   │   ├── DoctorDashboard.jsx
+│   │   │   ├── Messages.jsx
+│   │   │   ├── Patients.jsx
+│   │   │   ├── Schedule.jsx
+│   │   │   ├── Setings.jsx
+│   │   │   └── profile.jsx
+│   │   ├── patient/                  # Patient dashboard components
+│   │   │   ├── Appointments.jsx
+│   │   │   ├── HealthLogs.jsx
+│   │   │   ├── Inventory.jsx
+│   │   │   ├── MedicineReminders.jsx
+│   │   │   ├── PatientDashboard.jsx
+│   │   │   └── Prescriptions.jsx
+│   │   └── pharmacist/               # Pharmacist dashboard components
+│   │       ├── Inventory.jsx
+│   │       ├── PharmacistDashboard.jsx
+│   │       └── Prescriptions.jsx
+│   ├── contexts/                     # React Contexts
+│   │   ├── AppointmentContext.jsx
+│   │   ├── AuthContext.jsx
+│   │   ├── MessageContext.jsx
+│   │   ├── OfflineContext.jsx
+│   │   └── ThemeContext.jsx
+│   ├── data/                         # Static/dummy data
+│   │   ├── dummyData.js
+│   │   ├── vitalInput.jsx
+│   │   └── vitals.js
+│   ├── hooks/                        # Custom hooks
+│   │   ├── useMessages.js
+│   │   ├── useScrollSpy.js
+│   │   └── useSocket.js
+│   ├── pages/                        # Page-level components
+│   │   ├── AboutPage.jsx
+│   │   ├── Blog.jsx
+│   │   ├── Career1.jsx
+│   │   ├── ContactPage.jsx
+│   │   ├── ContactUs.jsx
+│   │   ├── FAQSection.jsx
+│   │   ├── Feature.jsx
+│   │   ├── Footer.jsx
+│   │   ├── GDPRCompliance.jsx
+│   │   ├── LandingPage.jsx
+│   │   ├── LandingPage.test.jsx
+│   │   ├── License.jsx
+│   │   ├── Notifications.jsx
+│   │   ├── Policy.jsx
+│   │   ├── PriceSection.jsx
+│   │   ├── ProfilePage.jsx
+│   │   ├── StatsSection.jsx
+│   │   ├── TermsOfServices.jsx
+│   │   ├── Testimonials.jsx
+│   │   ├── auth/                     # Auth pages
+│   │   │   ├── ForgotPassword.jsx
+│   │   │   ├── Login.jsx
+│   │   │   └── Register.jsx
+│   │   └── privacy.jsx
+│   ├── services/                     # API services
+│   │   ├── messageAPI.js
+│   │   └── socketService.js
+│   ├── styles/                       # CSS files
+│   │   └── colors.css
+│   ├── __tests__/                    # Unit tests
+│   │   ├── components/
+│   │   │   └── PatientDashboard.test.jsx
+│   │   └── contexts/
+│   │       └── AuthContext.test.jsx
+│   ├── App.css
+│   ├── App.jsx
+│   ├── firebase.js
+│   ├── offline-banner.jsx
+│   ├── pwa-setup.js
+│   ├── pwa.test.jsx
+│   ├── setupTests.js
+│   ├── main.jsx
+│   └── index.css
+├── CODE_OF_CONDUCT.md                # Community guidelines
+├── CONTRIBUTING.md                   # Contribution guide
+├── LICENSE                           # Project license
+├── README.md                         # Project documentation
+├── TEST_COVERAGE_SUMMARY.md          # Test coverage report
+├── eslint.config.js                  # ESLint configuration
+├── index.html                        # Main HTML file
+├── package.json                      # Frontend dependencies
+├── package-lock.json                 # Lock file
+├── postcss.config.js                 # PostCSS config
+├── tailwind.config.js                # Tailwind CSS config
+├── vite.config.js                    # Vite configuration
+├── vitest.config.js                  # Vitest configuration
+└── vercel.json                       # Vercel deployment config
 ```
 ---
 

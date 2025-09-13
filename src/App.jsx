@@ -44,6 +44,7 @@ import LicensePage from "./pages/License";
 import Contributors from "./components/common/Contributor";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import CursorBurst from "./components/common/CursorBurst"; // Import the new component
+import HelpCenter from "./pages/HelpCenter";
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
@@ -126,6 +127,28 @@ const AppRoutes = () => {
         <Route path="/terms" element={<TermsOfServices />} />
         <Route path="/contributor" element={<Contributors />} />
         <Route path="/license" element={<LicensePage />} />
+        <Route path="/help-center" element={<HelpCenter />} />
+        <Route 
+          path="/coming-soon" 
+          element={
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+              <div className="text-center px-4">
+                <h1 className="text-4xl md:text-5xl font-bold text-emerald-600 dark:text-emerald-400 mb-4">
+                  Coming Soon
+                </h1>
+                <p className="text-gray-600 dark:text-gray-300 mb-8">
+                  We're working hard to bring you this feature. Stay tuned!
+                </p>
+                <a
+                  href="/"
+                  className="inline-block bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700 transition-colors"
+                >
+                  Return Home
+                </a>
+              </div>
+            </div>
+          }
+        />
 
         {/* Auth Routes */}
         <Route

@@ -44,14 +44,21 @@ const Navbar = () => {
 
   // Function to handle navigation to sections
   const handleNavigation = (id, isSection = true, path = null) => {
+    // Clear any existing scroll targets
+    if (window.history.state && window.history.state.scrollTo) {
+      window.history.replaceState({}, document.title);
+    }
+
     if (path) {
       // For blog and similar full-page routes, navigate directly
-      navigate(path, { replace: true });
+      navigate(path);
+      window.scrollTo(0, 0);
       return;
     }
     if (!isSection) {
       // For non-section routes like '/contributor'
-      navigate(`/${id}`, { replace: true });
+      navigate(`/${id}`);
+      window.scrollTo(0, 0);
       return;
     }
     // For sections on the home page

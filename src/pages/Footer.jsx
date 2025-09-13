@@ -13,11 +13,30 @@ export default function Footer() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
+    const handleSectionScroll = (id) => {
+    // Clear any existing scroll targets
+    if (window.history.state && window.history.state.scrollTo) {
+      window.history.replaceState({}, document.title);
+    }
+
+    if (window.location.pathname === '/') {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/', { 
+        state: { scrollTo: id },
+        replace: true
+      });
+    }
+  };
+
   const linkSections = [
     {
       title: "Product",
       links: [
-        { name: "Features", href: "/feature", isRoute: true },
+        { name: "Features", href: "#features", isRoute: false },
         { name: "Pricing", href: "#pricing", isRoute: false },
         { name: "API Documentation", href: "#", isRoute: false },
         { name: "Integrations", href: "#", isRoute: false },
@@ -38,10 +57,10 @@ export default function Footer() {
       title: "Resources",
       links: [
         { name: "Blog", href: "/blog", isRoute: true },
-        { name: "Help Center", href: "#", isRoute: false },
-        { name: "Community", href: "#", isRoute: false },
-        { name: "Webinars", href: "#", isRoute: false },
-        { name: "Status", href: "#", isRoute: false },
+        { name: "Help Center", href: "/help-center", isRoute: true },
+        { name: "Community", href: "/coming-soon", isRoute: true },
+        { name: "Webinars", href: "/coming-soon", isRoute: true },
+        { name: "Status", href: "/coming-soon", isRoute: true },
       ],
     },
     {
@@ -74,8 +93,14 @@ export default function Footer() {
       {/* Scroll to top button */}
       {isVisible && (
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed z-50 w-10 h-10 p-2 mb-16 text-xl font-bold text-white transition rounded-lg cursor-pointer bottom-8 right-8 bg-gradient-to-r from-medical-500 to-primary-600 hover:from-primary-500 hover:to-medical-600 hover:scale-110"
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            // Remove any scroll target from state to prevent re-scrolling
+            if (window.history.state && window.history.state.scrollTo) {
+              window.history.replaceState({}, document.title);
+            }
+          }}
+          className="fixed z-50 w-10 h-10 p-2 mb-16 text-xl font-bold text-white transition-all duration-300 rounded-lg cursor-pointer bottom-8 right-8 bg-gradient-to-r from-emerald-500 to-primary-600 hover:from-primary-500 hover:to-emerald-600 hover:scale-110 hover:shadow-lg"
         >
           <ChevronDoubleUpIcon />
         </button>
@@ -170,10 +195,18 @@ export default function Footer() {
                     {link.isRoute ? (
                       <Link
                         to={link.href}
+                        onClick={() => window.scrollTo(0, 0)}
                         className="text-gray-600 transition dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                       >
                         {link.name}
                       </Link>
+                    ) : link.href.startsWith('#') ? (
+                      <button
+                        onClick={() => handleSectionScroll(link.href.substring(1))}
+                        className="text-gray-600 transition dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                      >
+                        {link.name}
+                      </button>
                     ) : (
                       <a
                         href={link.href}

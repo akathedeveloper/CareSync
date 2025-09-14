@@ -61,27 +61,66 @@
 
 ```bash
 care-sync-app/
-├── public/                 # Static assets
-│   ├── vite.svg            # Default Vite icon
-│   └── (other assets)      # Other static files
-├── src/                    # Source code
-│   ├── assets/             # Images, fonts, etc.
-│   ├── components/         # React components
-│   ├── pages/              # Page components
-│   ├── App.jsx             # Main app component
-│   ├── main.jsx            # Entry point
-│   └── index.css           # Global styles
-├── CODE_OF_CONDUCT.md      # Community guidelines
-├── CONTRIBUTING.md         # Contribution guide
-├── LICENSE                 # Project license
-├── README.md               # Project documentation
-├── eslint.config.js        # ESLint configuration
-├── index.html              # Main HTML file
-├── package.json            # Project dependencies
-├── package-lock.json       # Lock file
-├── postcss.config.js       # PostCSS config
-├── tailwind.config.js      # Tailwind CSS config
-└── vite.config.js          # Vite configuration
+📂 ProjectName
+├─ .github
+│  ├─ workflows/           # Contains GitHub Actions workflows (e.g., CI/CD)
+│  │  └─ cicd.yml           # Workflow file for continuous integration/deployment
+│  └─ PULL_REQUEST_TEMPLATE.md  # Template for pull request submissions
+├─ .vscode
+│  └─ tasks.json            # VSCode tasks and workspace configuration
+├─ backend                  # Backend server and API code
+│  ├─ config/
+│  │  └─ db.js              # Database configuration file
+│  ├─ controllers/          # Request handlers for different routes
+│  │  ├─ authController.js
+│  │  ├─ messageController.js
+│  │  ├─ passwordResetController.js
+│  │  └─ socketController.js
+│  ├─ db/                   # Database-related files
+│  │  ├─ models/            # Database models
+│  │  └─ seed.js            # Seed data script
+│  ├─ middleware/           # Custom middleware for authentication, error handling, etc.
+│  │  ├─ auth.js
+│  │  ├─ error.js
+│  │  └─ validation.js
+│  ├─ routes/               # API route definitions
+│  │  ├─ authRoutes.js
+│  │  └─ messageRoutes.js
+│  ├─ .env.example           # Example environment variables file
+│  ├─ .gitignore             # Files/folders to ignore in git
+│  ├─ PASSWORD_RESET.md      # Documentation for password reset feature
+│  ├─ README.md              # Backend-specific README
+│  ├─ config.env             # Environment configuration
+│  ├─ package-lock.json      # NPM lock file
+│  ├─ package.json           # NPM dependencies and scripts
+│  └─ server.js              # Entry point of the backend server
+├─ dist                     # Production-ready build files
+│  ├─ assets/                # Compiled assets (CSS, JS, images)
+│  ├─ cursors/               # Cursor images
+│  ├─ CareSync-Complete-Logo.png
+│  ├─ CareSync-Logo.png
+│  ├─ favicon.png
+│  ├─ favicon_128px.png
+│  ├─ favicon_192px.png
+│  ├─ index.html
+│  ├─ manifest.json
+│  ├─ offline.html
+│  ├─ screenshot-desktop.png
+│  ├─ screenshot-mobile.png
+│  ├─ service-worker.js
+│  ├─ underconstruction.svg
+│  └─ vite.svg
+├─ public                   # Public assets served directly (images, fonts, etc.)
+│  └─ (custom cursor/pointer assets)
+├─ src                      # Frontend source code (React, JS, CSS, etc.)
+│  └─ (all source code files)
+├─ .DS_Store                # macOS file system metadata (can be ignored)
+├─ .env                     # Environment variables for the project
+├─ .gitignore               # Git ignore rules for the project
+└─ CODE_OF_CONDUCT.md       # Code of conduct for contributors
+
+
+
 ```
 
 ---

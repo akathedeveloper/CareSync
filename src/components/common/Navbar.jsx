@@ -125,7 +125,7 @@ const Navbar = () => {
                   <img
                     src="/CareSync-Logo.png"
                     alt="CareSync Logo"
-                    className="w-full h-full"
+                    className="w-full h-full transition  animate-beats"
                   />
                 </div>
                 <span

@@ -43,6 +43,8 @@ import TermsOfServices from "./pages/TermsOfServices";
 import LicensePage from "./pages/License";
 import Contributors from "./components/common/Contributor";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import CursorBurst from "./components/common/CursorBurst"; // Import the new component
+import ScrollToTop from "./components/common/ScrollToTop";
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
@@ -97,130 +99,138 @@ const AppRoutes = () => {
   }
 
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route
-        path="/"
-        element={
-          <>
-            <LandingPage />
-          </>
-        }
-      />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/cookie-policy" element={<CookiePolicy />} />
-      <Route path="/feature" element={<Feature />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      <Route path="/gdpr-compliance" element={<GDPRCompliance />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/blog" element={<Blog />} />
-      <Route path="/career" element={<Career />} />
-      <Route path="/terms" element={<TermsOfServices />} />
-      <Route path="/contributor" element={<Contributors />} />
-      <Route path="/license" element={<LicensePage />} />
+    <>
+      {/* Add CursorBurst component - only show if user is not on auth pages */}
+      {!window.location.pathname.includes('/login') && 
+       !window.location.pathname.includes('/register') && 
+       !window.location.pathname.includes('/forgot-password') && 
+       <CursorBurst />}
+      
+      <Routes>
+        {/* Public Routes */}
+        <Route
+          path="/"
+          element={
+            <>
+              <LandingPage />
+            </>
+          }
+        />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/cookie-policy" element={<CookiePolicy />} />
+        <Route path="/feature" element={<Feature />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/gdpr-compliance" element={<GDPRCompliance />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/career" element={<Career />} />
+        <Route path="/terms" element={<TermsOfServices />} />
+        <Route path="/contributor" element={<Contributors />} />
+        <Route path="/license" element={<LicensePage />} />
 
-      {/* Auth Routes */}
-      <Route
-        path="/login"
-        element={
-          <PublicRoute authOnly={true}>
-            <Login />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <PublicRoute authOnly={true}>
-            <Register />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/forgot-password"
-        element={
-          <PublicRoute authOnly={true}>
-            <ForgotPassword />
-          </PublicRoute>
-        }
-      />
+        {/* Auth Routes */}
+        <Route
+          path="/login"
+          element={
+            <PublicRoute authOnly={true}>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute authOnly={true}>
+              <Register />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <PublicRoute authOnly={true}>
+              <ForgotPassword />
+            </PublicRoute>
+          }
+        />
 
-      {/* Shared Authenticated Routes */}
-      <Route
-        element={
-          <ProtectedRoute>
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="/notifications" element={<Notifications />} />
-      </Route>
+        {/* Shared Authenticated Routes */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/notifications" element={<Notifications />} />
+        </Route>
 
-      {/* Patient Routes */}
-      <Route
-        path="/patient"
-        element={
-          <ProtectedRoute requiredRole="patient">
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<PatientDashboard />} />
-        <Route path="prescriptions" element={<Prescriptions />} />
-        <Route path="appointments" element={<Appointments />} />
-        <Route path="health-logs" element={<HealthLogs />} />
-        <Route path="messages" element={<Messages />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="inventory" element={<Inventory />} />
-      </Route>
+        {/* Patient Routes */}
+        <Route
+          path="/patient"
+          element={
+            <ProtectedRoute requiredRole="patient">
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<PatientDashboard />} />
+          <Route path="prescriptions" element={<Prescriptions />} />
+          <Route path="appointments" element={<Appointments />} />
+          <Route path="health-logs" element={<HealthLogs />} />
+          <Route path="messages" element={<Messages />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="inventory" element={<Inventory />} />
+        </Route>
 
-      {/* Doctor Routes */}
-      <Route
-        path="/doctor"
-        element={
-          <ProtectedRoute requiredRole="doctor">
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<DoctorDashboard />} />
-        <Route path="schedule" element={<Schedule />} />
-        <Route path="patients" element={<Patients />} />
-        <Route path="messages" element={<Messages />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="settings" element={<Settings />} />
-      </Route>
+        {/* Doctor Routes */}
+        <Route
+          path="/doctor"
+          element={
+            <ProtectedRoute requiredRole="doctor">
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<DoctorDashboard />} />
+          <Route path="schedule" element={<Schedule />} />
+          <Route path="patients" element={<Patients />} />
+          <Route path="messages" element={<Messages />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
 
-      {/* Pharmacist Routes */}
-      <Route
-        path="/pharmacist"
-        element={
-          <ProtectedRoute requiredRole="pharmacist">
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<PharmacistDashboard />} />
-        <Route path="messages" element={<Messages />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="prescriptions" element={<Prescription />} />
-        <Route path="inventory" element={<PharmacistInventory />} />
-      </Route>
+        {/* Pharmacist Routes */}
+        <Route
+          path="/pharmacist"
+          element={
+            <ProtectedRoute requiredRole="pharmacist">
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<PharmacistDashboard />} />
+          <Route path="messages" element={<Messages />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="prescriptions" element={<Prescription />} />
+          <Route path="inventory" element={<PharmacistInventory />} />
+        </Route>
 
-      {/* Catch-All Redirect */}
-      <Route
-        path="*"
-        element={
-          user ? (
-            <Navigate to={`/${user.role}`} replace />
-          ) : (
-            <Navigate to="/" replace />
-          )
-        }
-      />
-    </Routes>
+        {/* Catch-All Redirect */}
+        <Route
+          path="*"
+          element={
+            user ? (
+              <Navigate to={`/${user.role}`} replace />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+      </Routes>
+    </>
   );
 };
 
@@ -247,6 +257,7 @@ function App() {
         <OfflineProvider>
           <MessageProvider>
             <Router>
+              <ScrollToTop />
               <div className="App bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
                 <AppRoutes />
                 <Toaster

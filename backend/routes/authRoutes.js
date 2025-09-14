@@ -1,16 +1,17 @@
-const express= require("express")
-const { register, login, me } = require("../controllers/authController");
-const { forgotPassword, resetPassword, verifyResetToken } = require("../controllers/passwordResetController");
-const auth = require("../middleware/auth");
-const { validateAuth } = require("../middleware/validation");
+import express from 'express'
+import { login, me, register } from '../controllers/authController.js';
+import { forgotPassword, resetPassword, verifyResetToken } from '../controllers/passwordResetController.js';
+import { isAuthenticated } from '../middleware/auth.js';
+// const auth = require("../middleware/auth");
+// const { validateAuth } = require("../middleware/validation");
 
 const router = express.Router();
 
-router.post("/register", validateAuth.register, register);
-router.post("/login", validateAuth.login, login);
-router.get("/me", auth, me);
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password/:token", resetPassword);
-router.get("/verify-reset-token/:token", verifyResetToken);
+router.route("/register").post(register);
+router.route("/login").post(login);
+router.route("/me").get( isAuthenticated, me);
+router.route("/forgot-password").post(forgotPassword);
+router.route("/reset-password/:token").post(resetPassword);
+router.route("/verify-reset-token/:token").get(verifyResetToken);
 
-module.exports = router;
+export default router

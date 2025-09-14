@@ -69,9 +69,6 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem("token");
         const storedUser = localStorage.getItem("caresync_user");
         
-        console.log("Checking localStorage for token:", token ? "exists" : "none");
-        console.log("Checking localStorage for user:", storedUser ? "exists" : "none");
-        
         if (token && storedUser) {
           // Verify token with backend
           try {

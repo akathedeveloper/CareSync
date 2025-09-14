@@ -1,32 +1,30 @@
-const jwt = require('jsonwebtoken');
-const User = require('../db/models/User');
-const Message = require('../db/models/Message');
-const Conversation = require('../db/models/Conversation');
+import jwt from 'jsonwebtoken'
+import { User } from '../db/models/User.js'
+import Message from '../db/models/Message.js'
+import Conversation from '../db/models/Conversation.js'
+import catchAsync from '../middleware/catchAsyncError.js'
+import ErrorHandler from '../utils/errorHandler.js'
 
-const authenticateSocket = async (socket, next) => {
-  try {
+export const authenticateSocket = catchAsync(async (socket, next) => {
     const token = socket.handshake.auth.token;
     
     if (!token) {
-      return next(new Error('No token provided'));
+      return next(new ErrorHandler('No token provided', 404));
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id);
     
     if (!user) {
-      return next(new Error('User not found'));
+      return next(new ErrorHandler('User not found', 404));
     }
 
     socket.userId = user._id.toString();
     socket.user = user;
     next();
-  } catch (error) {
-    next(new Error('Authentication failed'));
-  }
-};
+})
 
-const handleSocketConnection = (io) => {
+export const handleSocketConnection = (io) => {
   io.use(authenticateSocket);
 
   io.on('connection', (socket) => {
@@ -34,8 +32,7 @@ const handleSocketConnection = (io) => {
 
     socket.join(socket.userId);
 
-    socket.on('join-conversations', async () => {
-      try {
+    socket.on('join-conversations', catchAsync(async () => {
         const conversations = await Conversation.find({
           participants: socket.userId
         });
@@ -48,17 +45,10 @@ const handleSocketConnection = (io) => {
           success: true,
           count: conversations.length
         });
-      } catch (error) {
-        console.error('Join conversations error:', error);
-        socket.emit('error', {
-          message: 'Failed to join conversations'
-        });
-      }
-    });
+    }))
 
     // Handle sending messages
-    socket.on('send-message', async (data) => {
-      try {
+    socket.on('send-message', catchAsync( async (data) => {
         const { conversationId, content, messageType = 'text' } = data;
 
         // Verify conversation exists and user has access
@@ -104,14 +94,7 @@ const handleSocketConnection = (io) => {
           success: true,
           message
         });
-
-      } catch (error) {
-        console.error('Send message error:', error);
-        socket.emit('message-error', {
-          error: 'Failed to send message'
-        });
-      }
-    });
+    }))
 
     // Handle typing indicators
     socket.on('typing-start', (data) => {
@@ -132,8 +115,7 @@ const handleSocketConnection = (io) => {
     });
 
     // Handle message read status
-    socket.on('mark-messages-read', async (data) => {
-      try {
+    socket.on('mark-messages-read', catchAsync(async (data) => {
         const { conversationId } = data;
 
         // Update all unread messages in the conversation
@@ -158,15 +140,10 @@ const handleSocketConnection = (io) => {
           conversationId,
           readBy: socket.userId
         });
-
-      } catch (error) {
-        console.error('Mark messages read error:', error);
-      }
-    });
+    }))
 
     // Handle user joining a specific conversation
-    socket.on('join-conversation', async (data) => {
-      try {
+    socket.on('join-conversation', catchAsync(async (data) => {
         const { conversationId } = data;
         
         // Verify user has access to the conversation
@@ -189,14 +166,7 @@ const handleSocketConnection = (io) => {
           userName: socket.user.name,
           conversationId
         });
-
-      } catch (error) {
-        console.error('Join conversation error:', error);
-        socket.emit('join-error', {
-          error: 'Failed to join conversation'
-        });
-      }
-    });
+    }))
 
     // Handle user leaving a conversation
     socket.on('leave-conversation', (data) => {
@@ -221,5 +191,3 @@ const handleSocketConnection = (io) => {
     });
   });
 };
-
-module.exports = { handleSocketConnection };

@@ -159,7 +159,6 @@ const Navbar = () => {
                   key={item.id}
                   href={item.path ? item.path : `#${item.id}`}
                   onClick={(e) => {
-                    e.preventDefault();
                     handleNavigation(item.id, item.isSection, item.path)
                   }}
                   className={`relative transition-all duration-300 font-medium group px-2 py-1 rounded-md text-sm xl:text-base ${

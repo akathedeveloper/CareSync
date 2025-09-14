@@ -134,7 +134,7 @@ const FAQSection = () => {
     {faqs.map((faq, idx) => (
       <div
         key={idx}
-        className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer p-8"
+        className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer p-8 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg hover:border-emerald-300/50 dark:hover:border-emerald-600/50 hover:[box-shadow:0_0_15px_rgba(52,211,153,0.2)] dark:hover:[box-shadow:0_0_15px_rgba(52,211,153,0.3)]"
         onClick={() => toggle(idx)}
       >
       <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">

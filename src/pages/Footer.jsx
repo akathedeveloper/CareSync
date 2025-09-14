@@ -59,7 +59,7 @@ export default function Footer() {
         { name: "Blog", href: "/blog", isRoute: true },
         { name: "Help Center", href: "/help-center", isRoute: true },
         { name: "Community", href: "/coming-soon", isRoute: true },
-        { name: "Webinars", href: "/coming-soon", isRoute: true },
+        { name: "Webinars", href: "/webinars", isRoute: true },
         { name: "Status", href: "/coming-soon", isRoute: true },
       ],
     },

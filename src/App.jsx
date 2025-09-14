@@ -45,6 +45,7 @@ import Contributors from "./components/common/Contributor";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import CursorBurst from "./components/common/CursorBurst"; // Import the new component
 import HelpCenter from "./pages/HelpCenter";
+import Webinars from "./pages/Webinars";
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
@@ -128,6 +129,7 @@ const AppRoutes = () => {
         <Route path="/contributor" element={<Contributors />} />
         <Route path="/license" element={<LicensePage />} />
         <Route path="/help-center" element={<HelpCenter />} />
+        <Route path="/webinars" element={<Webinars />} />
         <Route 
           path="/coming-soon" 
           element={

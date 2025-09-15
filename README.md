@@ -72,6 +72,67 @@
 
 ```bash 
 care-sync-app/
+📂 ProjectName
+├─ .github
+│  ├─ workflows/           # Contains GitHub Actions workflows (e.g., CI/CD)
+│  │  └─ cicd.yml           # Workflow file for continuous integration/deployment
+│  └─ PULL_REQUEST_TEMPLATE.md  # Template for pull request submissions
+├─ .vscode
+│  └─ tasks.json            # VSCode tasks and workspace configuration
+├─ backend                  # Backend server and API code
+│  ├─ config/
+│  │  └─ db.js              # Database configuration file
+│  ├─ controllers/          # Request handlers for different routes
+│  │  ├─ authController.js
+│  │  ├─ messageController.js
+│  │  ├─ passwordResetController.js
+│  │  └─ socketController.js
+│  ├─ db/                   # Database-related files
+│  │  ├─ models/            # Database models
+│  │  └─ seed.js            # Seed data script
+│  ├─ middleware/           # Custom middleware for authentication, error handling, etc.
+│  │  ├─ auth.js
+│  │  ├─ error.js
+│  │  └─ validation.js
+│  ├─ routes/               # API route definitions
+│  │  ├─ authRoutes.js
+│  │  └─ messageRoutes.js
+│  ├─ .env.example           # Example environment variables file
+│  ├─ .gitignore             # Files/folders to ignore in git
+│  ├─ PASSWORD_RESET.md      # Documentation for password reset feature
+│  ├─ README.md              # Backend-specific README
+│  ├─ config.env             # Environment configuration
+│  ├─ package-lock.json      # NPM lock file
+│  ├─ package.json           # NPM dependencies and scripts
+│  └─ server.js              # Entry point of the backend server
+├─ dist                     # Production-ready build files
+│  ├─ assets/                # Compiled assets (CSS, JS, images)
+│  ├─ cursors/               # Cursor images
+│  ├─ CareSync-Complete-Logo.png
+│  ├─ CareSync-Logo.png
+│  ├─ favicon.png
+│  ├─ favicon_128px.png
+│  ├─ favicon_192px.png
+│  ├─ index.html
+│  ├─ manifest.json
+│  ├─ offline.html
+│  ├─ screenshot-desktop.png
+│  ├─ screenshot-mobile.png
+│  ├─ service-worker.js
+│  ├─ underconstruction.svg
+│  └─ vite.svg
+├─ public                   # Public assets served directly (images, fonts, etc.)
+│  └─ (custom cursor/pointer assets)
+├─ src                      # Frontend source code (React, JS, CSS, etc.)
+│  └─ (all source code files)
+├─ .DS_Store                # macOS file system metadata (can be ignored)
+├─ .env                     # Environment variables for the project
+├─ .gitignore               # Git ignore rules for the project
+└─ CODE_OF_CONDUCT.md       # Code of conduct for contributors
+
+
+
+=======
 ├── .github/                          # GitHub configs & workflows
 │   ├── ISSUE_TEMPLATE/               # Issue templates
 │   │   ├── bug_report.yml
@@ -245,6 +306,7 @@ care-sync-app/
 ├── vite.config.js                    # Vite configuration
 ├── vitest.config.js                  # Vitest configuration
 └── vercel.json                       # Vercel deployment config
+
 ```
 ---
 

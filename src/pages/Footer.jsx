@@ -75,7 +75,7 @@ export default function Footer() {
       {isVisible && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed z-50 w-10 h-10 p-2 mb-16 text-xl font-bold text-white transition rounded-lg cursor-pointer bottom-8 right-8 bg-gradient-to-r from-medical-500 to-primary-600 hover:from-primary-500 hover:to-medical-600 hover:scale-110"
+          className="fixed z-50 w-10 h-10 p-2 mb-6 text-xl font-bold text-white transition rounded-lg cursor-pointer bottom-1 right-6 bg-gradient-to-r from-medical-500 to-primary-600 hover:from-primary-500 hover:to-medical-600 hover:scale-110"
         >
           <ChevronDoubleUpIcon />
         </button>

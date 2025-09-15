@@ -123,7 +123,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="flex items-center justify-center w-10 h-10 transition-transform duration-300 transform bg-gray-300 rounded-lg dark:bg-gray-800 hover:bg-sky-400 dark:hover:bg-sky-400 hover:scale-110"
             >
-              <i className="fa-brands fa-twitter text-gray-700 dark:text-white hover:text-white dark:hover:text-white transition-colors duration-300"></i>
+              <i className="fa-brands fa-x-twitter text-gray-700 dark:text-white hover:text-white dark:hover:text-white transition-colors duration-300"></i>
             </a>
 
             <a

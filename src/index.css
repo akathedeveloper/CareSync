@@ -9,8 +9,41 @@
     scroll-behavior: smooth;
   }
 
+  /* Scroll offset for fixed navbar */
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+
   body {
     @apply text-gray-900 bg-gray-50 dark:text-gray-100 dark:bg-gray-950;
+  }
+  html,
+  body {
+    cursor: url("/cursors/custuomCursor.cur"), auto;
+  }
+
+  button,
+  a {
+    cursor: url("/cursors/custompointer.cur"), pointer;
+  }
+
+  /* Toast notification variables for dark mode support */
+  :root {
+    --toast-bg: #ffffff;
+    --toast-color: #333333;
+    --toast-border: #e5e7eb;
+  }
+
+  .dark {
+    --toast-bg: #1f2937;
+    --toast-color: #f9fafb;
+    --toast-border: #374151;
+  }
+
+  body.no-scroll {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
   }
 
   /* Dark mode select dropdown styling - more specific rules */
@@ -46,6 +79,85 @@
 
 /* Custom component styles for CareSync */
 @layer components {
+  /* Color System Tokens */
+  .text-default {
+    @apply text-gray-900 dark:text-gray-100;
+  }
+  .text-muted {
+    @apply text-gray-600 dark:text-gray-400;
+  }
+  .text-primary {
+    @apply text-primary-600 dark:text-primary-400;
+  }
+  .text-medical {
+    @apply text-medical-600 dark:text-medical-400;
+  }
+
+  /* Background System */
+  .bg-surface {
+    @apply bg-white dark:bg-gray-900;
+  }
+  .bg-surface-hover {
+    @apply hover:bg-gray-50 dark:hover:bg-gray-800;
+  }
+  .bg-subtle {
+    @apply bg-gray-50 dark:bg-gray-900;
+  }
+
+  /* Border System */
+  .border-subtle {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+  .border-primary {
+    @apply border-primary-500 dark:border-primary-400;
+  }
+
+  /* Form System */
+  .input-base {
+    @apply w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg 
+    text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400
+    focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 
+    dark:focus:ring-primary-400 dark:focus:border-primary-400
+    disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:cursor-not-allowed;
+  }
+
+  .input-error {
+    @apply border-red-500 dark:border-red-400 focus:ring-red-500 focus:border-red-500 
+    dark:focus:ring-red-400 dark:focus:border-red-400;
+  }
+
+  .input-success {
+    @apply border-medical-500 dark:border-medical-400 focus:ring-medical-500 focus:border-medical-500
+    dark:focus:ring-medical-400 dark:focus:border-medical-400;
+  }
+
+  .label-base {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+  }
+
+  .error-text {
+    @apply mt-1 text-sm text-red-600 dark:text-red-400;
+  }
+
+  .helper-text {
+    @apply mt-1 text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  /* Status Colors */
+  .status-success {
+    @apply bg-medical-100 text-medical-800 dark:bg-medical-900/30 dark:text-medical-300;
+  }
+  .status-warning {
+    @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300;
+  }
+  .status-error {
+    @apply bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300;
+  }
+  .status-info {
+    @apply bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300;
+  }
+
+  /* Button System */
   .btn-primary {
     @apply px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors dark:focus:ring-offset-gray-900;
   }
@@ -55,12 +167,46 @@
   }
 
   .card {
-    @apply bg-white p-6 rounded-lg shadow-sm border border-gray-200 dark:bg-gray-800 dark:border-gray-700;
+    @apply bg-surface p-6 rounded-lg shadow-sm border border-subtle;
   }
 
   .input-field {
-    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100;
+    @apply input-base;
   }
+
+  /* Form Fields */
+  .form-group {
+    @apply mb-4;
+  }
+
+  .form-label {
+    @apply label-base;
+  }
+
+  .form-helper {
+    @apply helper-text;
+  }
+
+  .form-error {
+    @apply error-text;
+  }
+
+  /* --- Color System Tokens (Issue #71) ---------------------------------- */
+  /* Keep existing visual palette; provide single-source utility classes
+     to replace scattered gradient/color repetitions without altering hues. */
+  .gradient-accent {
+    @apply bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700;
+  }
+  .gradient-accent-alt {
+    @apply bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700;
+  }
+  .btn-accent-gradient {
+    @apply gradient-accent px-4 py-2 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500;
+  }
+  .btn-accent-gradient-alt {
+    @apply gradient-accent-alt px-6 py-3 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-600;
+  }
+  /* ---------------------------------------------------------------------- */
 
   /* Healthcare-specific styles */
   .status-normal {

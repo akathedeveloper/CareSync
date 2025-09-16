@@ -1,0 +1,84 @@
+{
+    "name": "CareSync – Smart Healthcare Assistant Platform",
+    "short_name": "CareSync",
+    "description": "Streamline patient care with our comprehensive healthcare platform. Connect doctors, patients, and pharmacies in one secure ecosystem.",
+    "lang": "en-US",
+    "id": "/",
+    "start_url": "/",
+    "dir": "ltr",
+    "scope": "/",
+    "version": "1.0.0",
+    "display": "standalone",
+    "display_override": [
+        "window-controls-overlay"
+    ],
+    "orientation": "any",
+    "background_color": "#d1fae5ff",
+    "theme_color": "#d1fae5ff",
+    "icons": [
+        {
+            "src": "/favicon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/favicon_192px.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/favicon_128px.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/screenshot-desktop.png",
+            "sizes": "1280x800",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Desktop view of CareSync"
+        },
+        {
+            "src": "/screenshot-mobile.png",
+            "sizes": "600x800",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Mobile interface for CareSync"
+        }
+    ],
+    "features": [
+        "Cross Platform",
+        "Fast",
+        "Simple",
+        "productivity",
+        "Healthcare",
+        "Management"
+    ],
+    "categories": [
+        "social",
+        "health",
+        "collaboration",
+        "productivity"
+    ],
+    "shortcuts": [
+        {
+            "name": "Login",
+            "short_name": "Login",
+            "url": "/login",
+            "icons": [
+                {
+                    "src": "/favicon_128px.png",
+                    "sizes": "128x128"
+                }
+            ]
+        }
+    ],
+    "prefer_related_applications": false,
+    "launch_handler": {
+        "client_mode": "navigate-existing"
+    },
+    "edge_side_panel": {}
+}

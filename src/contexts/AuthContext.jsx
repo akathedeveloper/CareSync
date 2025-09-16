@@ -62,6 +62,59 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  // Check for existing user session on app load
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const storedUser = localStorage.getItem("caresync_user");
+        
+        if (token && storedUser) {
+          // Verify token with backend
+          try {
+            const response = await fetch('http://localhost:5000/api/auth/me', {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+              },
+            });
+            
+            if (response.ok) {
+              const userData = JSON.parse(storedUser);
+              console.log("Found and verified stored user:", userData);
+              setUser(userData);
+            } else {
+              // Token is invalid, clear storage
+              console.log("Token verification failed, clearing storage");
+              localStorage.removeItem("token");
+              localStorage.removeItem("caresync_user");
+            }
+          } catch (error) {
+            console.error("Error verifying token:", error);
+            localStorage.removeItem("token");
+            localStorage.removeItem("caresync_user");
+          }
+        } else if (storedUser) {
+          // Legacy local user without backend auth
+          const userData = JSON.parse(storedUser);
+          if (!userData.isBackendUser) {
+            console.log("Found legacy local user:", userData);
+            setUser(userData);
+          }
+        } else {
+          console.log("No stored user found in localStorage");
+        }
+      } catch (error) {
+        console.error("Error checking existing session:", error);
+        localStorage.removeItem("caresync_user");
+        localStorage.removeItem("token");
+      }
+      setLoading(false);
+    };
+
+    // Check localStorage first for immediate session restoration
+    checkExistingSession();
+  }, []);
+
   // Save dummy users in localStorage
   useEffect(() => {
     try {
@@ -71,8 +124,13 @@ export const AuthProvider = ({ children }) => {
     }
   }, [allUsers]);
 
-  // Firebase auth listener
+  // Firebase auth listener - only run if no local user exists
   useEffect(() => {
+    // If we already have a user from localStorage, don't run Firebase listener
+    if (user && !user.uid?.startsWith("firebase_")) {
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         await createUserDocumentIfNotExists(firebaseUser);
@@ -85,13 +143,26 @@ export const AuthProvider = ({ children }) => {
           role,
         });
       } else {
-        setUser(null);
+        // Only clear user if it's a Firebase user
+        if (user && user.uid?.startsWith("firebase_")) {
+          setUser(null);
+        }
       }
       setLoading(false);
     });
     return unsubscribe;
-  }, []);
-
+  }, [user]);
+   
+  const updateUser = (data) => {
+    setUser((prevUser) => {
+      if (!prevUser) return null;
+      const updatedUser = { ...prevUser, ...data };
+      // Persist to localStorage so changes are not lost on refresh
+      localStorage.setItem("caresync_user", JSON.stringify(updatedUser));
+      return updatedUser;
+    });
+  }; 
+  
   // Login with Google (Firebase)
   const loginWithGoogle = async () => {
     setLoading(true);
@@ -99,13 +170,15 @@ export const AuthProvider = ({ children }) => {
       const result = await signInWithGoogle();
       await createUserDocumentIfNotExists(result.user);
       const role = await fetchUserRole(result.user.uid);
-      setUser({
+      const firebaseUser = {
         uid: result.user.uid,
         email: result.user.email,
         displayName: result.user.displayName,
         photoURL: result.user.photoURL,
         role,
-      });
+      };
+      setUser(firebaseUser);
+      return { success: true, user: firebaseUser };
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
@@ -114,62 +187,117 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Local dummy login
+  // Backend API login
   const login = async (email, password, role) => {
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const userToLogin = allUsers.find((u) => u.email === email);
-      if (!userToLogin) throw new Error("User not found");
-      if (userToLogin.password !== password) throw new Error("Invalid password");
-      if (userToLogin.role !== role) throw new Error("Invalid role selected");
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const { password: _, ...userWithoutPassword } = userToLogin;
-      setUser(userWithoutPassword);
-      localStorage.setItem("caresync_user", JSON.stringify(userWithoutPassword));
-      return { success: true, user: userWithoutPassword };
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store JWT token
+      localStorage.setItem('token', data.token);
+      
+      // Create user object with role
+      const backendUser = { 
+        ...data.user, 
+        role: role || 'patient', // Use provided role or default to patient
+        isBackendUser: true 
+      };
+      
+      console.log("Setting user in context:", backendUser);
+      setUser(backendUser);
+      localStorage.setItem("caresync_user", JSON.stringify(backendUser));
+      console.log("User and token stored successfully");
+      
+      return { success: true, user: backendUser };
     } catch (error) {
+      console.error('Login error:', error);
       throw new Error(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // Local dummy register
+  // Backend API register
   const register = async (userData) => {
     setLoading(true);
+    const { firstName, lastName, email, password, role = "patient" } = userData;
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      if (allUsers.find((u) => u.email === userData.email)) {
-        throw new Error("User already exists with this email");
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: `${firstName} ${lastName}`,
+          email,
+          password,
+          role,
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
       }
-      const newUser = {
-        id: `user${Date.now()}`,
-        name: `${userData.firstName} ${userData.lastName}`,
-        ...userData,
+
+      // Store JWT token
+      localStorage.setItem('token', data.token);
+      
+      // Create user object with role
+      const backendUser = { 
+        ...data.user, 
+        role: userData.role || 'patient',
+        isBackendUser: true 
       };
-      addUser(newUser);
-      setAllUsers((prev) => [...prev, newUser]);
-      const { password, confirmPassword, ...userWithoutPassword } = newUser;
-      setUser(userWithoutPassword);
-      localStorage.setItem("caresync_user", JSON.stringify(userWithoutPassword));
-      return { success: true, user: userWithoutPassword };
+      
+      setUser(backendUser);
+      localStorage.setItem("caresync_user", JSON.stringify(backendUser));
+      
+      return { success: true, user: backendUser };
     } catch (error) {
+      console.error('Registration error:', error);
       throw new Error(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // Logout for both Firebase & local
+  // Logout for both Firebase & backend
   const logout = async () => {
     setLoading(true);
     try {
-      await signOutUser();
+      // Try Firebase logout first (only if it's a Firebase user)
+      if (user && !user.isBackendUser && !user.isLocalUser) {
+        try {
+          await signOutUser();
+        } catch {
+          // If Firebase logout fails, continue with local logout
+          console.log("Firebase logout failed, continuing with local logout");
+        }
+      }
+
+      // Clear backend auth state
       setUser(null);
       localStorage.removeItem("caresync_user");
+      localStorage.removeItem("token");
+
+      return { success: true };
     } catch (error) {
       console.error("Logout failed:", error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -183,11 +311,8 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    updateUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

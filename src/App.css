@@ -38,7 +38,40 @@
 }
 
 .read-the-docs {
-  color: #888;
+  color: var(--neutral-500);
 }
 
+/* Light mode hover */
+.social-icon:hover .icon {
+  color: white;
+}
 
+/* Dark mode hover */
+.dark .social-icon:hover .icon {
+  color: white;
+}
+
+/* Default icon colors */
+.icon {
+  color: #4b5563; /* Tailwind's gray-700 */
+}
+
+.dark .icon {
+  color: #d1d5db; /* Tailwind's gray-300 */
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  cursor: none;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
+}
+
+/* Custom cursor hide for all interactive elements */
+button, a, input, textarea, select {
+  cursor: none;
+}

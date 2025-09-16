@@ -7,56 +7,36 @@ import {
   ChatBubbleLeftRightIcon,
   CogIcon,
   ChevronRightIcon,
+  BellIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../../contexts/AuthContext";
 
 const patientMenuItems = [
   { name: "Dashboard", href: "/patient", icon: HomeIcon },
-  {
-    name: "Appointments",
-    href: "/patient/appointments",
-    icon: ClipboardDocumentListIcon,
-  },
-  {
-    name: "Prescriptions",
-    href: "/patient/prescriptions",
-    icon: ClipboardDocumentListIcon,
-  },
+  { name: "Appointments", href: "/patient/appointments", icon: ClipboardDocumentListIcon },
+  { name: "Prescriptions", href: "/patient/prescriptions", icon: ClipboardDocumentListIcon },
   { name: "Health Logs", href: "/patient/health-logs", icon: UserGroupIcon },
-  {
-    name: "Messages",
-    href: "/patient/messages",
-    icon: ChatBubbleLeftRightIcon,
-  },
+  { name: "Notifications", href: "/notifications", icon: BellIcon },
+  { name: "Messages", href: "/patient/messages", icon: ChatBubbleLeftRightIcon },
   { name: "Settings", href: "/patient/settings", icon: CogIcon },
 ];
 
 const doctorMenuItems = [
   { name: "Dashboard", href: "/doctor", icon: HomeIcon },
-  {
-    name: "Schedule",
-    href: "/doctor/schedule",
-    icon: ClipboardDocumentListIcon,
-  },
+  { name: "Schedule", href: "/doctor/schedule", icon: ClipboardDocumentListIcon },
   { name: "Patients", href: "/doctor/patients", icon: UserGroupIcon },
+  { name: "Notifications", href: "/notifications", icon: BellIcon },
   { name: "Messages", href: "/doctor/messages", icon: ChatBubbleLeftRightIcon },
   { name: "Settings", href: "/doctor/settings", icon: CogIcon },
 ];
 
 const pharmacistMenuItems = [
   { name: "Dashboard", href: "/pharmacist", icon: HomeIcon },
-  {
-    name: "Prescriptions",
-    href: "/pharmacist/prescriptions",
-    icon: ClipboardDocumentListIcon,
-  },
+  { name: "Prescriptions", href: "/pharmacist/prescriptions", icon: ClipboardDocumentListIcon },
   { name: "Inventory", href: "/pharmacist/inventory", icon: UserGroupIcon },
-  {
-    name: "Messages",
-    href: "/pharmacist/messages",
-    icon: ChatBubbleLeftRightIcon,
-  },
+  { name: "Notifications", href: "/notifications", icon: BellIcon },
+  { name: "Messages", href: "/pharmacist/messages", icon: ChatBubbleLeftRightIcon },
   { name: "Settings", href: "/pharmacist/settings", icon: CogIcon },
 ];
 
@@ -78,7 +58,7 @@ export default function Sidebar() {
 
   const sidebarWidth = "w-64";
 
-  const getPanelInfo = () => {
+  const panelInfo = React.useMemo(() => {
     switch (user?.role) {
       case "patient":
         return { title: "Patient Panel", subtitle: "Your Health Hub" };
@@ -89,9 +69,9 @@ export default function Sidebar() {
       default:
         return { title: "CareSync", subtitle: "Integrated Health" };
     }
-  };
+  }, [user]);
 
-  const panelInfo = getPanelInfo();
+  const isActiveLink = (href) => location.pathname.startsWith(href);
 
   return (
     <>
@@ -116,16 +96,14 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 min-h-screen ${sidebarWidth} bg-gradient-to-b from-primary-50 via-white to-medical-50 shadow-xl border-r border-gray-200 flex flex-col z-50 transition-transform duration-200 ${
+        className={`fixed top-0 left-0 min-h-screen ${sidebarWidth} bg-gradient-to-b from-primary-50/90 via-white to-medical-50/90 shadow-xl border-r border-subtle flex flex-col z-50 transition-transform duration-200 ${
           open ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:static lg:h-auto dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 dark:border-gray-800`}
+        } lg:translate-x-0 lg:static lg:h-auto dark:from-gray-950 dark:via-gray-900/95 dark:to-gray-950`}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 px-6 h-20 border-b border-gray-100 bg-white/80 backdrop-blur dark:bg-gray-900/80 dark:border-gray-800">
-          <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary-100 shadow-inner dark:bg-primary-900/30">
-            <span className="text-primary-600 text-2xl font-bold dark:text-primary-300">
-              🩺
-            </span>
+        <div className="flex items-center gap-3 px-6 h-20 border-b border-subtle bg-surface/90 backdrop-blur">
+          <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary-100/90 shadow-inner dark:bg-primary-900/30">
+            <span className="text-primary text-2xl font-bold">🩺</span>
           </div>
           <div>
             <span className="block text-lg font-bold text-primary-700 tracking-wide dark:text-primary-300">
@@ -149,30 +127,27 @@ export default function Sidebar() {
         {/* Navigation */}
         <nav className="flex-1 mt-4 px-2 lg:px-4">
           <ul className="space-y-1">
-            {menuItems.map((item) => {
-              const isActive = location.pathname === item.href;
-              return (
-                <li key={item.name}>
-                  <Link
-                    to={item.href}
-                    className={`flex items-center px-4 py-2 text-base rounded-lg transition-colors group ${
-                      isActive
-                        ? "bg-primary-100 text-primary-700 font-semibold shadow-inner dark:bg-primary-900/20 dark:text-primary-200"
-                        : "text-gray-700 hover:bg-primary-50 hover:text-primary-700 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-primary-200"
+            {menuItems.map((item) => (
+              <li key={item.name}>
+                <Link
+                  to={item.href}
+                  className={`flex items-center px-4 py-2 text-base rounded-lg transition-colors group ${
+                    isActiveLink(item.href)
+                      ? "bg-primary-100 text-primary-700 font-semibold shadow-inner dark:bg-primary-900/20 dark:text-primary-200"
+                      : "text-gray-700 hover:bg-primary-50 hover:text-primary-700 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-primary-200"
+                  }`}
+                >
+                  <item.icon
+                    className={`mr-3 h-6 w-6 ${
+                      isActiveLink(item.href)
+                        ? "text-primary-500 dark:text-primary-300"
+                        : "text-gray-400 group-hover:text-primary-400 dark:text-gray-500 dark:group-hover:text-primary-300"
                     }`}
-                  >
-                    <item.icon
-                      className={`mr-3 h-6 w-6 ${
-                        isActive
-                          ? "text-primary-500 dark:text-primary-300"
-                          : "text-gray-400 group-hover:text-primary-400 dark:text-gray-500 dark:group-hover:text-primary-300"
-                      }`}
-                    />
-                    <span className="truncate">{item.name}</span>
-                  </Link>
-                </li>
-              );
-            })}
+                  />
+                  <span className="truncate">{item.name}</span>
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
 

@@ -1,21 +1,23 @@
 // firebase.js
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDKJtsmqxjWzivN7mq_2-szJ6dBh5tEEH8",
-  authDomain: "caresync-b2ac1.firebaseapp.com",
-  projectId: "caresync-b2ac1",
-  storageBucket: "caresync-b2ac1.appspot.com",
-  messagingSenderId: "314234275561",
-  appId: "1:314234275561:web:4294c9ab603b7987159278",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-export { auth, provider };
+export { auth, provider, db };
 
 export async function signInWithGoogle() {
   return signInWithPopup(auth, provider);

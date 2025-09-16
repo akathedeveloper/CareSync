@@ -28,7 +28,7 @@
 }
 
 .calendar-modal-content.dark {
-  background-color: #1f2937; /* Gray-800 for dark mode */
+  background-color: var(--neutral-800);
 }
 
 /* Modal Header and Close Button */
@@ -40,28 +40,28 @@
 }
 
 .calendar-modal-header h2 {
-  color: #111827; /* Gray-900 for light mode */
+  color: var(--neutral-900);
 }
 
 .calendar-modal-content.dark .calendar-modal-header h2 {
-  color: #f9fafb; /* Gray-50 for dark mode */
+  color: var(--neutral-50);
 }
 
 .calendar-modal-close-button {
-  color: #9ca3af; /* Gray-400 */
+  color: var(--neutral-400);
   transition: color 0.2s;
 }
 
 .calendar-modal-close-button:hover {
-  color: #4b5563; /* Gray-600 */
+  color: var(--neutral-600);
 }
 
 .calendar-modal-content.dark .calendar-modal-close-button {
-  color: #6b7280; /* Gray-500 */
+  color: var(--neutral-500);
 }
 
 .calendar-modal-content.dark .calendar-modal-close-button:hover {
-  color: #d1d5db; /* Gray-300 */
+  color: var(--neutral-300);
 }
 
 /* --- Custom react-calendar styling to match your theme --- */
@@ -70,8 +70,8 @@
 .react-calendar-custom {
   width: 100%;
   max-width: 400px;
-  background-color: #fff;
-  border: 1px solid #e2e8f0; /* gray-200 */
+  background-color: white;
+  border: 1px solid var(--primary-200);
   border-radius: 1.5rem; /* rounded-3xl */
   font-family: inherit;
   line-height: 1.125em;
@@ -80,8 +80,8 @@
 
 /* Dark mode styles for the calendar */
 .calendar-modal-content.dark .react-calendar-custom {
-  background-color: #111827; /* dark:bg-gray-900 */
-  border-color: #374151; /* dark:border-gray-700 */
+  background-color: var(--neutral-900);
+  border-color: var(--neutral-700);
 }
 
 /* Calendar header (navigation) */
@@ -95,23 +95,23 @@
   min-width: 44px;
   background: none;
   border: 0;
-  color: #1f2937; /* gray-900 */
+  color: var(--primary-900);
   font-weight: bold;
   font-size: 1.25rem;
   transition: all 0.2s ease-in-out;
 }
 
 .calendar-modal-content.dark .react-calendar-custom .react-calendar__navigation button {
-  color: #f9fafb; /* gray-100 */
+  color: var(--primary-100);
 }
 
 .react-calendar-custom .react-calendar__navigation button:enabled:hover {
-  background-color: #e2e8f0; /* gray-200 */
+  background-color: var(--primary-100);
   border-radius: 0.75rem;
 }
 
 .calendar-modal-content.dark .react-calendar-custom .react-calendar__navigation button:enabled:hover {
-  background-color: #374151; /* gray-700 */
+  background-color: var(--primary-800);
 }
 
 /* Calendar days (tile) */
@@ -121,30 +121,30 @@
   padding: 0.75em 0.5em;
   border-radius: 0.75rem;
   transition: all 0.2s ease-in-out;
-  color: #4b5563; /* gray-600 */
+  color: var(--primary-700);
 }
 
 .calendar-modal-content.dark .react-calendar-custom .react-calendar__tile {
-  color: #d1d5db; /* gray-300 */
+  color: var(--primary-300);
 }
 
 .react-calendar-custom .react-calendar__month-view__weekdays__weekday {
-  color: #6b7280; /* gray-500 */
+  color: var(--primary-600);
   font-weight: 500;
   text-decoration: none;
 }
 
 .calendar-modal-content.dark .react-calendar-custom .react-calendar__month-view__weekdays__weekday {
-  color: #9ca3af; /* gray-400 */
+  color: var(--primary-400);
 }
 
 .react-calendar-custom .react-calendar__month-view__days__day--weekend {
-  color: #9ca3af; /* gray-400 */
+  color: var(--medical-600);
 }
 
 .react-calendar-custom .react-calendar__tile:enabled:hover {
-  background-color: #f0fdf4; /* A light green for hover state */
-  color: #2e8b57; /* Dark sea green for hover text */
+  background-color: var(--medical-50);
+  color: var(--medical-700);
 }
 
 .calendar-modal-content.dark .react-calendar-custom .react-calendar__tile:enabled:hover {

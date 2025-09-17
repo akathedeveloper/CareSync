@@ -593,7 +593,7 @@ const Register = () => {
                 onClick={() => setShowPassword(!showPassword)}
               >
                 <AnimatePresence mode="wait">
-                  {showPassword ? (
+                  {!showPassword ? (
                     <motion.div key="eyeslash" initial={{ opacity: 0, rotate: -90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: 90 }} transition={{ duration: 0.2 }}>
                       <EyeSlashIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" />
                     </motion.div>
@@ -660,7 +660,7 @@ const Register = () => {
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   <AnimatePresence mode="wait">
-                    {showConfirmPassword ? (
+                    {!showConfirmPassword ? (
                       <motion.div key="eyeslash2" initial={{ opacity: 0, rotate: -90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: 90 }} transition={{ duration: 0.2 }}>
                         <EyeSlashIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" />
                       </motion.div>

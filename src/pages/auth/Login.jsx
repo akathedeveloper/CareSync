@@ -230,7 +230,7 @@ const Login = () => {
                   whileTap={{ scale: 0.9 }}
                 >
                   <AnimatePresence mode="wait">
-                    {showPassword ? (
+                    {!showPassword ? (
                       <EyeOff className="h-5 w-5" key="eyeoff" />
                     ) : (
                       <Eye className="h-5 w-5" key="eye" />

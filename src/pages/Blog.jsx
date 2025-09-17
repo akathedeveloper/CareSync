@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "../components/common/Navbar";
 import Footer from "../pages/Footer";
+import { useTranslation } from "react-i18next";
 
 // Add CSS to hide scrollbar but keep functionality
 const scrollbarHideStyles = `
@@ -94,6 +95,7 @@ style.textContent = scrollbarHideStyles;
 document.head.appendChild(style);
 
 export default function Blog() {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [expandedId, setExpandedId] = useState(null); // track the expanded card
   const [filtered, setFiltered] = useState(posts)
@@ -142,12 +144,12 @@ export default function Blog() {
           className="fixed md:absolute z-10 mt-4 md:mt-12 top-4 md:top-6 left-4 md:left-6 flex items-center gap-2 text-green-700 dark:text-green-300 font-semibold hover:scale-105 transition-transform bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full p-2 md:p-0 md:bg-transparent md:dark:bg-transparent md:backdrop-blur-none"
         >
           <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
-          <span className="hidden md:inline">Back</span>
+          <span className="hidden md:inline">{t('blog.back', 'Back')}</span>
         </Link>
 
         {/* Page Title */}
         <h1 className="text-5xl font-extrabold text-center text-green-800 dark:text-green-200 mb-10 drop-shadow-lg">
-          Our Blog
+          {t('blog.title', 'Our Blog')}
         </h1>
 
         {/* Search Bar */}
@@ -155,7 +157,7 @@ export default function Blog() {
           <div className="relative w-full max-w-md">
             <input
               type="text"
-              placeholder="Search blogs by title or author..."
+              placeholder={t('blog.searchPlaceholder', 'Search blogs by title or author...')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full rounded-full pl-12 pr-4 py-3 text-gray-700 dark:text-gray-100 bg-white/80 dark:bg-green-800/60 border border-green-300 dark:border-green-700 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -232,7 +234,7 @@ export default function Blog() {
                         onClick={() => toggleExpand(post.id)}
                         className="mt-2 text-green-600 dark:text-green-300 font-semibold hover:underline self-start"
                       >
-                        {isExpanded ? "Show Less ←" : "Read More →"}
+                        {isExpanded ? t('blog.showLess', 'Show Less ←') : t('blog.readMore', 'Read More →')}
                       </button>
                     </div>
                   </div>
@@ -240,7 +242,7 @@ export default function Blog() {
               })
             ) : (
               <p className="text-center text-gray-600 dark:text-gray-300 col-span-full">
-                No blog posts found.
+                {t('blog.none', 'No blog posts found.')}
               </p>
             )}
           </div>

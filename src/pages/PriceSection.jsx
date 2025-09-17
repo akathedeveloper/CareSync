@@ -1,53 +1,55 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CheckIcon } from "@heroicons/react/24/solid";
 
 export default function Pricing() {
+  const { t } = useTranslation();
   const plans = [
     {
-      name: "Starter",
+      name: t('pricing.starter', 'Starter'),
       price: 29,
-      period: "/month",
-      description: "Perfect for small clinics",
+      period: t('pricing.perMonth', '/month'),
+      description: t('pricing.starterDesc', 'Perfect for small clinics'),
       features: [
-        "Up to 100 patients",
-        "Basic dashboard",
-        "Prescription management",
-        "Email support",
-        "Mobile app access",
+        t('pricing.f.upTo100', 'Up to 100 patients'),
+        t('pricing.f.basicDashboard', 'Basic dashboard'),
+        t('pricing.f.rxManagement', 'Prescription management'),
+        t('pricing.f.emailSupport', 'Email support'),
+        t('pricing.f.mobileAccess', 'Mobile app access'),
       ],
-      cta: "Start Free Trial",
+      cta: t('pricing.startTrial', 'Start Free Trial'),
       popular: false,
     },
     {
-      name: "Professional",
+      name: t('pricing.professional', 'Professional'),
       price: 99,
-      period: "/month",
-      description: "Best for growing practices",
+      period: t('pricing.perMonth', '/month'),
+      description: t('pricing.professionalDesc', 'Best for growing practices'),
       features: [
-        "Up to 1,000 patients",
-        "Advanced analytics",
-        "AI-powered insights",
-        "Priority support",
-        "API integrations",
-        "Custom branding",
+        t('pricing.f.upTo1000', 'Up to 1,000 patients'),
+        t('pricing.f.advancedAnalytics', 'Advanced analytics'),
+        t('pricing.f.aiInsights', 'AI-powered insights'),
+        t('pricing.f.prioritySupport', 'Priority support'),
+        t('pricing.f.apiIntegrations', 'API integrations'),
+        t('pricing.f.customBranding', 'Custom branding'),
       ],
-      cta: "Start Free Trial",
+      cta: t('pricing.startTrial', 'Start Free Trial'),
       popular: true,
     },
     {
-      name: "Enterprise",
+      name: t('pricing.enterprise', 'Enterprise'),
       price: 0,
       period: "",
-      description: "For large healthcare systems",
+      description: t('pricing.enterpriseDesc', 'For large healthcare systems'),
       features: [
-        "Unlimited patients",
-        "Custom integrations",
-        "Dedicated support",
-        "Advanced security",
-        "Custom workflows",
-        "SLA guarantee",
+        t('pricing.f.unlimited', 'Unlimited patients'),
+        t('pricing.f.customIntegrations', 'Custom integrations'),
+        t('pricing.f.dedicatedSupport', 'Dedicated support'),
+        t('pricing.f.advancedSecurity', 'Advanced security'),
+        t('pricing.f.customWorkflows', 'Custom workflows'),
+        t('pricing.f.sla', 'SLA guarantee'),
       ],
-      cta: "Contact Sales",
+      cta: t('pricing.contactSales', 'Contact Sales'),
       popular: false,
     },
   ];
@@ -186,14 +188,14 @@ export default function Pricing() {
             data-aos="fade-up"
             className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4"
           >
-            Simple, Transparent Pricing
+            {t('pricing.title', 'Simple, Transparent Pricing')}
           </h2>
           <p
             data-aos="fade-up"
             data-aos-duration="900"
             className="text-xl text-gray-600 dark:text-gray-300"
           >
-            Choose the plan that's right for your healthcare needs
+            {t('pricing.subtitle', "Choose the plan that's right for your healthcare needs")}
           </p>
         </div>
 

@@ -14,63 +14,66 @@ import {
 const features = [
   {
     icon: <ShieldCheckIcon className="w-8 h-8" />,
-    title: "Enterprise Security",
-    description: "SOC 2 Type II & HIPAA compliant with end-to-end encryption, audit trails, and advanced access controls.",
-    highlights: ["256-bit encryption", "Multi-factor authentication", "Compliance reporting"],
-    category: "Security"
+    titleKey: "features.security.title",
+    descriptionKey: "features.security.description",
+    highlightsKeys: ["features.security.h1", "features.security.h2", "features.security.h3"],
+    categoryKey: "features.security.category"
   },
   {
     icon: <ChartBarIcon className="w-8 h-8" />,
-    title: "Advanced Analytics",
-    description: "Real-time health insights, predictive analytics, and comprehensive reporting for data-driven decisions.",
-    highlights: ["Predictive modeling", "Custom dashboards", "Performance metrics"],
-    category: "Analytics"
+    titleKey: "features.analytics.title",
+    descriptionKey: "features.analytics.description",
+    highlightsKeys: ["features.analytics.h1", "features.analytics.h2", "features.analytics.h3"],
+    categoryKey: "features.analytics.category"
   },
   {
     icon: <UserGroupIcon className="w-8 h-8" />,
-    title: "Care Team Collaboration",
-    description: "Seamless communication between doctors, nurses, pharmacists, and patients with role-based permissions.",
-    highlights: ["Team messaging", "Task management", "Role-based access"],
-    category: "Collaboration"
+    titleKey: "features.collab.title",
+    descriptionKey: "features.collab.description",
+    highlightsKeys: ["features.collab.h1", "features.collab.h2", "features.collab.h3"],
+    categoryKey: "features.collab.category"
   },
   {
     icon: <CloudIcon className="w-8 h-8" />,
-    title: "Cloud Infrastructure",
-    description: "99.9% uptime guarantee with automatic backups, disaster recovery, and global CDN for optimal performance.",
-    highlights: ["99.9% uptime SLA", "Auto-scaling", "Global availability"],
-    category: "Infrastructure"
+    titleKey: "features.infra.title",
+    descriptionKey: "features.infra.description",
+    highlightsKeys: ["features.infra.h1", "features.infra.h2", "features.infra.h3"],
+    categoryKey: "features.infra.category"
   },
   {
     icon: <DocumentTextIcon className="w-8 h-8" />,
-    title: "Smart Documentation",
-    description: "AI-powered clinical documentation with voice-to-text, templates, and automated coding assistance.",
-    highlights: ["Voice recognition", "Auto-coding", "Template library"],
-    category: "Documentation"
+    titleKey: "features.docs.title",
+    descriptionKey: "features.docs.description",
+    highlightsKeys: ["features.docs.h1", "features.docs.h2", "features.docs.h3"],
+    categoryKey: "features.docs.category"
   },
   {
     icon: <DevicePhoneMobileIcon className="w-8 h-8" />,
-    title: "Omnichannel Access",
-    description: "Native mobile apps, responsive web portal, and API integrations for seamless workflow continuity.",
-    highlights: ["Native mobile apps", "REST API", "Third-party integrations"],
-    category: "Accessibility"
+    titleKey: "features.access.title",
+    descriptionKey: "features.access.description",
+    highlightsKeys: ["features.access.h1", "features.access.h2", "features.access.h3"],
+    categoryKey: "features.access.category"
   },
   {
     icon: <ClockIcon className="w-8 h-8" />,
-    title: "Real-time Monitoring",
-    description: "24/7 system monitoring, automated alerts, and proactive issue resolution with dedicated support.",
-    highlights: ["24/7 monitoring", "Automated alerts", "Proactive support"],
-    category: "Monitoring"
+    titleKey: "features.monitor.title",
+    descriptionKey: "features.monitor.description",
+    highlightsKeys: ["features.monitor.h1", "features.monitor.h2", "features.monitor.h3"],
+    categoryKey: "features.monitor.category"
   },
   {
     icon: <CpuChipIcon className="w-8 h-8" />,
-    title: "AI-Powered Insights",
-    description: "Machine learning algorithms for clinical decision support, risk assessment, and treatment recommendations.",
-    highlights: ["Clinical AI", "Risk scoring", "Treatment insights"],
-    category: "AI/ML"
+    titleKey: "features.ai.title",
+    descriptionKey: "features.ai.description",
+    highlightsKeys: ["features.ai.h1", "features.ai.h2", "features.ai.h3"],
+    categoryKey: "features.ai.category"
   }
 ];
 
+import { useTranslation } from "react-i18next";
+
 const Feature = () => {
+  const { t } = useTranslation();
   return (
     <section
       id="features"
@@ -86,19 +89,18 @@ const Feature = () => {
           viewport={{ once: true }}
         >
           <div className="inline-flex items-center bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 text-emerald-700 dark:text-emerald-300 px-4 py-2 rounded-full text-sm font-semibold shadow-sm border border-emerald-200 dark:border-emerald-800 mb-6">
-            Enterprise-Grade Features
+            {t('features.headerBadge', 'Enterprise-Grade Features')}
           </div>
           
           <h2 className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-gray-100 mb-6">
-            Built for 
-            <span className="gradient-accent bg-clip-text text-transparent"> Healthcare</span>
+            {t('features.titleLine1', 'Built for')} 
+            <span className="gradient-accent bg-clip-text text-transparent"> {t('features.titleAccent', 'Healthcare')}</span>
             <br />
-            Professionals
+            {t('features.titleLine2', 'Professionals')}
           </h2>
           
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Comprehensive healthcare management platform designed to meet the demanding requirements 
-            of modern healthcare organizations with enterprise-grade security and scalability.
+            {t('features.subtitle', 'Comprehensive healthcare management platform designed to meet the demanding requirements of modern healthcare organizations with enterprise-grade security and scalability.')}
           </p>
         </motion.div>
 
@@ -116,7 +118,7 @@ const Feature = () => {
               {/* Category Badge */}
               <div className="absolute top-4 right-4">
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">
-                  {feature.category}
+                  {t(feature.categoryKey)}
                 </span>
               </div>
 
@@ -127,19 +129,19 @@ const Feature = () => {
 
               {/* Content */}
               <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                {feature.title}
+                {t(feature.titleKey)}
               </h3>
               
               <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6">
-                {feature.description}
+                {t(feature.descriptionKey)}
               </p>
 
               {/* Feature Highlights */}
               <div className="space-y-2">
-                {feature.highlights.map((highlight, idx) => (
+                {feature.highlightsKeys.map((hKey, idx) => (
                   <div key={idx} className="flex items-center text-xs text-gray-500 dark:text-gray-400">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2" />
-                    {highlight}
+                    {t(hKey)}
                   </div>
                 ))}
               </div>
@@ -160,18 +162,18 @@ const Feature = () => {
         >
           <div className="bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 rounded-3xl border border-emerald-200 dark:border-emerald-800 p-12">
             <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Ready to Experience Enterprise Healthcare?
+              {t('features.ctaTitle', 'Ready to Experience Enterprise Healthcare?')}
             </h3>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join leading healthcare organizations that trust CareSync for their critical operations.
+              {t('features.ctaSubtitle', 'Join leading healthcare organizations that trust CareSync for their critical operations.')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="gradient-accent text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
-                Request Enterprise Demo
+                {t('features.requestDemo', 'Request Enterprise Demo')}
               </button>
               <button className="border-2 border-emerald-500 text-emerald-600 dark:text-emerald-400 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300">
-                View Technical Specs
+                {t('features.viewSpecs', 'View Technical Specs')}
               </button>
             </div>
           </div>

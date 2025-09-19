@@ -5,7 +5,6 @@ import Navbar from "../components/common/Navbar";
 import Footer from "../pages/Footer";
 import { useTranslation } from "react-i18next";
 
-// Add CSS to hide scrollbar but keep functionality
 const scrollbarHideStyles = `
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -89,16 +88,15 @@ const posts = [
   }
 ];
 
-// Add the styles to the document
-const style = document.createElement('style');
+const style = document.createElement("style");
 style.textContent = scrollbarHideStyles;
 document.head.appendChild(style);
 
 export default function Blog() {
   const { t } = useTranslation();
   const [search, setSearch] = useState("");
-  const [expandedId, setExpandedId] = useState(null); // track the expanded card
-  const [filtered, setFiltered] = useState(posts)
+  const [expandedId, setExpandedId] = useState(null); 
+  const [filtered, setFiltered] = useState(posts);
   const scrollContainerRef = useRef(null);
 
   // blogs search with 300ms delay
@@ -112,24 +110,24 @@ export default function Blog() {
       setFiltered(filteredPosts);
     }, 300);
     return () => clearTimeout(timeoutId);
-  }, [search])
+  }, [search]);
 
   const scroll = (direction) => {
     const container = scrollContainerRef.current;
     if (container) {
-      const scrollAmount = 400; // Adjust this value to control scroll distance
+      const scrollAmount = 400; 
       container.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
       });
     }
   };
 
   const toggleExpand = (id) => {
-    setExpandedId(expandedId === id ? null : id); // expand or collapse card
+    setExpandedId(expandedId === id ? null : id); 
   };
 
-  // Reset scroll position when component mounts
+  
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -137,19 +135,35 @@ export default function Blog() {
   return (
     <>
       <Navbar />
+
       <div className="bg-gradient-to-br dark:from-gray-900 dark:to-gray-950 min-h-screen py-8 md:py-16 px-4 sm:px-6 lg:px-8 relative mt-16">
+
         {/* Back Button */}
         <Link
           to="/"
-          className="fixed md:absolute z-10 mt-4 md:mt-12 top-4 md:top-6 left-4 md:left-6 flex items-center gap-2 text-green-700 dark:text-green-300 font-semibold hover:scale-105 transition-transform bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full p-2 md:p-0 md:bg-transparent md:dark:bg-transparent md:backdrop-blur-none"
+          className="fixed md:absolute z-10 mt-4 md:mt-12 top-4 md:top-6 left-4 md:left-6 
+                     flex items-center gap-2 font-semibold 
+                     text-emerald-500 hover:text-teal-500 
+                     hover:scale-105 transition-transform 
+                     rounded-full p-2 md:p-0"
         >
           <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
-          <span className="hidden md:inline">{t('blog.back', 'Back')}</span>
+          <span className="hidden md:inline">Back</span>
         </Link>
 
         {/* Page Title */}
-        <h1 className="text-5xl font-extrabold text-center text-green-800 dark:text-green-200 mb-10 drop-shadow-lg">
-          {t('blog.title', 'Our Blog')}
+        <h1
+          className="text-5xl font-extrabold text-center leading-relaxed 
+           bg-gradient-to-r from-emerald-500 to-teal-500 
+           bg-clip-text text-transparent 
+           mb-12 
+           transition-all duration-300 
+           hover:from-emerald-600 hover:to-teal-600 
+           dark:hover:from-emerald-300 dark:hover:to-teal-500 
+           cursor-pointer"
+
+        >
+          {t("blog.title", "Our Blog")}
         </h1>
 
         {/* Search Bar */}
@@ -157,34 +171,49 @@ export default function Blog() {
           <div className="relative w-full max-w-md">
             <input
               type="text"
-              placeholder={t('blog.searchPlaceholder', 'Search blogs by title or author...')}
+              placeholder={t("blog.searchPlaceholder", "Search blogs by title or author...")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-full pl-12 pr-4 py-3 text-gray-700 dark:text-gray-100 bg-white/80 dark:bg-green-800/60 border border-green-300 dark:border-green-700 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full rounded-full pl-12 pr-4 py-3 
+                         text-gray-900 dark:text-white 
+                         bg-white dark:bg-emerald-400/10 
+                         border border-emerald-400 dark:border-emerald-500 
+                         shadow-lg 
+                         focus:outline-none focus:ring-4 focus:ring-emerald-400/30 
+                         transition duration-300 
+                         placeholder-gray-400 dark:placeholder-emerald-300 
+                         hover:border-emerald-500"
             />
-            <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-500 dark:text-gray-300" />
+            <Search className="absolute left-4 top-3.5 w-5 h-5 text-emerald-500 dark:text-emerald-400" />
           </div>
         </div>
 
         {/* Blog Cards - Horizontal Scrolling */}
         <div className="relative max-w-7xl mx-auto">
+
           {/* Left scroll button */}
           <button
-            onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all"
+            onClick={() => scroll("left")}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 
+                       bg-gradient-to-r from-emerald-500 to-teal-600 
+                       p-3 rounded-full shadow-lg text-white 
+                       hover:from-emerald-600 hover:to-teal-700 
+                       transition-all"
             aria-label="Scroll left"
           >
-            <ChevronLeft className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+            <ChevronLeft className="w-6 h-6" />
           </button>
 
-          <div 
+          {/* Scrollable container */}
+          <div
             ref={scrollContainerRef}
-            className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide px-12" 
+            className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide px-12"
             style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch',
-            }}>
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
             {filtered.length > 0 ? (
               filtered.map((post) => {
                 const isExpanded = expandedId === post.id;
@@ -192,49 +221,57 @@ export default function Blog() {
                 return (
                   <div
                     key={post.id}
-                    className="rounded-2xl overflow-hidden shadow-lg 
-                             bg-white/10 dark:bg-green-900/30 backdrop-blur-md 
-                             border border-green-200/20 dark:border-green-700/30
-                             hover:shadow-2xl hover:scale-[1.03] transition-all duration-500
-                             flex-none w-[350px] snap-center"
+                   className="mt-6 rounded-xl overflow-hidden shadow-md 
+                  bg-white dark:bg-[#061C2B] 
+                  border border-emerald-400 dark:border-emerald-700
+                  hover:shadow-lg hover:scale-[1.03] 
+                  transition-all duration-300 
+                  flex-none w-[350px] snap-center"
                   >
-                    {/* Image */}
                     <img
                       src={post.image}
                       alt={post.title}
                       className="w-full h-60 object-cover"
                     />
 
-                    {/* Text below image */}
                     <div className="p-6 flex flex-col gap-3">
-                      <h2 className="text-2xl font-extrabold text-green-800 dark:text-green-200">
+                      <h2 className="text-2xl font-extrabold text-emerald-600 dark:text-white">
                         {post.title}
                       </h2>
 
-                      <div className={`transition-all duration-500 ${isExpanded ? 'max-h-[1000px]' : 'max-h-24'}`}>
+                      <div
+                        className={`transition-all duration-500 ${
+                          isExpanded ? "max-h-[1000px]" : "max-h-24"
+                        }`}
+                      >
                         <p
                           className="text-gray-700 dark:text-gray-300"
                           style={{
                             display: "-webkit-box",
                             WebkitLineClamp: isExpanded ? undefined : 3,
                             WebkitBoxOrient: "vertical",
-                            overflow: isExpanded ? 'visible' : 'hidden',
+                            overflow: isExpanded ? "visible" : "hidden",
                           }}
                         >
                           {post.excerpt}
                         </p>
                       </div>
 
-                      <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-300 mt-4">
+                      <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 mt-4">
                         <span className="font-medium">{post.author}</span>
                         <span>{post.date}</span>
                       </div>
 
                       <button
                         onClick={() => toggleExpand(post.id)}
-                        className="mt-2 text-green-600 dark:text-green-300 font-semibold hover:underline self-start"
+                        className="mt-2 bg-gradient-to-r from-emerald-500 to-teal-600 
+                                   text-white px-3 py-1.5 rounded-lg text-sm font-semibold 
+                                   shadow-md hover:from-emerald-600 hover:to-teal-700 
+                                   transition-all self-start"
                       >
-                        {isExpanded ? t('blog.showLess', 'Show Less ←') : t('blog.readMore', 'Read More →')}
+                        {isExpanded
+                          ? t("blog.showLess", "Show Less ←")
+                          : t("blog.readMore", "Read More →")}
                       </button>
                     </div>
                   </div>
@@ -242,21 +279,26 @@ export default function Blog() {
               })
             ) : (
               <p className="text-center text-gray-600 dark:text-gray-300 col-span-full">
-                {t('blog.none', 'No blog posts found.')}
+                {t("blog.none", "No blog posts found.")}
               </p>
             )}
           </div>
 
           {/* Right scroll button */}
           <button
-            onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all"
+            onClick={() => scroll("right")}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 
+                       bg-gradient-to-r from-emerald-500 to-teal-600 
+                       p-3 rounded-full shadow-lg text-white 
+                       hover:from-emerald-600 hover:to-teal-700 
+                       transition-all"
             aria-label="Scroll right"
           >
-            <ChevronRight className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+            <ChevronRight className="w-6 h-6" />
           </button>
         </div>
       </div>
+
       <Footer />
     </>
   );

@@ -35,12 +35,14 @@ import Navbar from "../components/common/Navbar";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
 import ScrollProgress from "../components/common/ScrollProgress";
-//Make the heading typewriter
+import Carousel from "./Carousel"; // ✅ Corrected path
+
+// Heading Typewriter
 const HeadingTypewriter = () => {
-  const [displayedText, setDisplayedText] = useState('');
+  const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const fullText = 'Healthcare Management Made Simple';
+  const fullText = "Healthcare Management Made Simple";
   const managementStartIndex = 11;
   const managementEndIndex = 21;
 
@@ -55,12 +57,14 @@ const HeadingTypewriter = () => {
     }, 70);
 
     return () => clearInterval(typeInterval);
-  }, [currentIndex, fullText.length]);
-
+  }, [currentIndex]);
 
   const renderText = () => {
     const beforeManagement = displayedText.slice(0, managementStartIndex);
-    const management = displayedText.slice(managementStartIndex, managementEndIndex);
+    const management = displayedText.slice(
+      managementStartIndex,
+      managementEndIndex
+    );
     const afterManagement = displayedText.slice(managementEndIndex);
 
     return (
@@ -108,10 +112,13 @@ const LandingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-white dark:bg-gray-950 mt-20">
       <ScrollProgress />
       <Navbar />
 
+      {/* ✅ Carousel Slider */}
+      <Carousel />
+      
       {/* Professional Hero Section */}
       <section
         id="home"

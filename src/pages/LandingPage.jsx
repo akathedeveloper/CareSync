@@ -57,12 +57,14 @@ const HeadingTypewriter = () => {
     }, 70);
 
     return () => clearInterval(typeInterval);
-  }, [currentIndex, fullText.length]);
-
+  }, [currentIndex]);
 
   const renderText = () => {
     const beforeManagement = displayedText.slice(0, managementStartIndex);
-    const management = displayedText.slice(managementStartIndex, managementEndIndex);
+    const management = displayedText.slice(
+      managementStartIndex,
+      managementEndIndex
+    );
     const afterManagement = displayedText.slice(managementEndIndex);
 
     return (
@@ -111,10 +113,13 @@ const LandingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-white dark:bg-gray-950 mt-20">
       <ScrollProgress />
       <Navbar />
 
+      {/* ✅ Carousel Slider */}
+      <Carousel />
+      
       {/* Professional Hero Section */}
       <section
         id="home"

@@ -8,6 +8,7 @@ import Contributor from "./Contributor";
 import { useNavigate } from "react-router-dom";
 
 import useScrollSpy from "../../hooks/useScrollSpy";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -96,16 +97,18 @@ const Navbar = () => {
     }
   }, [location]);
 
+  const { t, i18n } = useTranslation();
+
   // show only home link on auth pages
   const menuItems = isAuthPage 
-    ? [{ name: "Home", id: "home" }]
+    ? [{ name: t("nav.home"), id: "home" }]
     : [
-        { name: "Home", id: "home", isSection: true },
-        { name: "Features", id: "features", isSection: true },
-        { name: "Pricing", id: "pricing", isSection: true },
-        { name: "Blog", path: "/blog", isSection: false },
-        { name: "Testimonials", id: "testimonials", isSection: true },
-        { name: "Contact", id: "contact-form", isSection: true }
+        { name: t("nav.home"), id: "home", isSection: true },
+        { name: t("nav.features"), id: "features", isSection: true },
+        { name: t("nav.pricing"), id: "pricing", isSection: true },
+        { name: t("nav.blog"), path: "/blog", isSection: false },
+        { name: t("nav.testimonials"), id: "testimonials", isSection: true },
+        { name: t("nav.contact"), id: "contact-form", isSection: true }
       ];
 
   return (
@@ -146,7 +149,7 @@ const Navbar = () => {
                 }}
                 className="hidden md:block text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium text-sm md:text-base"
               >
-                Home
+                {t('nav.home')}
               </a>
             )}
           </div>
@@ -197,13 +200,25 @@ const Navbar = () => {
               )}
             </button>
 
+            {/* Language Switcher (EN/HI) persisted */}
+            <select
+              value={i18n.language}
+              onChange={(e) => i18n.changeLanguage(e.target.value)}
+              className="text-sm bg-transparent border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1 text-gray-700 dark:text-gray-200"
+              aria-label="Select language"
+              title="Language"
+            >
+              <option value="en">EN</option>
+              <option value="hi">HI</option>
+            </select>
+
             {/* Desktop Auth - hidden on mobile and tablet */}
             <div className="hidden lg:flex items-center space-x-4">
               <button
                 onClick={() => navigate("/contributor")}
                 className="px-3 py-1.5 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium text-sm"
               >
-                Contributors
+                {t('nav.contributors')}
               </button>
 
               {user ? (
@@ -211,7 +226,7 @@ const Navbar = () => {
                   to={`/${user.role}`}
                   className="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium text-sm"
                 >
-                  Dashboard
+                  {t('nav.dashboard')}
                 </Link>
               ) : (
                 <>
@@ -219,13 +234,13 @@ const Navbar = () => {
                     to="/login"
                     className="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium text-sm"
                   >
-                    Sign In
+                    {t('auth.signIn')}
                   </Link>
                   <Link
                     to="/register"
                     className="gradient-accent text-white px-4 py-2 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold text-sm"
                   >
-                    Get Started
+                    {t('auth.getStarted')}
                   </Link>
                 </>
               )}

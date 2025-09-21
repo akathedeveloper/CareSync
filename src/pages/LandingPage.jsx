@@ -35,14 +35,14 @@ import Navbar from "../components/common/Navbar";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
 import ScrollProgress from "../components/common/ScrollProgress";
-import Carousel from "./Carousel"; // ✅ Corrected path
-
-// Heading Typewriter
+import { useTranslation } from "react-i18next";
+//Make the heading typewriter
 const HeadingTypewriter = () => {
-  const [displayedText, setDisplayedText] = useState("");
+  const { t } = useTranslation();
+  const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const fullText = "Healthcare Management Made Simple";
+  const fullText = t('landing.heroHeadline', 'Healthcare Management Made Simple');
   const managementStartIndex = 11;
   const managementEndIndex = 21;
 
@@ -89,6 +89,7 @@ const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const { user, loading } = useAuth();
+  const { t } = useTranslation();
 
   const handleScheduleDemoClick = () => {
     setIsCalendarOpen(true);
@@ -136,16 +137,14 @@ const LandingPage = () => {
               {/* Trust Badge */}
               <div className="inline-flex items-center px-4 py-2 text-sm font-semibold border rounded-full shadow-sm bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800">
                 <ShieldCheckIcon className="w-4 h-4 mr-2" />
-                Trusted by 500+ Healthcare Providers
+                {t('landing.trustBadge', 'Trusted by 500+ Healthcare Providers')}
               </div>
 
               <HeadingTypewriter />
 
 
               <p className="max-w-2xl text-xl font-medium leading-relaxed text-gray-600 lg:text-2xl dark:text-gray-300">
-                Streamline patient care with our comprehensive healthcare
-                platform. Connect doctors, patients, and pharmacies in one
-                secure ecosystem.
+                {t('landing.heroSubhead', "Streamline patient care with our comprehensive healthcare platform. Connect doctors, patients, and pharmacies in one secure ecosystem.")}
               </p>
 
               {/* CTA Buttons */}
@@ -154,7 +153,7 @@ const LandingPage = () => {
                   to="/register"
                   className="flex items-center justify-center px-8 py-4 space-x-2 text-lg font-bold text-white transition-all duration-300 shadow-xl gradient-accent rounded-xl"
                 >
-                  <span>Start Free Trial</span>
+                  <span>{t('landing.ctaStartTrial', 'Start Free Trial')}</span>
                   <ArrowRightIcon className="w-5 h-5" />
                 </Link>
 
@@ -163,15 +162,15 @@ const LandingPage = () => {
                   className="flex items-center justify-center px-8 py-4 space-x-2 text-lg font-bold text-gray-700 transition-all duration-300 border-2 border-gray-300 dark:border-gray-600 dark:text-gray-300 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
                 >
                   <PlayIcon className="w-5 h-5" />
-                  <span>Watch Demo</span>
+                  <span>{t('landing.ctaWatchDemo', 'Watch Demo')}</span>
                 </button>
               </div>
 
               {/* Trust Indicators */}
               <div className="flex flex-col items-center space-y-3 text-base text-gray-600 sm:flex-row sm:space-x-8 sm:space-y-0 dark:text-gray-400">
                 {[
-                  { icon: ShieldCheckIcon, text: "HIPAA Compliant & Secure" },
-                  { icon: ClockIcon, text: "24/7 Support Available" }
+                  { icon: ShieldCheckIcon, text: t('landing.hipaaSecure', 'HIPAA Compliant & Secure') },
+                  { icon: ClockIcon, text: t('landing.support247', '24/7 Support Available') }
                 ].map((item, index) => (
                   <div key={index} className="flex items-center space-x-2">
                     <div className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30">
@@ -196,10 +195,10 @@ const LandingPage = () => {
                       </div>
                       <div>
                         <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                          Welcome, {user.name || user.email}
+                          {t('landing.welcomeUserName', { name: user.name || user.email })}
                         </h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {user.role === 'doctor' ? 'Doctor Dashboard' : user.role === 'patient' ? 'Patient Portal' : 'Pharmacy Dashboard'}
+                          {user.role === 'doctor' ? t('landing.doctorDashboard', 'Doctor Dashboard') : user.role === 'patient' ? t('landing.patientPortal', 'Patient Portal') : t('landing.pharmacyDashboard', 'Pharmacy Dashboard')}
                         </p>
                       </div>
                     </div>
@@ -214,15 +213,15 @@ const LandingPage = () => {
                   {/* Stats Section */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
-                      <span className="text-gray-600 dark:text-gray-300">Active Patients</span>
+                      <span className="text-gray-600 dark:text-gray-300">{t('landing.activePatients', 'Active Patients')}</span>
                       <span className="font-bold text-gray-900 dark:text-gray-100">1,247</span>
                     </div>
                     <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
-                      <span className="text-gray-600 dark:text-gray-300">Today's Tasks</span>
+                      <span className="text-gray-600 dark:text-gray-300">{t('landing.todaysTasks', "Today's Tasks")}</span>
                       <span className="font-bold text-gray-900 dark:text-gray-100">12</span>
                     </div>
                     <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
-                      <span className="text-gray-600 dark:text-gray-300">Response Time</span>
+                      <span className="text-gray-600 dark:text-gray-300">{t('landing.responseTime', 'Response Time')}</span>
                       <span className="font-bold text-gray-900 dark:text-gray-100">2min</span>
                     </div>
                   </div>
@@ -233,7 +232,7 @@ const LandingPage = () => {
                       to={`/${user.role}`}
                       className="flex items-center justify-center w-full px-4 py-3 space-x-2 font-semibold text-white transition-colors duration-300 rounded-lg gradient-accent"
                     >
-                      <span>Go to Dashboard</span>
+                      <span>{t('landing.goToDashboard', 'Go to Dashboard')}</span>
                       <ArrowRightIcon className="w-5 h-5" />
                     </Link>
                   </div>
@@ -254,10 +253,10 @@ const LandingPage = () => {
 
                       <div>
                         <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                          CareSync Dashboard
+                          {t('landing.caresyncDashboard', 'CareSync Dashboard')}
                         </h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Dr. Sarah Johnson
+                          {t('landing.sampleDoctorName', 'Dr. Sarah Johnson')}
                         </p>
                       </div>
                     </div>
@@ -273,7 +272,7 @@ const LandingPage = () => {
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     {[
                       {
-                        label: "Today's Appointments",
+                        label: t('landing.todaysAppointments', "Today's Appointments"),
                         value: "12",
                         icon: CalendarDaysIcon,
                         color: "text-blue-600",
@@ -281,7 +280,7 @@ const LandingPage = () => {
                         darkBg: "dark:bg-blue-900/20"
                       },
                       {
-                        label: "Pending Reports",
+                        label: t('landing.pendingReports', 'Pending Reports'),
                         value: "5",
                         icon: DocumentTextIcon,
                         color: "text-orange-600",
@@ -289,7 +288,7 @@ const LandingPage = () => {
                         darkBg: "dark:bg-orange-900/20"
                       },
                       {
-                        label: "Active Patients",
+                        label: t('landing.activePatients', 'Active Patients'),
                         value: "1,247",
                         icon: UserGroupIcon,
                         color: "text-emerald-600",
@@ -297,7 +296,7 @@ const LandingPage = () => {
                         darkBg: "dark:bg-emerald-900/20"
                       },
                       {
-                        label: "Urgent Cases",
+                        label: t('landing.urgentCases', 'Urgent Cases'),
                         value: "3",
                         icon: ExclamationTriangleIcon,
                         color: "text-red-600",
@@ -329,72 +328,73 @@ const LandingPage = () => {
                   </div>
 
                   {/* Recent Activity */}
-                  <div className="space-y-3">
-                    <h4 className="mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
-                      Recent Activity
-                    </h4>
-                    {[
-                      {
-                        patient: "John Smith",
-                        action: "Prescription updated",
-                        time: "10 min ago",
-                        status: "completed",
-                      },
-                      {
-                        patient: "Maria Garcia",
-                        action: "Lab results available",
-                        time: "25 min ago",
-                        status: "new",
-                      },
-                      {
-                        patient: "Robert Chen",
-                        action: "Appointment scheduled",
-                        time: "1 hour ago",
-                        status: "scheduled",
-                      },
-                    ].map((activity, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between p-3 border border-gray-100 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
-                      >
-                        <div className="flex items-center space-x-3">
-                          <div className="flex items-center justify-center w-8 h-8 text-sm font-bold text-white rounded-full gradient-accent">
-                            {activity.patient
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                              {activity.patient}
-                            </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">
-                              {activity.action}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <span
-                            className={`inline-block w-2 h-2 rounded-full mr-2 ${activity.status === "completed"
-                                ? "bg-green-500"
-                                : activity.status === "new"
-                                  ? "bg-blue-500"
-                                  : "bg-yellow-500"
-                              }`}
-                          />
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
-                            {activity.time}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+<div className="space-y-3">
+  <h4 className="mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+    {t('landing.recentActivity', 'Recent Activity')}
+  </h4>
+  {[
+    {
+      patient: t('landing.patientJohnSmith', 'John Smith'),
+      action: t('landing.prescriptionUpdated', 'Prescription updated'),
+      time: t('landing.time10m', '10 min ago'),
+      status: "completed",
+    },
+    {
+      patient: t('landing.patientMariaGarcia', 'Maria Garcia'),
+      action: t('landing.labResultsAvailable', 'Lab results available'),
+      time: t('landing.time25m', '25 min ago'),
+      status: "new",
+    },
+    {
+      patient: t('landing.patientRobertChen', 'Robert Chen'),
+      action: t('landing.appointmentScheduled', 'Appointment scheduled'),
+      time: t('landing.time1h', '1 hour ago'),
+      status: "scheduled",
+    },
+  ].map((activity, index) => (
+    <div
+      key={index}
+      className="flex items-center justify-between p-3 border border-gray-100 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+    >
+      <div className="flex items-center space-x-3">
+        <div className="flex items-center justify-center w-8 h-8 text-sm font-bold text-white rounded-full gradient-accent">
+          {activity.patient
+            .split(" ")
+            .map((n) => n[0])
+            .join("")}
+        </div>
+        <div>
+          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+            {activity.patient}
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            {activity.action}
+          </p>
+        </div>
+      </div>
+      <div className="text-right">
+        <span
+          className={`inline-block w-2 h-2 rounded-full mr-2 ${activity.status === "completed"
+              ? "bg-green-500"
+              : activity.status === "new"
+                ? "bg-blue-500"
+                : "bg-yellow-500"
+            }`}
+        />
+        <span className="text-xs text-gray-500 dark:text-gray-400">
+          {activity.time}
+        </span>
+      </div>
+    </div>
+  ))}
+</div>
+
 
                   {/* CTA Button */}
                   <div className="pt-4 mt-6 border-t border-gray-100 dark:border-gray-700">
                     <button className="flex items-center justify-center w-full px-4 py-3 space-x-2 font-semibold text-white transition-colors duration-300 rounded-lg gradient-accent">
                       <PlusCircleIcon className="w-5 h-5" />
-                      <span>New Patient</span>
+                      <span>{t('landing.newPatient', 'New Patient')}</span>
                     </button>
                   </div>
                 </div>
@@ -446,13 +446,12 @@ const LandingPage = () => {
 
         <div className="relative max-w-5xl px-4 mx-auto text-center sm:px-6 lg:px-8">
           <h2 className="mb-8 text-4xl font-black text-white lg:text-5xl">
-            Ready to Transform
+            {t('landing.ctaHeadlineLine1', 'Ready to Transform')}
             <br className="hidden sm:block" />
-            Your Healthcare Practice?
+            {t('landing.ctaHeadlineLine2', 'Your Healthcare Practice?')}
           </h2>
           <p className="max-w-3xl mx-auto mb-12 text-xl font-medium leading-relaxed lg:text-2xl text-white/90">
-            Join over 500 healthcare providers who have transformed their
-            patient care with CareSync's comprehensive platform
+            {t('landing.ctaSubhead', "Join over 500 healthcare providers who have transformed their patient care with CareSync's comprehensive platform")}
           </p>
 
           <div className="flex flex-col justify-center gap-6 mb-8 sm:flex-row">
@@ -460,29 +459,29 @@ const LandingPage = () => {
               to="/register"
               className="px-10 py-4 text-lg font-bold transition-all duration-300 bg-white shadow-xl text-emerald-600 rounded-xl hover:bg-gray-50"
             >
-              Start Free Trial Today
+              {t('landing.ctaStartTrialToday', 'Start Free Trial Today')}
             </Link>
 
             <button
               onClick={handleScheduleDemoClick}
               className="px-10 py-4 text-lg font-bold text-white transition-all duration-300 border-2 border-white rounded-xl hover:bg-white hover:text-emerald-600 backdrop-blur-sm"
             >
-              Schedule Demo
+              {t('landing.scheduleDemo', 'Schedule Demo')}
             </button>
           </div>
 
           <div className="flex flex-col items-center justify-center space-y-2 font-medium sm:flex-row sm:space-y-0 sm:space-x-8 text-white/80">
             <span className="flex items-center">
               <CheckIcon className="w-5 h-5 mr-2" />
-              HIPAA Compliant
+              {t('landing.hipaaCompliant', 'HIPAA Compliant')}
             </span>
             <span className="flex items-center">
               <CheckIcon className="w-5 h-5 mr-2" />
-              30-day free trial
+              {t('landing.freeTrial30', '30-day free trial')}
             </span>
             <span className="flex items-center">
               <CheckIcon className="w-5 h-5 mr-2" />
-              24/7 support
+              {t('landing.support247', '24/7 support')}
             </span>
           </div>
         </div>

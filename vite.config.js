@@ -10,25 +10,8 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
-      manifest: {
-        name: "CareSync",
-        short_name: "CareSync",
-        description: "A healthcare web application with offline support.",
-        theme_color: "#ffffff",
-        icons: [
-          {
-            src: "pwa-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            src: "pwa-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
-        ],
-      },
+      includeAssets: ["favicon.ico", "apple-touch-icon-180x180.png", "favicon-192x192-maskable.png"],
+      manifest: false, // Use the enhanced manifest.json from public folder
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // allow up to 5MB

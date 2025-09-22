@@ -29,6 +29,7 @@ import StatsSection from "./StatsSection";
 import Pricing from "./PriceSection";
 import Testimonials from "./Testimonials";
 import Footer from "./Footer";
+// import Carousel from "./Carousel";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
 import Navbar from "../components/common/Navbar";
@@ -118,7 +119,7 @@ const LandingPage = () => {
       <Navbar />
 
       {/* ✅ Carousel Slider */}
-      <Carousel />
+      {/* <Carousel /> */}
       
       {/* Professional Hero Section */}
       <section

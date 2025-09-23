@@ -1,5 +1,6 @@
 // src/pages/Notifications.jsx
 import React, { useEffect, useState } from "react";
+import EmptyState from "../components/EmptyState";
 
 export default function Notifications() {
   const [items, setItems] = useState([]);
@@ -38,9 +39,7 @@ export default function Notifications() {
             </div>
           ))
         ) : (
-          <div className="p-6 text-sm text-gray-500 text-center">
-            No notifications
-          </div>
+          <EmptyState message="No notifications available!" />
         )}
       </div>
     </div>

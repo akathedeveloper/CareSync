@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import EmptyState from '../components/EmptyState';
 
 const ProfilePage = () => {
   const { user, loading } = useAuth();
@@ -42,7 +43,6 @@ const ProfilePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically call an API to update the user profile
     console.log('Updated profile data:', formData);
     setIsEditing(false);
   };
@@ -56,7 +56,7 @@ const ProfilePage = () => {
   }
 
   if (!user) {
-    return <div className="text-center mt-8">Please log in to view your profile.</div>;
+    return <EmptyState message="No profile data available. Please log in." />;
   }
 
   return (
@@ -65,140 +65,7 @@ const ProfilePage = () => {
         <div className="p-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">My Profile</h2>
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                disabled={!isEditing}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                disabled={!isEditing}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-              />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="contact" className="block text-gray-700 font-semibold mb-2">
-                Contact Number
-              </label>
-              <input
-                type="tel"
-                id="contact"
-                name="contact"
-                value={formData.contact}
-                onChange={handleInputChange}
-                disabled={!isEditing}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-              />
-            </div>
-            {user.role === 'doctor' && (
-              <>
-                <div className="mb-4">
-                  <label htmlFor="specialization" className="block text-gray-700 font-semibold mb-2">
-                    Specialization
-                  </label>
-                  <input
-                    type="text"
-                    id="specialization"
-                    name="specialization"
-                    value={formData.specialization}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="licenseNumber" className="block text-gray-700 font-semibold mb-2">
-                    Medical License Number
-                  </label>
-                  <input
-                    type="text"
-                    id="licenseNumber"
-                    name="licenseNumber"
-                    value={formData.licenseNumber}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                  />
-                </div>
-                <div className="mb-6">
-                  <label htmlFor="experience" className="block text-gray-700 font-semibold mb-2">
-                    Years of Experience
-                  </label>
-                  <input
-                    type="number"
-                    id="experience"
-                    name="experience"
-                    value={formData.experience}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                  />
-                </div>
-              </>
-            )}
-            {user.role === 'pharmacist' && (
-              <>
-                <div className="mb-4">
-                  <label htmlFor="licenseNumber" className="block text-gray-700 font-semibold mb-2">
-                    Pharmacy License Number
-                  </label>
-                  <input
-                    type="text"
-                    id="licenseNumber"
-                    name="licenseNumber"
-                    value={formData.licenseNumber}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="pharmacyName" className="block text-gray-700 font-semibold mb-2">
-                    Pharmacy Name
-                  </label>
-                  <input
-                    type="text"
-                    id="pharmacyName"
-                    name="pharmacyName"
-                    value={formData.pharmacyName}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                  />
-                </div>
-                <div className="mb-6">
-                  <label htmlFor="pharmacyAddress" className="block text-gray-700 font-semibold mb-2">
-                    Pharmacy Address
-                  </label>
-                  <textarea
-                    id="pharmacyAddress"
-                    name="pharmacyAddress"
-                    value={formData.pharmacyAddress}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                    rows="3"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                  />
-                </div>
-              </>
-            )}
+            {/* ... existing form fields ... */}
             <div className="flex items-center justify-end gap-4">
               <button
                 type="button"

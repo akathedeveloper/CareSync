@@ -1,259 +1,280 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { EyeIcon, EyeSlashIcon, HomeIcon } from '@heroicons/react/24/outline'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useAuth } from '../../contexts/AuthContext'
-import LoadingSpinner from '../../components/common/LoadingSpinner'
-import { patients, doctors, pharmacists } from '../../data/dummyData'
+import React, { useState } from "react";
+
+import { Link, useNavigate } from "react-router-dom";
+
+import { useAuth } from "../../contexts/AuthContext";
+
+import { Mail, Lock, Loader2, Eye, EyeOff, UserCheck } from "lucide-react";
+
+import { motion, AnimatePresence } from "framer-motion";
+
+import Navbar from "../../components/common/Navbar";
+
+import Footer from "../Footer";
+
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
-  const { login, loginWithGoogle } = useAuth()
-  const navigate = useNavigate()
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+
+  const { t } = useTranslation();
+
+  const { login, loginWithGoogle } = useAuth();
+
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    role: 'patient'
-  })
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-    if (error) setError('')
-  }
+    email: "",
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-    try {
-      const result = await login(formData.email, formData.password, formData.role)
-      if (result.success) {
-        navigate(`/${result.user.role}`)
-      }
-    } catch (err) {
-      setError(err.message || 'An error occurred during login')
-    } finally {
-      setLoading(false)
-    }
-  }
+    password: "",
 
-  const handleGoogleSignIn = async () => {
-    try {
-      setLoading(true)
-      setError('')
-      const result = await loginWithGoogle()
-      if (result.success) {
-        navigate(`/${result.user.role}`)
-      }
-    } catch (err) {
-      setError(err.message || 'Google sign-in failed')
-    } finally {
-      setLoading(false)
-    }
-  }
+    role: "patient",
 
-  const fillDemoCredentials = (role) => {
-    let user
-    if (role === 'patient') user = patients[0]
-    if (role === 'doctor') user = doctors[0]
-    if (role === 'pharmacist') user = pharmacists[0]
+  });
 
-    if (user) {
-      setFormData({
-        email: user.email,
-        password: user.password,
-        role: user.role
-      })
-    }
-  }
+  const [error, setError] = useState("");
 
-  // Animation variants
+  const [loading, setLoading] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
+
   const containerVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: { 
-      opacity: 1, 
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        staggerChildren: 0.1
-      }
-    }
-  }
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }
-    }
-  }
+    hidden: { opacity: 0, y: 50 },
 
-  const floatingVariants = {
-    animate: {
-      y: [0, -10, 0],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, staggerChildren: 0.1 } },
+
+  };
+
+  const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
 
   const pulseVariants = {
-    animate: {
-      scale: [1, 1.05, 1],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
+
+    animate: { scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3], transition: { duration: 3, repeat: Infinity, ease: "easeInOut" } },
+
+  };
+
+  const floatingVariants = {
+
+    animate: { y: [-10, 10, -10], x: [-5, 5, -5], transition: { duration: 4, repeat: Infinity, ease: "easeInOut" } },
+
+  };
+
+  const handleChange = (e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+      setError(""); setLoading(true);
+
+      await login(formData.email, formData.password);
+
+      navigate("/");
+
+    } catch (err) {
+
+      setError(t("login.error") + ": " + err.message);
+
     }
-  }
+
+    setLoading(false);
+
+  };
+
+  const handleGoogleLogin = async () => {
+
+    try {
+
+      setError(""); setLoading(true);
+
+      await loginWithGoogle();
+
+      navigate("/");
+
+    } catch (err) {
+
+      setError(t("login.errorGoogle") + ": " + err.message);
+
+    }
+
+    setLoading(false);
+
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Animated background decorative elements */}
-      <motion.div 
-        className="absolute top-10 left-10 w-20 h-20 bg-emerald-200 rounded-full opacity-20"
-        variants={pulseVariants}
-        animate="animate"
-      />
-      <motion.div 
-        className="absolute top-32 right-20 w-16 h-16 bg-teal-200 rounded-full opacity-20"
-        variants={floatingVariants}
-        animate="animate"
-        style={{ animationDelay: '0.5s' }}
-      />
-      <motion.div 
-        className="absolute bottom-20 left-1/4 w-12 h-12 bg-cyan-200 rounded-full opacity-20"
-        variants={pulseVariants}
-        animate="animate"
-        style={{ animationDelay: '1s' }}
-      />
-      <motion.div 
-        className="absolute bottom-32 right-10 w-24 h-24 bg-emerald-200 rounded-full opacity-20"
-        variants={floatingVariants}
-        animate="animate"
-        style={{ animationDelay: '1.5s' }}
-      />
 
-      {/* Home Button */}
-      <motion.div
-        className="absolute top-6 left-6 z-20"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        <Link
-          to="/"
-          className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 text-emerald-600 hover:text-emerald-700 hover:bg-white transition-all duration-300 group"
-          aria-label="Go to homepage"
+    <>
+
+      <Navbar />
+
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+
+        {/* Background Orbs */}
+
+        <motion.div className="absolute top-10 left-10 w-24 h-24 bg-emerald-200/20 dark:bg-emerald-400/10 rounded-full" variants={pulseVariants} animate="animate" />
+
+        <motion.div className="absolute top-32 right-20 w-20 h-20 bg-teal-200/20 dark:bg-teal-400/10 rounded-full" variants={floatingVariants} animate="animate" />
+
+        <motion.div className="absolute bottom-20 left-1/4 w-16 h-16 bg-cyan-200/20 dark:bg-cyan-400/10 rounded-full" variants={pulseVariants} animate="animate" style={{ animationDelay: "1s" }} />
+
+        <motion.div className="absolute bottom-32 right-10 w-28 h-28 bg-emerald-200/20 dark:bg-emerald-400/10 rounded-full" variants={floatingVariants} animate="animate" style={{ animationDelay: "1.5s" }} />
+
+        {/* Login Card */}
+
+        <motion.div
+
+          className="max-w-lg w-full space-y-8 bg-white/80 dark:bg-gray-800/90 p-10 rounded-2xl shadow-2xl border border-white/50 dark:border-gray-700/50 relative z-10"
+
+          variants={containerVariants} initial="hidden" animate="visible" whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}
+
         >
-          <motion.div
-            whileHover={{ x: -2 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <HomeIcon className="w-5 h-5" />
-          </motion.div>
-          <span className="font-medium text-sm">Home</span>
-        </Link>
-      </motion.div>
 
-      <motion.div
-        className="max-w-lg w-full space-y-8 bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-2xl border border-white/50 relative z-10"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        whileHover={{ y: -5 }}
-        transition={{ type: "spring", stiffness: 300 }}
-      >
-        {/* Header Section */}
-        <motion.div className="text-center" variants={itemVariants}>
-          <motion.div 
-            className="flex justify-center mb-6"
-            whileHover={{ rotate: 360, scale: 1.05 }}
-            transition={{ duration: 0.6 }}
-          >
-            <motion.div
-              whileHover={{ rotate: 360, scale: 1.05 }}
-              transition={{ duration: 0.6 }}
-              className="w-14 h-14 sm:w-16 sm:h-16 md:w-16 md:h-16 rounded-2xl shadow-lg"
-            >
-              <img
-                src="/CareSync-Logo.png"
-                alt="CareSync Logo"
-                className="w-full h-full object-contain"
-              />
+          {/* Header */}
+
+          <motion.div className="text-center" variants={itemVariants}>
+
+            <motion.div className="flex justify-center mb-6" whileHover={{ rotate: 360, scale: 1.05 }} transition={{ duration: 0.6 }}>
+
+              <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl shadow-lg flex items-center justify-center">
+
+                <UserCheck className="w-8 h-8 text-white" />
+
+              </div>
+
             </motion.div>
+
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t("login.title")}</h2>
+
+            <p className="text-gray-600 dark:text-gray-400">{t("login.subtitle")}</p>
+
           </motion.div>
-          <motion.h1 
-            className="text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            CareSync
-          </motion.h1>
-          <motion.h2 
-            className="text-2xl font-bold text-gray-800 mb-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            Welcome Back
-          </motion.h2>
-          <motion.p 
-            className="text-gray-600 text-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            Sign in to continue your healthcare journey
-          </motion.p>
-          <motion.p 
-            className="mt-2 text-center text-sm text-gray-600"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-          >
-            Don't have an account?{' '}
-            <Link
-              to="/register"
-              className="font-semibold text-emerald-600 hover:text-emerald-500 transition-colors duration-200 underline decoration-2 underline-offset-2 hover:decoration-emerald-500"
-              tabIndex="0"
-              aria-label="Go to register page"
-            >
-              Create one here
-            </Link>
-          </motion.p>
+
+          {/* Error */}
+
+          {error && <motion.div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg text-sm border border-red-200 dark:border-red-800" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>{error}</motion.div>}
+
+          {/* Form */}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+
+            {/* Role */}
+
+            <motion.div className="space-y-2" variants={itemVariants}>
+
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t("login.role")}</label>
+
+              <select id="role" name="role" value={formData.role} onChange={handleChange} className="block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all bg-white/70 dark:bg-gray-700/50">
+
+                <option value="patient">{t("login.roles.patient")}</option>
+
+                <option value="doctor">{t("login.roles.doctor")}</option>
+
+                <option value="pharmacist">{t("login.roles.pharmacist")}</option>
+
+              </select>
+
+            </motion.div>
+
+            {/* Email */}
+
+            <motion.div className="space-y-2" variants={itemVariants}>
+
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t("login.email")}</label>
+
+              <div className="relative">
+
+                <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+
+                <input id="email" name="email" type="email" required value={formData.email} onChange={handleChange} placeholder={t("login.emailPlaceholder")} className="block w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 transition-all bg-white/70 dark:bg-gray-700/50" />
+
+              </div>
+
+            </motion.div>
+
+            {/* Password */}
+
+            <motion.div className="space-y-2" variants={itemVariants}>
+
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t("login.password")}</label>
+
+              <div className="relative">
+
+                <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+
+                <input id="password" name="password" type={showPassword ? "text" : "password"} required value={formData.password} onChange={handleChange} placeholder={t("login.passwordPlaceholder")} className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 transition-all bg-white/70 dark:bg-gray-700/50" />
+
+                <motion.button type="button" className="absolute inset-y-0 right-0 pr-4 flex items-center text-emerald-500 dark:text-emerald-400" onClick={() => setShowPassword(!showPassword)} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+
+                  <AnimatePresence mode="wait">{!showPassword ? <EyeOff className="h-5 w-5" key="eyeoff" /> : <Eye className="h-5 w-5" key="eye" />}</AnimatePresence>
+
+                </motion.button>
+
+              </div>
+
+            </motion.div>
+
+            {/* Remember & Forgot */}
+
+            <motion.div className="flex items-center justify-between" variants={itemVariants}>
+
+              <label className="flex items-center text-sm text-gray-700 dark:text-gray-300">
+
+                <input type="checkbox" className="mr-2 h-4 w-4 text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500 border-gray-300 dark:border-gray-600 rounded" />
+
+                {t("login.remember")}
+
+              </label>
+
+              <button type="button" onClick={() => navigate("/forgot-password")} className="text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:underline">{t("login.forgot")}</button>
+
+            </motion.div>
+
+            {/* Submit */}
+
+            <motion.button type="submit" disabled={loading} className="w-full flex items-center justify-center gap-2 py-3.5 px-6 text-base font-semibold rounded-2xl text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 shadow-xl transition-all duration-300" whileHover={{ scale: loading ? 1 : 1.03 }} whileTap={{ scale: loading ? 1 : 0.97 }} variants={itemVariants}>
+
+              {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : t("login.submit")}
+
+            </motion.button>
+
+            {/* Google */}
+
+            <motion.button type="button" onClick={handleGoogleLogin} disabled={loading} className="w-full flex items-center justify-center py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 bg-white hover:bg-gray-50 dark:bg-gray-700/50 transition-all disabled:opacity-50" variants={itemVariants}>
+
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="h-5 w-5 mr-2" />
+
+              {t("login.google")}
+
+            </motion.button>
+
+            {/* Sign Up */}
+
+            <motion.p className="text-center text-sm text-gray-600 dark:text-gray-400" variants={itemVariants}>
+
+              {t("login.noAccount")}{" "}
+
+              <Link to="/register" className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline">{t("login.signup")}</Link>
+
+            </motion.p>
+
+          </form>
+
         </motion.div>
 
-        {/* Demo Credentials Section */}
-        <motion.div 
-          className="bg-gradient-to-r from-emerald-50 to-teal-50 border-l-4 border-emerald-400 p-5 rounded-xl shadow-sm"
-          variants={itemVariants}
-        >
-          <motion.div 
-            className="flex items-center mb-3"
-            initial={{ x: -20 }}
-            animate={{ x: 0 }}
-            transition={{ delay: 0.8 }}
-          >
-            <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center mr-2">
-              <motion.svg 
-                className="w-3 h-3 text-white" 
-                fill="currentColor" 
-                viewBox="0 0 20 20"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.9, type: "spring" }}
-              >
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </motion.svg>
+      </div>
+
+      <Footer />
+
+    </>
+
+  );
+
+};
+
+export default Login;
+
+                  
+

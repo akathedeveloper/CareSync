@@ -1,21 +1,32 @@
-<h1 align="center">
-  <img width="50" height="50" alt="CareSync Logo" src="https://github.com/user-attachments/assets/d3b506b8-2605-45ae-ade7-21bdbe28829d" />
-  <br>
-  CareSync
-</h1>
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=1abc9c&height=200&section=header&text=Welcome+to+CareSync!&fontSize=40&fontColor=fff&animation=twinkling" alt="CareSync Banner"/>
+  <br/>
+  <img width="120" height="120" src="https://github.com/user-attachments/assets/d3b506b8-2605-45ae-ade7-21bdbe28829d" alt="CareSync Logo"/>
+</div>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" height="6"/>
+</p>
+
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=38&duration=2500&pause=1000&color=1ABC9C&center=true&vCenter=true&width=800&lines=Revolutionizing+Healthcare+🚑;Organized+Data+%7C+Easy+Appointments;Join+the+Mission+💚" alt="Typing Animation" />
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" height="6"/>
+</p>
 
 <p align="center">
   <b>This project is now OFFICIALLY accepted for:</b>
 </p>
 
-
 <div align="center">
   <img src="https://github.com/apu52/METAVERSE/assets/114172928/e79eb6de-81b1-4ffb-b6ed-f018bb977e88" alt="GSSOC" width="80%">
 </div>
 
+---
 
-  **📊 Project Insights**
+## 📊 Project Insights
 
 <table align="center">
     <thead align="center">
@@ -42,52 +53,272 @@
     </tbody>
 </table>
 
-
 ---
 
----
 > **💡 Tired of scattered medical records and endless paperwork?**  
 > **CareSync** transforms healthcare management with:  
 > ✨ **Organized health data**  
 > ✨ **Hassle-free appointments**  
 > ✨ **Seamless doctor-patient communication**  
-> *Built with cutting-edge tech—for everyone, by everyone.*  
+> *Built with cutting-edge tech - for everyone, by everyone.*  
+
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=2500&pause=1000&color=FF5733&center=true&vCenter=true&width=500&lines=Welcome+to+CareSync!;Healthcare+Made+Smarter+💡;Open+Source+For+All+🌍" alt="Typing Animation"/>
+</p>
 
 ---
-🤝 Join the Mission: Contribute, innovate, and make healthcare truly accessible!
 
----
-**📂 Folder Structure**
+## 📂 Folder Structure
 
-```bash
+```bash 
 care-sync-app/
-├── public/                 # Static assets
-│   ├── vite.svg            # Default Vite icon
-│   └── (other assets)      # Other static files
-├── src/                    # Source code
-│   ├── assets/             # Images, fonts, etc.
-│   ├── components/         # React components
-│   ├── pages/              # Page components
-│   ├── App.jsx             # Main app component
-│   ├── main.jsx            # Entry point
-│   └── index.css           # Global styles
-├── CODE_OF_CONDUCT.md      # Community guidelines
-├── CONTRIBUTING.md         # Contribution guide
-├── LICENSE                 # Project license
-├── README.md               # Project documentation
-├── eslint.config.js        # ESLint configuration
-├── index.html              # Main HTML file
-├── package.json            # Project dependencies
-├── package-lock.json       # Lock file
-├── postcss.config.js       # PostCSS config
-├── tailwind.config.js      # Tailwind CSS config
-└── vite.config.js          # Vite configuration
-```
+📂 ProjectName
+├─ .github
+│  ├─ workflows/           # Contains GitHub Actions workflows (e.g., CI/CD)
+│  │  └─ cicd.yml           # Workflow file for continuous integration/deployment
+│  └─ PULL_REQUEST_TEMPLATE.md  # Template for pull request submissions
+├─ .vscode
+│  └─ tasks.json            # VSCode tasks and workspace configuration
+├─ backend                  # Backend server and API code
+│  ├─ config/
+│  │  └─ db.js              # Database configuration file
+│  ├─ controllers/          # Request handlers for different routes
+│  │  ├─ authController.js
+│  │  ├─ messageController.js
+│  │  ├─ passwordResetController.js
+│  │  └─ socketController.js
+│  ├─ db/                   # Database-related files
+│  │  ├─ models/            # Database models
+│  │  └─ seed.js            # Seed data script
+│  ├─ middleware/           # Custom middleware for authentication, error handling, etc.
+│  │  ├─ auth.js
+│  │  ├─ error.js
+│  │  └─ validation.js
+│  ├─ routes/               # API route definitions
+│  │  ├─ authRoutes.js
+│  │  └─ messageRoutes.js
+│  ├─ .env.example           # Example environment variables file
+│  ├─ .gitignore             # Files/folders to ignore in git
+│  ├─ PASSWORD_RESET.md      # Documentation for password reset feature
+│  ├─ README.md              # Backend-specific README
+│  ├─ config.env             # Environment configuration
+│  ├─ package-lock.json      # NPM lock file
+│  ├─ package.json           # NPM dependencies and scripts
+│  └─ server.js              # Entry point of the backend server
+├─ dist                     # Production-ready build files
+│  ├─ assets/                # Compiled assets (CSS, JS, images)
+│  ├─ cursors/               # Cursor images
+│  ├─ CareSync-Complete-Logo.png
+│  ├─ CareSync-Logo.png
+│  ├─ favicon.png
+│  ├─ favicon_128px.png
+│  ├─ favicon_192px.png
+│  ├─ index.html
+│  ├─ manifest.json
+│  ├─ offline.html
+│  ├─ screenshot-desktop.png
+│  ├─ screenshot-mobile.png
+│  ├─ service-worker.js
+│  ├─ underconstruction.svg
+│  └─ vite.svg
+├─ public                   # Public assets served directly (images, fonts, etc.)
+│  └─ (custom cursor/pointer assets)
+├─ src                      # Frontend source code (React, JS, CSS, etc.)
+│  └─ (all source code files)
+├─ .DS_Store                # macOS file system metadata (can be ignored)
+├─ .env                     # Environment variables for the project
+├─ .gitignore               # Git ignore rules for the project
+└─ CODE_OF_CONDUCT.md       # Code of conduct for contributors
 
+
+
+=======
+├── .github/                          # GitHub configs & workflows
+│   ├── ISSUE_TEMPLATE/               # Issue templates
+│   │   ├── bug_report.yml
+│   │   ├── config.yml
+│   │   └── feature_request.yml
+│   ├── PULL_REQUEST_TEMPLATE.md      # Pull request template
+│   └── workflows/                    # GitHub Actions workflows
+│       └── cicd.yml
+├── .vscode/                          # VSCode configs
+│   └── tasks.json
+├── backend/                          # Backend (Node.js + Express + DB)
+│   ├── config/                       # App/DB configuration
+│   │   └── db.js
+│   ├── controllers/                  # Controllers (auth, messages, etc.)
+│   │   ├── authController.js
+│   │   ├── messageController.js
+│   │   ├── passwordResetController.js
+│   │   └── socketController.js
+│   ├── db/                           # Database models & seeders
+│   │   ├── models/
+│   │   │   ├── Conversation.js
+│   │   │   ├── Doctor.js
+│   │   │   ├── Message.js
+│   │   │   ├── PasswordReset.js
+│   │   │   ├── Patient.js
+│   │   │   ├── Pharmacist.js
+│   │   │   └── User.js
+│   │   └── seed.js
+│   ├── middleware/                   # Middlewares
+│   │   ├── auth.js
+│   │   ├── catchAsyncError.js
+│   │   ├── error.js
+│   │   └── validation.js
+│   ├── routes/                       # API routes
+│   │   ├── authRoutes.js
+│   │   └── messageRoutes.js
+│   ├── utils/                        # Utility helpers
+│   │   └── errorHandler.js
+│   ├── .env.example                  # Example env file
+│   ├── config.env                    # Config variables
+│   ├── PASSWORD_RESET.md             # Password reset flow docs
+│   ├── README.md                     # Backend documentation
+│   ├── package.json                  # Backend dependencies
+│   ├── package-lock.json             # Lock file
+│   └── server.js                     # Backend entry point
+├── public/                           # Static assets (served as-is)
+│   ├── CareSync-Complete-Logo.png
+│   ├── CareSync-Logo.png
+│   ├── cursors/
+│   │   ├── custompointer.cur
+│   │   └── custuomCursor.cur
+│   ├── favicon.png
+│   ├── favicon_128px.png
+│   ├── favicon_192px.png
+│   ├── manifest.json
+│   ├── offline.html
+│   ├── screenshot-desktop.png
+│   ├── screenshot-mobile.png
+│   ├── service-worker.js
+│   ├── underconstruction.svg
+│   └── vite.svg
+├── src/                              # Frontend source code
+│   ├── assets/                       # Images, icons, logos
+│   │   ├── gssoc logo.png
+│   │   ├── react.svg
+│   │   └── (screenshots & misc)
+│   ├── components/                   # UI components
+│   │   ├── common/                   # Shared components
+│   │   │   ├── CalendarModal.{jsx,css}
+│   │   │   ├── Contributor.jsx
+│   │   │   ├── CursorBurst.jsx
+│   │   │   ├── GitHubStatsSection.jsx
+│   │   │   ├── Header.jsx
+│   │   │   ├── Layout.jsx
+│   │   │   ├── LoadingSpinner.jsx
+│   │   │   ├── Messages.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── RatingFeedback.jsx
+│   │   │   ├── ScrollProgress.jsx
+│   │   │   ├── Settings.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── SkeletonLoader.jsx
+│   │   │   └── UnderConstruction.jsx
+│   │   ├── doctor/                   # Doctor dashboard components
+│   │   │   ├── DoctorDashboard.jsx
+│   │   │   ├── Messages.jsx
+│   │   │   ├── Patients.jsx
+│   │   │   ├── Schedule.jsx
+│   │   │   ├── Setings.jsx
+│   │   │   └── profile.jsx
+│   │   ├── patient/                  # Patient dashboard components
+│   │   │   ├── Appointments.jsx
+│   │   │   ├── HealthLogs.jsx
+│   │   │   ├── Inventory.jsx
+│   │   │   ├── MedicineReminders.jsx
+│   │   │   ├── PatientDashboard.jsx
+│   │   │   └── Prescriptions.jsx
+│   │   └── pharmacist/               # Pharmacist dashboard components
+│   │       ├── Inventory.jsx
+│   │       ├── PharmacistDashboard.jsx
+│   │       └── Prescriptions.jsx
+│   ├── contexts/                     # React Contexts
+│   │   ├── AppointmentContext.jsx
+│   │   ├── AuthContext.jsx
+│   │   ├── MessageContext.jsx
+│   │   ├── OfflineContext.jsx
+│   │   └── ThemeContext.jsx
+│   ├── data/                         # Static/dummy data
+│   │   ├── dummyData.js
+│   │   ├── vitalInput.jsx
+│   │   └── vitals.js
+│   ├── hooks/                        # Custom hooks
+│   │   ├── useMessages.js
+│   │   ├── useScrollSpy.js
+│   │   └── useSocket.js
+│   ├── pages/                        # Page-level components
+│   │   ├── AboutPage.jsx
+│   │   ├── Blog.jsx
+│   │   ├── Career1.jsx
+│   │   ├── ContactPage.jsx
+│   │   ├── ContactUs.jsx
+│   │   ├── FAQSection.jsx
+│   │   ├── Feature.jsx
+│   │   ├── Footer.jsx
+│   │   ├── GDPRCompliance.jsx
+│   │   ├── LandingPage.jsx
+│   │   ├── LandingPage.test.jsx
+│   │   ├── License.jsx
+│   │   ├── Notifications.jsx
+│   │   ├── Policy.jsx
+│   │   ├── PriceSection.jsx
+│   │   ├── ProfilePage.jsx
+│   │   ├── StatsSection.jsx
+│   │   ├── TermsOfServices.jsx
+│   │   ├── Testimonials.jsx
+│   │   ├── auth/                     # Auth pages
+│   │   │   ├── ForgotPassword.jsx
+│   │   │   ├── Login.jsx
+│   │   │   └── Register.jsx
+│   │   └── privacy.jsx
+│   ├── services/                     # API services
+│   │   ├── messageAPI.js
+│   │   └── socketService.js
+│   ├── styles/                       # CSS files
+│   │   └── colors.css
+│   ├── __tests__/                    # Unit tests
+│   │   ├── components/
+│   │   │   └── PatientDashboard.test.jsx
+│   │   └── contexts/
+│   │       └── AuthContext.test.jsx
+│   ├── App.css
+│   ├── App.jsx
+│   ├── firebase.js
+│   ├── offline-banner.jsx
+│   ├── pwa-setup.js
+│   ├── pwa.test.jsx
+│   ├── setupTests.js
+│   ├── main.jsx
+│   └── index.css
+├── CODE_OF_CONDUCT.md                # Community guidelines
+├── CONTRIBUTING.md                   # Contribution guide
+├── LICENSE                           # Project license
+├── README.md                         # Project documentation
+├── TEST_COVERAGE_SUMMARY.md          # Test coverage report
+├── eslint.config.js                  # ESLint configuration
+├── index.html                        # Main HTML file
+├── package.json                      # Frontend dependencies
+├── package-lock.json                 # Lock file
+├── postcss.config.js                 # PostCSS config
+├── tailwind.config.js                # Tailwind CSS config
+├── vite.config.js                    # Vite configuration
+├── vitest.config.js                  # Vitest configuration
+└── vercel.json                       # Vercel deployment config
+
+```
 ---
+
+
 <h1 align="center">Supported By <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Folded%20Hands%20Light%20Skin%20Tone.png" alt="Folded Hands Light Skin Tone" width="25" height="25" /></h1>
 
 ---
+![Built with Love](https://img.shields.io/badge/Built%20With-❤️-red?style=for-the-badge)
+![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)
+![Maintained](https://img.shields.io/badge/Maintained-Yes-blue?style=for-the-badge)
+
+
 ## 📥 Submitting a Pull Request
 
 Follow these steps to contribute your changes to **CareSync**:
@@ -142,7 +373,8 @@ Thanks to these amazing people who have contributed to the **CareSync** project:
 
 <!-- readme: contributors -start -->
 <p align="center">
-    <img src="https://api.vaunt.dev/v1/github/entities/akathedeveloper/repositories/CareSync/contributors?format=svg&limit=54" width="1000" />
+    <img src="https://api.vaunt.dev/v1/github/entities/akathedeveloper/repositories/CareSync/contributors?format=svg&limit=54" width="1000" 
+    alt="List of CareSync project contributors"/>
 </p>
 <!-- readme: contributors -end -->
 
@@ -195,7 +427,7 @@ If CareSync has helped you, please consider:
 <p align="center">
   Thank you for your support!
   <a href="https://github.com/akathedeveloper/CareSync/stargazers">
-    <img src="https://img.shields.io/github/stars/akathedeveloper/CareSync?style=for-the-badge&logo=github&color=FFC107&logoColor=white" alt="GitHub Stars">
+    <img src="https://img.shields.io/github/stars/akathedeveloper/CareSync?style=for-the-badge&logo=github&color=FFC107&logoColor=white" alt="CareSync GitHub repository stars badge"/>
   </a>
 </p>
 

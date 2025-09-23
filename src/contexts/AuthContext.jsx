@@ -69,9 +69,6 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem("token");
         const storedUser = localStorage.getItem("caresync_user");
         
-        console.log("Checking localStorage for token:", token ? "exists" : "none");
-        console.log("Checking localStorage for user:", storedUser ? "exists" : "none");
-        
         if (token && storedUser) {
           // Verify token with backend
           try {
@@ -235,6 +232,7 @@ export const AuthProvider = ({ children }) => {
   // Backend API register
   const register = async (userData) => {
     setLoading(true);
+    const { firstName, lastName, email, password, role = "patient" } = userData;
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
@@ -242,9 +240,10 @@ export const AuthProvider = ({ children }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: `${userData.firstName} ${userData.lastName}`,
-          email: userData.email,
-          password: userData.password,
+          name: `${firstName} ${lastName}`,
+          email,
+          password,
+          role,
         }),
       });
 

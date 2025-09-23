@@ -1,8 +1,10 @@
-const crypto = require('crypto');
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
-const PasswordReset = require('../models/PasswordReset');
-const nodemailer = require('nodemailer');
+import crypto from 'crypto'
+import bcrypt from 'bcryptjs'
+import { User } from '../db/models/User.js'
+import nodemailer from 'nodemailer'
+import PasswordReset from '../db/models/PasswordReset.js'
+import catchAsync from '../middleware/catchAsyncError.js'
+import ErrorHandler from '../utils/errorHandler.js'
 
 // Configure nodemailer (you should update with your email settings)
 const transporter = nodemailer.createTransport({
@@ -14,34 +16,24 @@ const transporter = nodemailer.createTransport({
 });
 
 // POST /api/auth/forgot-password
-exports.forgotPassword = async (req, res) => {
-    try {
+export const forgotPassword = catchAsync(async (req, res, next) => {
         const { email } = req.body;
 
         if (!email) {
-            return res.status(400).json({
-                success: false,
-                message: 'Please provide an email address'
-            });
+            return next(new ErrorHandler("Please provide an Email address", 400));
         }
 
         // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            return res.status(400).json({
-                success: false,
-                message: 'Please provide a valid email address'
-            });
+            return next(new ErrorHandler("Please provide a valid email address", 400));
         }
 
         // Find user by email
         const user = await User.findOne({ email });
         if (!user) {
             // Don't reveal if user exists or not
-            return res.status(200).json({
-                success: true,
-                message: 'If an account with that email exists, a password reset link has been sent'
-            });
+            return next(new ErrorHandler("If an account with that email exists, a password reset link has been sent", 200))
         }
 
         // Delete any existing password reset tokens for this user
@@ -74,8 +66,6 @@ exports.forgotPassword = async (req, res) => {
             <p>If you did not request this, please ignore this email.</p>
             <p>This link will expire in 1 hour.</p>
         `;
-
-        try {
             await transporter.sendMail({
                 to: user.email,
                 subject: 'Password Reset Request',
@@ -86,41 +76,20 @@ exports.forgotPassword = async (req, res) => {
                 success: true,
                 message: 'If an account with that email exists, a password reset link has been sent'
             });
-        } catch (emailError) {
-            console.error('Email send error:', emailError);
-            res.status(500).json({
-                success: false,
-                message: 'Email could not be sent'
-            });
-        }
-    } catch (error) {
-        console.error('Forgot password error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Server error'
-        });
-    }
-};
+})
 
 // POST /api/auth/reset-password/:token
-exports.resetPassword = async (req, res) => {
-    try {
+export const resetPassword = catchAsync(async (req, res, next) => {
         const { token } = req.params;
         const { password } = req.body;
 
         if (!password) {
-            return res.status(400).json({
-                success: false,
-                message: 'Please provide a new password'
-            });
+            return next(new ErrorHandler("Please provide a new password", 404))
         }
 
         // Validate password strength
         if (password.length < 8) {
-            return res.status(400).json({
-                success: false,
-                message: 'Password must be at least 8 characters long'
-            });
+            return next(new ErrorHandler("Password must be at least 8 character long", 400))
         }
 
         // Hash the provided token to match with stored token
@@ -134,19 +103,13 @@ exports.resetPassword = async (req, res) => {
         });
 
         if (!passwordReset) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid or expired reset token'
-            });
+            return next(new ErrorHandler("Invalid or expired reset token", 400))
         }
 
         // Find user
         const user = await User.findById(passwordReset.userId);
         if (!user) {
-            return res.status(400).json({
-                success: false,
-                message: 'User not found'
-            });
+            return next(new ErrorHandler("User not found", 400))
         }
 
         // Hash new password
@@ -167,18 +130,10 @@ exports.resetPassword = async (req, res) => {
             success: true,
             message: 'Password reset successful'
         });
-    } catch (error) {
-        console.error('Reset password error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Server error'
-        });
-    }
-};
+})
 
 // GET /api/auth/verify-reset-token/:token
-exports.verifyResetToken = async (req, res) => {
-    try {
+export const verifyResetToken = catchAsync(async (req, res, next) => {
         const { token } = req.params;
 
         const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
@@ -190,21 +145,11 @@ exports.verifyResetToken = async (req, res) => {
         });
 
         if (!passwordReset) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid or expired reset token'
-            });
+            return next(new ErrorHandler("Invalid or Expired reset token"))
         }
 
         res.status(200).json({
             success: true,
             message: 'Token is valid'
         });
-    } catch (error) {
-        console.error('Verify token error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Server error'
-        });
-    }
-};
+})

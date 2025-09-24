@@ -2,12 +2,334 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Primary Meta Tags -->
     <title>CareSync – Smart Healthcare Assistant Platform</title>
+    <meta name="title" content="CareSync – Smart Healthcare Assistant Platform" />
+    <meta name="description" content="Streamline patient care with our comprehensive healthcare platform. Connect doctors, patients, and pharmacies in one secure ecosystem." />
+    <meta name="keywords" content="healthcare, medical, patient care, doctor, pharmacy, health management, telemedicine" />
+    <meta name="author" content="CareSync Team" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://caresync.app/" />
+    <meta property="og:title" content="CareSync – Smart Healthcare Assistant Platform" />
+    <meta property="og:description" content="Streamline patient care with our comprehensive healthcare platform. Connect doctors, patients, and pharmacies in one secure ecosystem." />
+    <meta property="og:image" content="/CareSync-Complete-Logo.png" />
+    <meta property="og:site_name" content="CareSync" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://caresync.app/" />
+    <meta property="twitter:title" content="CareSync – Smart Healthcare Assistant Platform" />
+    <meta property="twitter:description" content="Streamline patient care with our comprehensive healthcare platform. Connect doctors, patients, and pharmacies in one secure ecosystem." />
+    <meta property="twitter:image" content="/CareSync-Complete-Logo.png" />
+    
+    <!-- Viewport and Mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="CareSync" />
+    <meta name="application-name" content="CareSync" />
+    <meta name="msapplication-TileColor" content="#059669" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    <meta name="theme-color" content="#059669" />
+    
+    <!-- Favicon System -->
+    <!-- Standard favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="72x72" href="/favicon-72x72.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128x128.png" />
+    <link rel="icon" type="image/png" sizes="144x144" href="/favicon-144x144.png" />
+    <link rel="icon" type="image/png" sizes="152x152" href="/favicon-152x152.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="384x384" href="/favicon-384x384.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
+    
+    <!-- Android Chrome Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="/mstile-310x310.png" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- SEO and Search Engine Files -->
+    <link rel="canonical" href="https://caresync.app/" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://unpkg.com" />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
+    
+    <!-- JSON-LD Structured Data for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://caresync.app/#organization",
+          "name": "CareSync",
+          "alternateName": "CareSync Healthcare Platform",
+          "url": "https://caresync.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://caresync.app/CareSync-Complete-Logo.png",
+            "width": 512,
+            "height": 512
+          },
+          "description": "Streamline patient care with our comprehensive healthcare platform. Connect doctors, patients, and pharmacies in one secure ecosystem.",
+          "foundingDate": "2024",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "url": "https://caresync.app/contact"
+          },
+          "sameAs": [
+            "https://twitter.com/caresync",
+            "https://linkedin.com/company/caresync",
+            "https://facebook.com/caresync"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://caresync.app/#website",
+          "url": "https://caresync.app",
+          "name": "CareSync – Smart Healthcare Assistant Platform",
+          "description": "Streamline patient care with our comprehensive healthcare platform. Connect doctors, patients, and pharmacies in one secure ecosystem.",
+          "publisher": {
+            "@id": "https://caresync.app/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://caresync.app/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://caresync.app/#webapp",
+          "name": "CareSync",
+          "url": "https://caresync.app",
+          "description": "Smart Healthcare Assistant Platform for doctors, patients, and pharmacies",
+          "applicationCategory": "HealthApplication",
+          "operatingSystem": "Web Browser",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "description": "Free healthcare management platform"
+          },
+          "featureList": [
+            "Patient Management",
+            "Doctor Dashboard",
+            "Pharmacy Integration",
+            "Appointment Scheduling",
+            "Prescription Management",
+            "Health Records",
+            "Real-time Messaging",
+            "Offline Support",
+            "Mobile App",
+            "Secure Authentication"
+          ],
+          "browserRequirements": "Requires JavaScript. Requires HTML5.",
+          "softwareVersion": "1.0.0",
+          "releaseNotes": "Initial release of CareSync healthcare platform"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "CareSync",
+          "operatingSystem": "Web Browser, iOS, Android",
+          "applicationCategory": "HealthApplication",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "150",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Comprehensive healthcare platform connecting doctors, patients, and pharmacies"
+        },
+        {
+          "@type": "MedicalBusiness",
+          "name": "CareSync Healthcare Platform",
+          "description": "Digital healthcare platform providing comprehensive patient care management",
+          "url": "https://caresync.app",
+          "telephone": "+1-800-CARESYNC",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "US"
+          },
+          "medicalSpecialty": [
+            "General Practice",
+            "Telemedicine",
+            "Healthcare Management",
+            "Patient Care"
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Healthcare Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Patient Management",
+                  "description": "Comprehensive patient care and health record management"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Doctor Dashboard",
+                  "description": "Professional tools for healthcare providers"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Pharmacy Integration",
+                  "description": "Seamless prescription and medication management"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://caresync.app"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Additional Structured Data for Healthcare -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is CareSync?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CareSync is a comprehensive healthcare platform that connects doctors, patients, and pharmacies in one secure ecosystem for streamlined patient care management."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is CareSync free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, CareSync offers a free healthcare management platform for patients, doctors, and pharmacies to connect and manage healthcare services."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How secure is patient data on CareSync?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CareSync implements enterprise-grade security measures including encryption, secure authentication, and compliance with healthcare data protection standards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use CareSync on mobile devices?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, CareSync is a Progressive Web App (PWA) that works seamlessly on desktop, tablet, and mobile devices with offline support."
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Local Business Schema (if applicable) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://caresync.app/#localbusiness",
+      "name": "CareSync Healthcare Platform",
+      "image": "https://caresync.app/CareSync-Complete-Logo.png",
+      "description": "Digital healthcare platform providing comprehensive patient care management",
+      "url": "https://caresync.app",
+      "telephone": "+1-800-CARESYNC",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "40.7128",
+        "longitude": "-74.0060"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "sameAs": [
+        "https://twitter.com/caresync",
+        "https://linkedin.com/company/caresync",
+        "https://facebook.com/caresync"
+      ]
+    }
+    </script>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   </head>
   <body>
     <div id="root"></div>

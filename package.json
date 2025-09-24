@@ -9,7 +9,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "create-favicons": "node scripts/create-missing-favicons.js",
+    "validate-pwa": "node scripts/validate-pwa.js",
+    "pwa:validate": "npx pwa-asset-generator public/CareSync-Complete-Logo.png public --manifest public/manifest.json --icon-only --favicon"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.0.1",
@@ -22,6 +25,7 @@
     "firebase": "^12.1.0",
     "framer-motion": "^12.23.12",
     "html2pdf.js": "^0.10.3",
+    "i18next": "^25.5.2",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
     "localforage": "^1.10.0",
@@ -33,6 +37,7 @@
     "react-countup": "^6.5.3",
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.6.0",
+    "react-i18next": "^15.7.3",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.7.0",
     "react-simple-typewriter": "^5.0.1",

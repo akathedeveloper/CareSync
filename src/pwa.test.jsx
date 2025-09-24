@@ -1,56 +1,62 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, test, expect, beforeAll, afterAll } from 'vitest';
+import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import { describe, test, expect, beforeAll, afterAll, afterEach } from 'vitest';
 import OfflineBanner from '../src/offline-banner';
 
-describe('OfflineBanner', () => {
-  const originalNavigator = global.navigator;
+describe('OfflineBanner Component', () => {
+  let originalNavigator;
 
   beforeAll(() => {
-    // Mock the navigator object
-    global.navigator = { onLine: true };
+    // Save original navigator
+    originalNavigator = global.navigator;
   });
 
   afterAll(() => {
-    // Restore the original navigator object
+    // Restore original navigator
     global.navigator = originalNavigator;
   });
 
+  afterEach(() => {
+    cleanup();
+  });
+
   test('does not render banner when online', () => {
-    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+    Object.defineProperty(global.navigator, 'onLine', { value: true, configurable: true });
     render(<OfflineBanner />);
-    expect(screen.queryByText(/You are currently offline/)).toBeNull();
+    expect(screen.queryByText(/You are currently offline/i)).toBeNull();
   });
 
   test('renders banner when offline', () => {
-    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
+    Object.defineProperty(global.navigator, 'onLine', { value: false, configurable: true });
     render(<OfflineBanner />);
-    expect(screen.getByText(/You are currently offline/)).toBeInTheDocument();
+    expect(screen.getByText(/You are currently offline/i)).toBeInTheDocument();
   });
 
   test('hides banner when returning online', async () => {
-    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
+    Object.defineProperty(global.navigator, 'onLine', { value: false, configurable: true });
     render(<OfflineBanner />);
-    expect(screen.getByText(/You are currently offline/)).toBeInTheDocument();
+    expect(screen.getByText(/You are currently offline/i)).toBeInTheDocument();
 
-    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+    // Simulate going online
+    Object.defineProperty(global.navigator, 'onLine', { value: true, configurable: true });
     fireEvent(window, new Event('online'));
 
     await waitFor(() => {
-      expect(screen.queryByText(/You are currently offline/)).toBeNull();
+      expect(screen.queryByText(/You are currently offline/i)).toBeNull();
     });
   });
 
   test('shows banner when going offline', async () => {
-    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+    Object.defineProperty(global.navigator, 'onLine', { value: true, configurable: true });
     render(<OfflineBanner />);
-    expect(screen.queryByText(/You are currently offline/)).toBeNull();
+    expect(screen.queryByText(/You are currently offline/i)).toBeNull();
 
-    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
+    // Simulate going offline
+    Object.defineProperty(global.navigator, 'onLine', { value: false, configurable: true });
     fireEvent(window, new Event('offline'));
 
     await waitFor(() => {
-      expect(screen.getByText(/You are currently offline/)).toBeInTheDocument();
+      expect(screen.getByText(/You are currently offline/i)).toBeInTheDocument();
     });
   });
 });

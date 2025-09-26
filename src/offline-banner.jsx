@@ -16,25 +16,25 @@ const OfflineBanner = () => {
     };
   }, []);
 
-  return isOffline ? (
-    <div style={styles.banner}>
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        padding: '1rem',
+        backgroundColor: '#ffc107', // yellow
+        color: '#000',
+        textAlign: 'center',
+        zIndex: 1000,
+        transition: 'transform 0.3s ease-in-out',
+        transform: isOffline ? 'translateY(0)' : 'translateY(100%)',
+      }}
+    >
       You are currently offline. Some features may not be available.
     </div>
-  ) : null;
-};
-
-const styles = {
-  banner: {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    padding: '1rem',
-    backgroundColor: '#ffc107',
-    color: '#000',
-    textAlign: 'center',
-    zIndex: 1000,
-  },
+  );
 };
 
 export default OfflineBanner;

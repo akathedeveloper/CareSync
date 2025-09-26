@@ -1,7 +1,7 @@
 // firebase.js
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -17,12 +17,28 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-export { auth, provider, db };
+export { auth, db, provider };
 
 export async function signInWithGoogle() {
-  return signInWithPopup(auth, provider);
+  try {
+    const result = await signInWithPopup(auth, provider);
+    return result.user;
+  } catch (error) {
+    console.error("Google sign-in failed:", error.message);
+    throw error;
+  }
 }
 
 export async function signOutUser() {
-  return signOut(auth);
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error("Sign-out failed:", error.message);
+    throw error;
+  }
+}
+
+// Optional: listener for auth state changes
+export function onAuthStateChangedListener(callback) {
+  return onAuthStateChanged(auth, callback);
 }

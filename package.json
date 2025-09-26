@@ -30,6 +30,7 @@
     "jspdf-autotable": "^5.0.2",
     "localforage": "^1.10.0",
     "lucide-react": "^0.525.0",
+    "mathjs": "^14.8.1",
     "prop-types": "^15.8.1",
     "react": "^19.1.0",
     "react-calendar": "^6.0.0",

@@ -27,33 +27,45 @@ export default function Footer() {
       ],
     },
     {
-  titleKey: "footer.company",
-  links: [
-    { nameKey: "footer.aboutUs", href: "/about", isRoute: true },
-    { nameKey: "footer.careers", href: "/career", isRoute: true },
-    { nameKey: "footer.press", href: "#", isRoute: false },
-    { nameKey: "footer.partners", href: "#", isRoute: false },
-    { nameKey: "footer.contact", href: "/contact", isRoute: true }, // ✅ fixed
-  ],
-},
-{
-  titleKey: "footer.resources",
-  links: [
-    { nameKey: "footer.blog", href: "/blog", isRoute: true }, // ✅ fixed
-    { nameKey: "footer.helpCenter", href: "#", isRoute: false },
-    { nameKey: "footer.community", href: "#", isRoute: false },
-    { nameKey: "footer.webinars", href: "#", isRoute: false },
-    { nameKey: "footer.status", href: "#", isRoute: false },
-  ],
-},
+      titleKey: "footer.company",
+      links: [
+        { nameKey: "footer.aboutUs", href: "/about", isRoute: true },
+        { nameKey: "footer.careers", href: "/career", isRoute: true },
+        { nameKey: "footer.press", href: "#", isRoute: false },
+        { nameKey: "footer.partners", href: "#", isRoute: false },
+        { nameKey: "footer.contactUs", href: "/contact", isRoute: true }, // ✅ fixed
+      ],
+    },
+    {
+      titleKey: "footer.resources",
+      links: [
+        { nameKey: "footer.blog", href: "/blog", isRoute: true }, // ✅ fixed
+        { nameKey: "footer.helpCenter", href: "#", isRoute: false },
+        { nameKey: "footer.community", href: "#", isRoute: false },
+        { nameKey: "footer.webinars", href: "#", isRoute: false },
+        { nameKey: "footer.status", href: "#", isRoute: false },
+      ],
+    },
 
     {
       titleKey: "footer.legal",
       links: [
-        { nameKey: "footer.privacyPolicy", href: "/privacy-policy", isRoute: true },
+        {
+          nameKey: "footer.privacyPolicy",
+          href: "/privacy-policy",
+          isRoute: true,
+        },
         { nameKey: "footer.termsOfService", href: "/terms", isRoute: true },
-        { nameKey: "footer.cookiePolicy", href: "/cookie-policy", isRoute: true },
-        { nameKey: "footer.gdprCompliance", href: "/gdpr-compliance", isRoute: true },
+        {
+          nameKey: "footer.cookiePolicy",
+          href: "/cookie-policy",
+          isRoute: true,
+        },
+        {
+          nameKey: "footer.gdprCompliance",
+          href: "/gdpr-compliance",
+          isRoute: true,
+        },
         { nameKey: "footer.licenses", href: "/license", isRoute: true },
       ],
     },
@@ -95,10 +107,9 @@ export default function Footer() {
             />
           </div>
 
-         <p className="max-w-md text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-  {t("footer.description")}
-</p>
-
+          <p className="max-w-md text-md leading-relaxed text-gray-600 dark:text-gray-400">
+            {t("footer.description")}
+          </p>
 
           {/* Social icons */}
           <div className="flex justify-center gap-3">
@@ -195,7 +206,8 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between gap-3 pt-6 mt-10 text-xs text-gray-600 border-t border-gray-400 dark:border-gray-800 dark:text-gray-500 sm:flex-row">
           <span>
-            © {new Date().getFullYear()} CareSync. {t("footer.allRightsReserved")}
+            © {new Date().getFullYear()} CareSync.{" "}
+            {t("footer.allRightsReserved")}
           </span>
           <div className="flex gap-4">
             <button

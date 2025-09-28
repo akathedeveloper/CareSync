@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 const OfflineBanner = () => {
-  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [isOffline, setIsOffline] = useState(() => {
+    try { return !navigator.onLine; } catch { return false; }
+  });
 
   useEffect(() => {
     const handleOffline = () => setIsOffline(true);
@@ -16,25 +18,8 @@ const OfflineBanner = () => {
     };
   }, []);
 
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        width: '100%',
-        padding: '1rem',
-        backgroundColor: '#ffc107', // yellow
-        color: '#000',
-        textAlign: 'center',
-        zIndex: 1000,
-        transition: 'transform 0.3s ease-in-out',
-        transform: isOffline ? 'translateY(0)' : 'translateY(100%)',
-      }}
-    >
-      You are currently offline. Some features may not be available.
-    </div>
-  );
+  if (!isOffline) return null;
+  return <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', padding: '1rem', backgroundColor: '#ffc107', color: '#000', textAlign: 'center', zIndex: 1000 }}>You are currently offline. Some features may not be available.</div>;
 };
 
 export default OfflineBanner;

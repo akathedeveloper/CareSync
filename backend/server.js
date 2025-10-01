@@ -7,6 +7,7 @@ import {connectDB} from './config/db.js'
 import messageRoutes from './routes/messageRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import { handleSocketConnection } from './controllers/socketController.js';
+import patientRoutes from './routes/patientRoutes.js'
 import {Server} from 'socket.io'
 import errorMiddleware from './middleware/error.js';
 
@@ -48,6 +49,7 @@ app.get("/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/patients", patientRoutes);
 
 // middleware for errors
 app.use(errorMiddleware)

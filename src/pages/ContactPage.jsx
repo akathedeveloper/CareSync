@@ -92,7 +92,12 @@ const ContactPage = () => {
     e.preventDefault();
     setFormStatus("loading");
 
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.subject ||
+      !formData.message
+    ) {
       setFormStatus("error");
       return;
     }
@@ -122,13 +127,19 @@ const ContactPage = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 bg-gradient-to-br from-emerald-50 via-white to-teal-50 overflow-hidden">
+      <section
+        className="relative pt-24 pb-16 bg-gradient-to-br from-emerald-50 via-white to-teal-50  dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 
+        overflow-hidden"
+      >
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold shadow-sm border border-emerald-200 mb-6">
+          <div
+            className="inline-flex items-center bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700  dark:from-gray-800 dark:to-gray-700 dark:text-emerald-300 
+            px-4 py-2 rounded-full text-sm font-semibold shadow-sm border border-emerald-200 dark:border-gray-600 mb-6"
+          >
             💬 We're Here to Help
           </div>
 
-          <h1 className="text-4xl lg:text-6xl font-black mb-6">
+          <h1 className="text-4xl lg:text-6xl font-black mb-6 text-gray-900 dark:text-white">
             Get in Touch with
             <span className="gradient-accent bg-clip-text text-transparent">
               {" "}
@@ -136,7 +147,7 @@ const ContactPage = () => {
             </span>
           </h1>
 
-          <p className="text-xl lg:text-2xl text-gray-600 font-medium max-w-3xl mx-auto mb-12">
+          <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 font-medium max-w-3xl mx-auto mb-12">
             Have questions about our healthcare platform? Need support or want
             to partner with us? We're here to help you transform healthcare
             delivery.
@@ -150,17 +161,24 @@ const ContactPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Form */}
             <div className="space-y-8 border rounded-2xl p-4" id="contact-form">
-              <h2 className="text-3xl lg:text-4xl font-black mb-4">Send us a Message</h2>
+              <h2 className="text-3xl lg:text-4xl font-black mb-4">
+                Send us a Message
+              </h2>
               <p className="text-lg text-gray-600 dark:text-white">
-                Fill out the form below and we'll get back to you within 24 hours.
+                Fill out the form below and we'll get back to you within 24
+                hours.
               </p>
 
               {formStatus === "success" && (
                 <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center space-x-3">
                   <CheckCircleIcon className="h-6 w-6 text-green-600" />
                   <div>
-                    <h4 className="text-green-800 font-semibold">Message sent successfully!</h4>
-                    <p className="text-green-700 text-sm">We'll get back to you within 24 hours.</p>
+                    <h4 className="text-green-800 font-semibold">
+                      Message sent successfully!
+                    </h4>
+                    <p className="text-green-700 text-sm">
+                      We'll get back to you within 24 hours.
+                    </p>
                   </div>
                 </div>
               )}
@@ -169,8 +187,12 @@ const ContactPage = () => {
                 <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center space-x-3">
                   <ExclamationCircleIcon className="h-6 w-6 text-red-600" />
                   <div>
-                    <h4 className="text-red-800 font-semibold">Please check your information</h4>
-                    <p className="text-red-700 text-sm">Make sure all fields are filled out correctly.</p>
+                    <h4 className="text-red-800 font-semibold">
+                      Please check your information
+                    </h4>
+                    <p className="text-red-700 text-sm">
+                      Make sure all fields are filled out correctly.
+                    </p>
                   </div>
                 </div>
               )}
@@ -207,7 +229,9 @@ const ContactPage = () => {
                   <option value="patient">Patient</option>
                   <option value="doctor">Healthcare Provider</option>
                   <option value="pharmacist">Pharmacist</option>
-                  <option value="administrator">Healthcare Administrator</option>
+                  <option value="administrator">
+                    Healthcare Administrator
+                  </option>
                   <option value="partner">Potential Partner</option>
                   <option value="other">Other</option>
                 </select>
@@ -235,7 +259,11 @@ const ContactPage = () => {
                 <Button
                   type="submit"
                   disabled={formStatus === "loading"}
-                  icon={formStatus !== "loading" ? <ArrowRightIcon className="h-5 w-5" /> : null}
+                  icon={
+                    formStatus !== "loading" ? (
+                      <ArrowRightIcon className="h-5 w-5" />
+                    ) : null
+                  }
                 >
                   {formStatus === "loading" ? "Sending..." : "Send Message"}
                 </Button>
@@ -254,9 +282,12 @@ const ContactPage = () => {
       <section className="py-24 bg-gradient-to-br from-emerald-500 via-teal-600 to-blue-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/10" />
         <div className="relative max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl lg:text-5xl font-black text-white mb-8">Ready to Get Started?</h2>
+          <h2 className="text-4xl lg:text-5xl font-black text-white mb-8">
+            Ready to Get Started?
+          </h2>
           <p className="text-xl lg:text-2xl text-white/90 mb-12 font-medium leading-relaxed max-w-3xl mx-auto">
-            Join thousands of healthcare providers who trust CareSync to transform their patient care
+            Join thousands of healthcare providers who trust CareSync to
+            transform their patient care
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">

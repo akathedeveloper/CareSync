@@ -2,6 +2,53 @@
 // All demo users share the same password for convenience
 
 export const DEMO_PASSWORD = 'password123';
+export const COUNTRY_CODES = [
+  { code: "+1", symbol: "US" },
+  { code: "+91", symbol: "IN" },
+  { code: "+44", symbol: "UK" },
+  { code: "+81", symbol: "JP" },
+  { code: "+61", symbol: "AU" },
+  { code: "+971", symbol: "AE" },
+  { code: "+92", symbol: "PK" },
+  { code: "+880", symbol: "BD" },
+  { code: "+49", symbol: "DE" },
+  { code: "+86", symbol: "CN" },
+  { code: "+7", symbol: "RU" },
+  { code: "+34", symbol: "ES" },
+  { code: "+39", symbol: "IT" },
+  { code: "+33", symbol: "FR" },
+  { code: "+60", symbol: "MY" },
+  { code: "+65", symbol: "SG" },
+  { code: "+20", symbol: "EG" },
+  { code: "+62", symbol: "ID" },
+  { code: "+63", symbol: "PH" },
+  { code: "+27", symbol: "ZA" },  // South Africa
+  { code: "+54", symbol: "AR" },  // Argentina
+  { code: "+48", symbol: "PL" },  // Poland
+  { code: "+41", symbol: "CH" },  // Switzerland
+  { code: "+46", symbol: "SE" },  // Sweden
+  { code: "+31", symbol: "NL" },  // Netherlands
+  { code: "+82", symbol: "KR" },  // South Korea
+  { code: "+30", symbol: "GR" },  // Greece
+  { code: "+358", symbol: "FI" }, // Finland
+  { code: "+64", symbol: "NZ" },  // New Zealand
+  { code: "+234", symbol: "NG" }, // Nigeria
+  { code: "+212", symbol: "MA" }, // Morocco
+  { code: "+351", symbol: "PT" }, // Portugal
+  { code: "+351", symbol: "PT" }, // Portugal
+  { code: "+52", symbol: "MX" },  // Mexico
+  { code: "+357", symbol: "CY" }, // Cyprus
+  { code: "+353", symbol: "IE" }, // Ireland
+  { code: "+90", symbol: "TR" },  // Turkey
+  { code: "+354", symbol: "IS" }, // Iceland
+  { code: "+297", symbol: "AW" }, // Aruba
+  { code: "+359", symbol: "BG" }, // Bulgaria
+  { code: "+389", symbol: "MK" }, // North Macedonia
+  { code: "+226", symbol: "BF" }, // Burkina Faso
+  { code: "+223", symbol: "ML" }, // Mali
+  { code: "+995", symbol: "GE" }, // Georgia
+];
+
 
 export let doctors = [
   {

@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../Footer";
 import { useTranslation } from "react-i18next";
+import { COUNTRY_CODES } from '../../data/dummyData'
 
 const Register = () => {
   const { t } = useTranslation();
@@ -42,6 +43,7 @@ const Register = () => {
     experience: "",
     pharmacyName: "",
     pharmacyAddress: "",
+    countryCode: "+91",
   });
 
   const [passwordValidity, setPasswordValidity] = useState({
@@ -538,32 +540,50 @@ const Register = () => {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <div className="relative">
-              <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
-              <motion.input
-                name="phone"
-                type="tel"
-                required
-                value={formData.phone}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder={t("register.placeholders.phone")}
-                className={`block w-full pl-12 pr-4 py-3 border rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 ${errors.phone ? "border-red-500 focus:ring-red-500" : "border-gray-300 dark:border-gray-600 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500"}`}
-                whileFocus={{ scale: 1.02 }}
-                aria-invalid={!!errors.phone}
-                aria-describedby="phone-error"
-              />
-            </div>
-            {errors.phone && (
-              <p
-                id="phone-error"
-                className="text-red-600 text-sm mt-1 px-1 flex items-center"
-              >
-                <AlertCircle className="w-4 h-4 mr-1" />
-                {errors.phone}
-              </p>
-            )}
-          </motion.div>
+  <div className="relative flex">
+    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+<select
+  name="countryCode"
+  value={formData.countryCode}
+  onChange={handleChange}
+  className="pl-10 pr-2 py-3 border rounded-l-xl text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
+  style={{ minWidth: 130 }}
+  aria-label="Country code"
+>
+  {COUNTRY_CODES.map((c) => (
+    <option key={c.code} value={c.code}>
+      {c.code} ({c.symbol})
+    </option>
+  ))}
+</select>
+
+
+    <motion.input
+      name="phone"
+      type="tel"
+      required
+      value={formData.phone}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      placeholder={t("register.placeholders.phone")}
+      className={`block w-full pl-4 pr-4 py-3 border rounded-r-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 ${errors.phone ? "border-red-500 focus:ring-red-500" : "border-gray-300 dark:border-gray-600 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500"}`}
+      whileFocus={{ scale: 1.02 }}
+      aria-invalid={!!errors.phone}
+      aria-describedby="phone-error"
+      style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+    />
+  </div>
+  {errors.phone && (
+    <p
+      id="phone-error"
+      className="text-red-600 text-sm mt-1 px-1 flex items-center"
+    >
+      <AlertCircle className="w-4 h-4 mr-1" />
+      {errors.phone}
+    </p>
+  )}
+</motion.div>
+
 
           {/* ROLE SPECIFIC */}
           <AnimatePresence mode="wait" initial={false}>

@@ -31,6 +31,7 @@ import Notifications from "./pages/Notifications";
 import PrivacyPolicy from "./pages/privacy";
 import Feature from "./pages/Feature";
 import Patients from "./components/doctor/Patients";
+import NewPatientForm from "./components/doctor/NewPatientForm";
 import Messages from "./components/common/Messages";
 import Settings from "./components/common/Settings";
 import Inventory from "./components/patient/Inventory";
@@ -196,6 +197,7 @@ const AppRoutes = () => {
           <Route index element={<DoctorDashboard />} />
           <Route path="schedule" element={<Schedule />} />
           <Route path="patients" element={<Patients />} />
+          <Route path="patients/new" element={<NewPatientForm />} />
           <Route path="messages" element={<Messages />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="settings" element={<Settings />} />

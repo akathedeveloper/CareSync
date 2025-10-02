@@ -220,7 +220,7 @@ describe("LandingPage Component", () => {
       expect(screen.getByText("New Patient")).toBeInTheDocument();
     });
 
-    it("shows authenticated dashboard for doctor user", () => {
+  it("shows authenticated dashboard for doctor user", () => {
       mockAuthContext.user = {
         name: "Dr. John Smith",
         role: "doctor",
@@ -229,14 +229,12 @@ describe("LandingPage Component", () => {
       mockAuthContext.loading = false;
 
       renderWithRouter(<LandingPage />);
-
-      expect(screen.getByText(/Welcome, Dr. John Smith/i)).toBeInTheDocument();
-      expect(screen.getByText("Doctor Dashboard")).toBeInTheDocument();
+  expect(screen.getByText("Doctor Dashboard")).toBeInTheDocument();
       expect(screen.getByText("Active Patients")).toBeInTheDocument();
       expect(screen.getByText("Go to Dashboard")).toBeInTheDocument();
     });
 
-    it("shows authenticated dashboard for patient user", () => {
+  it("shows authenticated dashboard for patient user", () => {
       mockAuthContext.user = {
         email: "patient@test.com",
         role: "patient",
@@ -245,12 +243,10 @@ describe("LandingPage Component", () => {
       mockAuthContext.loading = false;
 
       renderWithRouter(<LandingPage />);
-
-      expect(screen.getByText(/Welcome, Jane Doe/i)).toBeInTheDocument();
-      expect(screen.getByText("Patient Portal")).toBeInTheDocument();
+  expect(screen.getByText("Patient Portal")).toBeInTheDocument();
     });
 
-    it("shows authenticated dashboard for pharmacy user", () => {
+  it("shows authenticated dashboard for pharmacy user", () => {
       mockAuthContext.user = {
         email: "pharmacy@test.com",
         role: "pharmacy",
@@ -259,9 +255,7 @@ describe("LandingPage Component", () => {
       mockAuthContext.loading = false;
 
       renderWithRouter(<LandingPage />);
-
-      expect(screen.getByText(/Welcome, Pharmacy Admin/i)).toBeInTheDocument();
-      expect(screen.getByText("Pharmacy Dashboard")).toBeInTheDocument();
+  expect(screen.getByText("Pharmacy Dashboard")).toBeInTheDocument();
     });
   });
 

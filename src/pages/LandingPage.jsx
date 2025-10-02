@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import FAQSection from "./FAQSection";
 import {
@@ -91,6 +92,7 @@ const LandingPage = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const { user, loading } = useAuth();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const handleScheduleDemoClick = () => {
     setIsCalendarOpen(true);
@@ -103,6 +105,20 @@ const LandingPage = () => {
   const handleDateSelection = (selectedDate) => {
     console.log("Selected demo date:", selectedDate);
     setIsCalendarOpen(false);
+  };
+
+  const handleNewPatientClick = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    if (user.role === "doctor") {
+      navigate("/doctor/patients/new");
+      return;
+    }
+
+    navigate(`/${user.role}`);
   };
 
   if (loading) {
@@ -393,7 +409,7 @@ const LandingPage = () => {
 
                   {/* CTA Button */}
                   <div className="pt-4 mt-6 border-t border-gray-100 dark:border-gray-700">
-                    <button className="flex items-center justify-center w-full px-4 py-3 space-x-2 font-semibold text-white transition-colors duration-300 rounded-lg gradient-accent">
+                    <button onClick={handleNewPatientClick} className="flex items-center justify-center w-full px-4 py-3 space-x-2 font-semibold text-white transition-colors duration-300 rounded-lg gradient-accent">
                       <PlusCircleIcon className="w-5 h-5" />
                       <span>{t('landing.newPatient', 'New Patient')}</span>
                     </button>

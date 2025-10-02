@@ -1,7 +1,7 @@
 // src/contexts/AuthContext.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth, signInWithGoogle, signOutUser } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth"; // 1. Import sendPasswordResetEmail
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import { allUsers as initialAllUsers, addUser } from "../data/dummyData";
 
@@ -68,16 +68,12 @@ export const AuthProvider = ({ children }) => {
       try {
         const token = localStorage.getItem("token");
         const storedUser = localStorage.getItem("caresync_user");
-        
         if (token && storedUser) {
           // Verify token with backend
           try {
             const response = await fetch('http://localhost:5000/api/auth/me', {
-              headers: {
-                'Authorization': `Bearer ${token}`,
-              },
+              headers: { 'Authorization': `Bearer ${token}` },
             });
-            
             if (response.ok) {
               const userData = JSON.parse(storedUser);
               console.log("Found and verified stored user:", userData);
@@ -110,7 +106,6 @@ export const AuthProvider = ({ children }) => {
       }
       setLoading(false);
     };
-
     // Check localStorage first for immediate session restoration
     checkExistingSession();
   }, []);
@@ -130,7 +125,6 @@ export const AuthProvider = ({ children }) => {
     if (user && !user.uid?.startsWith("firebase_")) {
       return;
     }
-
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         await createUserDocumentIfNotExists(firebaseUser);
@@ -152,7 +146,7 @@ export const AuthProvider = ({ children }) => {
     });
     return unsubscribe;
   }, [user]);
-   
+
   const updateUser = (data) => {
     setUser((prevUser) => {
       if (!prevUser) return null;
@@ -161,8 +155,8 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("caresync_user", JSON.stringify(updatedUser));
       return updatedUser;
     });
-  }; 
-  
+  };
+
   // Login with Google (Firebase)
   const loginWithGoogle = async () => {
     setLoading(true);
@@ -193,33 +187,25 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-
       const data = await response.json();
-      
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
-
       // Store JWT token
       localStorage.setItem('token', data.token);
-      
       // Create user object with role
-      const backendUser = { 
-        ...data.user, 
+      const backendUser = {
+        ...data.user,
         role: role || 'patient', // Use provided role or default to patient
-        isBackendUser: true 
+        isBackendUser: true
       };
-      
       console.log("Setting user in context:", backendUser);
       setUser(backendUser);
       localStorage.setItem("caresync_user", JSON.stringify(backendUser));
       console.log("User and token stored successfully");
-      
       return { success: true, user: backendUser };
     } catch (error) {
       console.error('Login error:', error);
@@ -236,9 +222,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: `${firstName} ${lastName}`,
           email,
@@ -246,26 +230,20 @@ export const AuthProvider = ({ children }) => {
           role,
         }),
       });
-
       const data = await response.json();
-      
       if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
       }
-
       // Store JWT token
       localStorage.setItem('token', data.token);
-      
       // Create user object with role
-      const backendUser = { 
-        ...data.user, 
+      const backendUser = {
+        ...data.user,
         role: userData.role || 'patient',
-        isBackendUser: true 
+        isBackendUser: true
       };
-      
       setUser(backendUser);
       localStorage.setItem("caresync_user", JSON.stringify(backendUser));
-      
       return { success: true, user: backendUser };
     } catch (error) {
       console.error('Registration error:', error);
@@ -273,6 +251,11 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
+  };
+  
+  // 2. Add the resetPassword function
+  const resetPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
   };
 
   // Logout for both Firebase & backend
@@ -288,12 +271,10 @@ export const AuthProvider = ({ children }) => {
           console.log("Firebase logout failed, continuing with local logout");
         }
       }
-
       // Clear backend auth state
       setUser(null);
       localStorage.removeItem("caresync_user");
       localStorage.removeItem("token");
-
       return { success: true };
     } catch (error) {
       console.error("Logout failed:", error);
@@ -312,6 +293,7 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     updateUser,
+    resetPassword, // 3. Expose the function through the context
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

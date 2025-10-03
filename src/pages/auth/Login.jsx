@@ -67,8 +67,13 @@ const Login = () => {
     try {
       setError("");
       setLoading(true);
-      await login(formData.email, formData.password);
-      navigate("/");
+      const result = await login(formData.email, formData.password, formData.role);
+      // Redirect based on user role
+      if (result.success && result.user) {
+        navigate(`/${result.user.role}`);
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError(t("login.error") + ": " + err.message);
     }

@@ -208,10 +208,10 @@ export const AuthProvider = ({ children }) => {
       // Store JWT token
       localStorage.setItem('token', data.token);
       
-      // Create user object with role
+      // Create user object with role from backend response
       const backendUser = { 
         ...data.user, 
-        role: role || 'patient', // Use provided role or default to patient
+        role: data.user.role || role || 'patient', // Use backend role first, then provided role, then default
         isBackendUser: true 
       };
       

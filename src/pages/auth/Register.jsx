@@ -44,6 +44,7 @@ const Register = () => {
     pharmacyName: "",
     pharmacyAddress: "",
     countryCode: "+91",
+    terms: false,
   });
 
   const [passwordValidity, setPasswordValidity] = useState({
@@ -114,6 +115,12 @@ const Register = () => {
           hasError = true;
         }
         break;
+      case "agree-terms":
+        if (!checked) {
+          newErrors.terms = t("register.errors.terms");
+          hasError = true;
+        }
+        break;
       default:
         break;
     }
@@ -124,14 +131,22 @@ const Register = () => {
   };
 
   const handleChange = (e) => {
-    let { name, value } = e.target;
+    let { name, value, type, checked } = e.target;
     if (name === "phone") {
       value = value.replace(/\D/g, "").slice(0, 10);
     }
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    // handle terms checkbox with the setformdata
+    if (type === "checkbox" && name === "agree-terms") {
+      setFormData({
+        ...formData,
+        terms: checked,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
     if (error) setError("");
     if (errors[name]) {
       const newErrors = { ...errors };
@@ -174,6 +189,11 @@ const Register = () => {
       if (!formData.pharmacyAddress) {
         newErrors.pharmacyAddress = t("register.errors.pharmacyAddress");
       }
+    }
+
+    // Terms and conditions checkbox compulsion
+    if (!formData.terms) {
+      newErrors.terms = t("register.errors.terms");
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -705,20 +725,37 @@ const Register = () => {
           </motion.div>
 
           {/* TERMS CHECKBOX */}
-          <motion.div variants={itemVariants} className="flex items-start text-sm space-x-3 py-2">
-            <motion.input
-              id="agree-terms"
-              name="agree-terms"
-              type="checkbox"
-              required
-              className="mt-0.5 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 dark:border-gray-600 rounded transition-colors bg-white dark:bg-gray-800"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            />
-            <label htmlFor="agree-terms" className="text-gray-700 dark:text-gray-300 leading-relaxed">
-              {t("register.terms")}
-            </label>
-          </motion.div>
+            <motion.div variants={itemVariants} className="flex-col space-x-1">
+              <div className="flex items-start text-sm space-x-2  ">
+                <motion.input
+                  id="agree-terms"
+                  name="agree-terms"
+                  type="checkbox"
+                  required
+                  checked={formData.terms}
+                  onChange={handleChange}
+                  className="mt-0.5 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 dark:border-gray-600 rounded transition-colors bg-white dark:bg-gray-800"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                />
+                <label
+                  htmlFor="agree-terms"
+                  className="text-gray-700 dark:text-gray-300 leading-relaxed"
+                >
+                  {t("register.terms")}
+                </label>
+              </div>
+              {/* Error message for terms checkbox */}
+              {errors.terms && (
+                <p
+                  id="agree-terms-error"
+                  className="text-red-600 text-sm mt-1 ml-0 flex items-center"
+                >
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  {errors.terms}
+                </p>
+              )}
+            </motion.div>
 
           {/* SUBMIT BUTTON */}
           <motion.button

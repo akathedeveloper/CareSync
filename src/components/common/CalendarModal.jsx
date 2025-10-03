@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // react-calendar default styles
+import "react-calendar/dist/Calendar.css"; // react-calendar default CSS
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "../../contexts/ThemeContext";
 
@@ -13,38 +13,36 @@ const CalendarModal = ({ onClose, onSelectDate }) => {
     onClose();
   };
 
+  // Today tile highlight
   const tileClassName = ({ date, view }) => {
     if (view === "month" && date.toDateString() === new Date().toDateString()) {
-      return "bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-100 rounded-lg";
+      return "bg-cyan-100 text-cyan-700 font-semibold rounded-lg";
     }
-    return null;
+    // weekends (Saturday/Sunday)
+    if (view === "month" && (date.getDay() === 0 || date.getDay() === 6)) {
+      return "text-red-500";
+    }
+    return "";
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[1000]">
+    <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-[1050]">
       <div
-        className={`flex flex-col p-6 rounded-2xl w-[90%] max-w-lg max-h-[90vh] shadow-xl ${
-          isDark ? "bg-neutral-800" : "bg-white"
+        className={`w-11/12 max-w-md max-h-[90vh] rounded-2xl shadow-xl p-6 flex flex-col ${
+          isDark ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"
         }`}
       >
         {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className={`text-xl font-semibold ${isDark ? "text-neutral-50" : "text-neutral-900"}`}>
-            Schedule a Demo
-          </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold">Schedule a Demo</h2>
           <button
             onClick={onClose}
-            className={`transition-colors ${
-              isDark
-                ? "text-neutral-500 hover:text-neutral-300"
-                : "text-neutral-400 hover:text-neutral-600"
-            }`}
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
             <XMarkIcon className="h-6 w-6" />
           </button>
         </div>
 
-        {/* Subtext */}
         <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
           Select an available date to book your demo.
         </p>
@@ -54,21 +52,36 @@ const CalendarModal = ({ onClose, onSelectDate }) => {
           onChange={onChange}
           value={value}
           onClickDay={handleDateClick}
-          className={`w-full max-w-md p-4 rounded-3xl border font-sans
-            ${isDark ? "bg-neutral-900 border-neutral-700" : "bg-white border-primary-200"}
-          `}
           tileClassName={tileClassName}
+          className={`
+            w-full rounded-3xl p-4
+            border ${isDark ? "bg-gray-800 border-gray-700" : "bg-white border-cyan-200"}
+            [&_.react-calendar__navigation]:flex 
+            [&_.react-calendar__navigation]:mb-3
+            [&_.react-calendar__navigation button]:min-w-[44px]
+            [&_.react-calendar__navigation button]:font-bold
+            [&_.react-calendar__navigation button]:text-lg
+            [&_.react-calendar__navigation button]:rounded-lg
+            [&_.react-calendar__navigation button:hover]:bg-cyan-100
+            dark:[&_.react-calendar__navigation button:hover]:bg-cyan-800
+            [&_.react-calendar__month-view__weekdays__weekday]:text-cyan-600
+            [&_.react-calendar__month-view__weekdays__weekday]:font-medium
+            dark:[&_.react-calendar__month-view__weekdays__weekday]:text-cyan-400
+            [&_.react-calendar__tile]:p-2 [&_.react-calendar__tile]:rounded-lg
+            [&_.react-calendar__tile:enabled:hover]:bg-cyan-50
+            [&_.react-calendar__tile:enabled:hover]:text-cyan-700
+            dark:[&_.react-calendar__tile:enabled:hover]:bg-cyan-900
+            dark:[&_.react-calendar__tile:enabled:hover]:text-cyan-100
+            [&_.react-calendar__tile--active]:bg-emerald-600
+            [&_.react-calendar__tile--active]:text-white
+          `}
         />
 
-        {/* Footer Buttons */}
+        {/* Footer */}
         <div className="mt-4 flex justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium rounded-lg 
-              text-gray-700 dark:text-gray-300 
-              bg-gray-100 dark:bg-gray-800 
-              hover:bg-gray-200 dark:hover:bg-gray-700 
-              transition-colors"
+            className="px-4 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
           >
             Cancel
           </button>

@@ -74,6 +74,8 @@ const Login = () => {
       } else {
         navigate("/");
       }
+
+
     } catch (err) {
       setError(t("login.error") + ": " + err.message);
     }
@@ -85,7 +87,7 @@ const Login = () => {
       setError("");
       setLoading(true);
       await loginWithGoogle();
-      navigate("/");
+      navigate("/home");
     } catch (err) {
       setError(t("login.errorGoogle") + ": " + err.message);
     }

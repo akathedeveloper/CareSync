@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { CheckIcon } from "@heroicons/react/24/solid";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Pricing() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const plans = [
     {
       name: t('pricing.starter', 'Starter'),
@@ -82,6 +86,17 @@ export default function Pricing() {
       }
     });
   }, []);
+
+  const handleStartTrial = (planName) => {
+    if (!user) {
+      // If user is not logged in, redirect to register page
+      navigate('/register');
+    } else {
+      // If user is logged in, handle the trial start logic here
+      console.log(`Starting trial for ${planName}`);
+      // You can add additional logic here for logged-in users
+    }
+  };
 
   return (
     <section id="pricing" className="py-20 bg-gray-50 dark:bg-gray-900">
@@ -253,6 +268,7 @@ export default function Pricing() {
               </ul>
 
               <button
+                onClick={() => handleStartTrial(plan.name)}
                 className={`relative overflow-hidden group w-full py-3 px-4 rounded-lg font-semibold transition-all duration-300 ${
                   plan.popular
                     ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:shadow-lg hover:shadow-emerald-500/20"

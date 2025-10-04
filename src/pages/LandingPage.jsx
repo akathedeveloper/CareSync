@@ -385,10 +385,12 @@ const LandingPage = () => {
 
                   {/* CTA Button */}
                   <div className="pt-4 mt-6 border-t border-gray-100 dark:border-gray-700">
-                    <button className="flex items-center justify-center w-full px-4 py-3 space-x-2 font-semibold text-white transition-colors duration-300 rounded-lg gradient-accent">
-                      <PlusCircleIcon className="w-5 h-5" />
-                      <span>New Patient</span>
-                    </button>
+                    <Link to="/patientform">
+                      <button className="flex items-center justify-center w-full px-4 py-3 space-x-2 font-semibold text-white transition-colors duration-300 rounded-lg gradient-accent">
+                        <PlusCircleIcon className="w-5 h-5" />
+                        <span>New Patient</span>
+                      </button>
+                    </Link>
                   </div>
                 </div>
               )}

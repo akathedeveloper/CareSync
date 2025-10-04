@@ -25,6 +25,7 @@ const CalendarModal = ({ onClose }) => {
     }, 3000);
   };
 
+  // Today tile highlight
   const tileClassName = ({ date, view }) => {
     if (view === "month") {
       const isToday = date.toDateString() === new Date().toDateString();

@@ -329,6 +329,7 @@
   "register.errors.pharmacyName": "Pharmacy name is required.",
   "register.errors.pharmacyAddress": "Pharmacy address is required.",
   "register.errors.confirmPasswordMatch": "Passwords do not match!",
+  "register.errors.terms": "You must agree to the terms and conditions.",
   "register.errors.formFix": "Please fix the errors in the form.",
   "register.errors.passwordRequirements": "Please meet all password requirements.",
   "register.errors.failed": "Registration failed. Please try again.",

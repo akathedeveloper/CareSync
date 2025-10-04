@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../Footer";
 import { useTranslation } from "react-i18next";
+import { COUNTRY_CODES } from '../../data/dummyData'
 
 const Register = () => {
   const { t } = useTranslation();
@@ -42,6 +43,8 @@ const Register = () => {
     experience: "",
     pharmacyName: "",
     pharmacyAddress: "",
+    countryCode: "+91",
+    terms: false,
   });
 
   const [passwordValidity, setPasswordValidity] = useState({
@@ -112,6 +115,12 @@ const Register = () => {
           hasError = true;
         }
         break;
+      case "agree-terms":
+        if (!checked) {
+          newErrors.terms = t("register.errors.terms");
+          hasError = true;
+        }
+        break;
       default:
         break;
     }
@@ -122,14 +131,22 @@ const Register = () => {
   };
 
   const handleChange = (e) => {
-    let { name, value } = e.target;
+    let { name, value, type, checked } = e.target;
     if (name === "phone") {
       value = value.replace(/\D/g, "").slice(0, 10);
     }
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    // handle terms checkbox with the setformdata
+    if (type === "checkbox" && name === "agree-terms") {
+      setFormData({
+        ...formData,
+        terms: checked,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
     if (error) setError("");
     if (errors[name]) {
       const newErrors = { ...errors };
@@ -172,6 +189,11 @@ const Register = () => {
       if (!formData.pharmacyAddress) {
         newErrors.pharmacyAddress = t("register.errors.pharmacyAddress");
       }
+    }
+
+    // Terms and conditions checkbox compulsion
+    if (!formData.terms) {
+      newErrors.terms = t("register.errors.terms");
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -538,32 +560,50 @@ const Register = () => {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <div className="relative">
-              <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
-              <motion.input
-                name="phone"
-                type="tel"
-                required
-                value={formData.phone}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder={t("register.placeholders.phone")}
-                className={`block w-full pl-12 pr-4 py-3 border rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 ${errors.phone ? "border-red-500 focus:ring-red-500" : "border-gray-300 dark:border-gray-600 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500"}`}
-                whileFocus={{ scale: 1.02 }}
-                aria-invalid={!!errors.phone}
-                aria-describedby="phone-error"
-              />
-            </div>
-            {errors.phone && (
-              <p
-                id="phone-error"
-                className="text-red-600 text-sm mt-1 px-1 flex items-center"
-              >
-                <AlertCircle className="w-4 h-4 mr-1" />
-                {errors.phone}
-              </p>
-            )}
-          </motion.div>
+  <div className="relative flex">
+    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+<select
+  name="countryCode"
+  value={formData.countryCode}
+  onChange={handleChange}
+  className="pl-10 pr-2 py-3 border rounded-l-xl text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
+  style={{ minWidth: 130 }}
+  aria-label="Country code"
+>
+  {COUNTRY_CODES.map((c) => (
+    <option key={c.code} value={c.code}>
+      {c.code} ({c.symbol})
+    </option>
+  ))}
+</select>
+
+
+    <motion.input
+      name="phone"
+      type="tel"
+      required
+      value={formData.phone}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      placeholder={t("register.placeholders.phone")}
+      className={`block w-full pl-4 pr-4 py-3 border rounded-r-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 bg-white/70 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 ${errors.phone ? "border-red-500 focus:ring-red-500" : "border-gray-300 dark:border-gray-600 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-emerald-500"}`}
+      whileFocus={{ scale: 1.02 }}
+      aria-invalid={!!errors.phone}
+      aria-describedby="phone-error"
+      style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+    />
+  </div>
+  {errors.phone && (
+    <p
+      id="phone-error"
+      className="text-red-600 text-sm mt-1 px-1 flex items-center"
+    >
+      <AlertCircle className="w-4 h-4 mr-1" />
+      {errors.phone}
+    </p>
+  )}
+</motion.div>
+
 
           {/* ROLE SPECIFIC */}
           <AnimatePresence mode="wait" initial={false}>
@@ -685,20 +725,37 @@ const Register = () => {
           </motion.div>
 
           {/* TERMS CHECKBOX */}
-          <motion.div variants={itemVariants} className="flex items-start text-sm space-x-3 py-2">
-            <motion.input
-              id="agree-terms"
-              name="agree-terms"
-              type="checkbox"
-              required
-              className="mt-0.5 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 dark:border-gray-600 rounded transition-colors bg-white dark:bg-gray-800"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            />
-            <label htmlFor="agree-terms" className="text-gray-700 dark:text-gray-300 leading-relaxed">
-              {t("register.terms")}
-            </label>
-          </motion.div>
+            <motion.div variants={itemVariants} className="flex-col space-x-1">
+              <div className="flex items-start text-sm space-x-2  ">
+                <motion.input
+                  id="agree-terms"
+                  name="agree-terms"
+                  type="checkbox"
+                  required
+                  checked={formData.terms}
+                  onChange={handleChange}
+                  className="mt-0.5 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 dark:border-gray-600 rounded transition-colors bg-white dark:bg-gray-800"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                />
+                <label
+                  htmlFor="agree-terms"
+                  className="text-gray-700 dark:text-gray-300 leading-relaxed"
+                >
+                  {t("register.terms")}
+                </label>
+              </div>
+              {/* Error message for terms checkbox */}
+              {errors.terms && (
+                <p
+                  id="agree-terms-error"
+                  className="text-red-600 text-sm mt-1 ml-0 flex items-center"
+                >
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  {errors.terms}
+                </p>
+              )}
+            </motion.div>
 
           {/* SUBMIT BUTTON */}
           <motion.button

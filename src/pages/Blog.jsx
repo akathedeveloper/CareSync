@@ -15,6 +15,8 @@ const scrollbarHideStyles = `
   }
 `;
 
+const POSTS_PER_PAGE = 5;
+
 const posts = [
   {
     id: 1,
@@ -97,9 +99,9 @@ export default function Blog() {
   const [search, setSearch] = useState("");
   const [expandedId, setExpandedId] = useState(null); 
   const [filtered, setFiltered] = useState(posts);
+  const [currentPage, setCurrentPage] = useState(1);
   const scrollContainerRef = useRef(null);
 
-  // blogs search with 300ms delay
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       const filteredPosts = posts.filter(
@@ -108,9 +110,16 @@ export default function Blog() {
           post.author.toLowerCase().includes(search.toLowerCase())
       );
       setFiltered(filteredPosts);
+      setCurrentPage(1); // Reset to first page on search
     }, 300);
     return () => clearTimeout(timeoutId);
   }, [search]);
+
+  // Pagination calculation
+  const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
+  const startIdx = (currentPage - 1) * POSTS_PER_PAGE;
+  const endIdx = startIdx + POSTS_PER_PAGE;
+  const paginatedPosts = filtered.slice(startIdx, endIdx);
 
   const scroll = (direction) => {
     const container = scrollContainerRef.current;
@@ -127,10 +136,15 @@ export default function Blog() {
     setExpandedId(expandedId === id ? null : id); 
   };
 
-  
-  React.useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Pagination navigation
+  const goToPage = (page) => {
+    setCurrentPage(page);
+    scrollContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+  };
 
   return (
     <>
@@ -141,28 +155,14 @@ export default function Blog() {
         {/* Back Button */}
         <Link
           to="/"
-          className="fixed md:absolute z-10 mt-4 md:mt-12 top-4 md:top-6 left-4 md:left-6 
-                     flex items-center gap-2 font-semibold 
-                     text-emerald-500 hover:text-teal-500 
-                     hover:scale-105 transition-transform 
-                     rounded-full p-2 md:p-0"
+          className="fixed md:absolute z-10 mt-4 md:mt-12 top-4 md:top-6 left-4 md:left-6 flex items-center gap-2 font-semibold text-emerald-500 hover:text-teal-500 hover:scale-105 transition-transform rounded-full p-2 md:p-0"
         >
           <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
           <span className="hidden md:inline">Back</span>
         </Link>
 
         {/* Page Title */}
-        <h1
-          className="text-5xl font-extrabold text-center leading-relaxed 
-           bg-gradient-to-r from-emerald-500 to-teal-500 
-           bg-clip-text text-transparent 
-           mb-12 
-           transition-all duration-300 
-           hover:from-emerald-600 hover:to-teal-600 
-           dark:hover:from-emerald-300 dark:hover:to-teal-500 
-           cursor-pointer"
-
-        >
+        <h1 className="text-5xl font-extrabold text-center leading-relaxed bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent mb-12 transition-all duration-300 hover:from-emerald-600 hover:to-teal-600 dark:hover:from-emerald-300 dark:hover:to-teal-500 cursor-pointer">
           {t("blog.title", "Our Blog")}
         </h1>
 
@@ -174,15 +174,7 @@ export default function Blog() {
               placeholder={t("blog.searchPlaceholder", "Search blogs by title or author...")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-full pl-12 pr-4 py-3 
-                         text-gray-900 dark:text-white 
-                         bg-white dark:bg-emerald-400/10 
-                         border border-emerald-400 dark:border-emerald-500 
-                         shadow-lg 
-                         focus:outline-none focus:ring-4 focus:ring-emerald-400/30 
-                         transition duration-300 
-                         placeholder-gray-400 dark:placeholder-emerald-300 
-                         hover:border-emerald-500"
+              className="w-full rounded-full pl-12 pr-4 py-3 text-gray-900 dark:text-white bg-white dark:bg-emerald-400/10 border border-emerald-400 dark:border-emerald-500 shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-400/30 transition duration-300 placeholder-gray-400 dark:placeholder-emerald-300 hover:border-emerald-500"
             />
             <Search className="absolute left-4 top-3.5 w-5 h-5 text-emerald-500 dark:text-emerald-400" />
           </div>
@@ -194,11 +186,7 @@ export default function Blog() {
           {/* Left scroll button */}
           <button
             onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 
-                       bg-gradient-to-r from-emerald-500 to-teal-600 
-                       p-3 rounded-full shadow-lg text-white 
-                       hover:from-emerald-600 hover:to-teal-700 
-                       transition-all"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gradient-to-r from-emerald-500 to-teal-600 p-3 rounded-full shadow-lg text-white hover:from-emerald-600 hover:to-teal-700 transition-all"
             aria-label="Scroll left"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -214,19 +202,13 @@ export default function Blog() {
               WebkitOverflowScrolling: "touch",
             }}
           >
-            {filtered.length > 0 ? (
-              filtered.map((post) => {
+            {paginatedPosts.length > 0 ? (
+              paginatedPosts.map((post) => {
                 const isExpanded = expandedId === post.id;
-
                 return (
                   <div
                     key={post.id}
-                   className="mt-6 rounded-xl overflow-hidden shadow-md 
-                  bg-white dark:bg-[#061C2B] 
-                  border border-emerald-400 dark:border-emerald-700
-                  hover:shadow-lg hover:scale-[1.03] 
-                  transition-all duration-300 
-                  flex-none w-[350px] snap-center"
+                    className="mt-6 rounded-xl overflow-hidden shadow-md bg-white dark:bg-[#061C2B] border border-emerald-400 dark:border-emerald-700 hover:shadow-lg hover:scale-[1.03] transition-all duration-300 flex-none w-[350px] snap-center"
                   >
                     <img
                       src={post.image}
@@ -240,9 +222,7 @@ export default function Blog() {
                       </h2>
 
                       <div
-                        className={`transition-all duration-500 ${
-                          isExpanded ? "max-h-[1000px]" : "max-h-24"
-                        }`}
+                        className={`transition-all duration-500 ${isExpanded ? "max-h-[1000px]" : "max-h-24"}`}
                       >
                         <p
                           className="text-gray-700 dark:text-gray-300"
@@ -264,10 +244,7 @@ export default function Blog() {
 
                       <button
                         onClick={() => toggleExpand(post.id)}
-                        className="mt-2 bg-gradient-to-r from-emerald-500 to-teal-600 
-                                   text-white px-3 py-1.5 rounded-lg text-sm font-semibold 
-                                   shadow-md hover:from-emerald-600 hover:to-teal-700 
-                                   transition-all self-start"
+                        className="mt-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-md hover:from-emerald-600 hover:to-teal-700 transition-all self-start"
                       >
                         {isExpanded
                           ? t("blog.showLess", "Show Less ←")
@@ -287,14 +264,43 @@ export default function Blog() {
           {/* Right scroll button */}
           <button
             onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 
-                       bg-gradient-to-r from-emerald-500 to-teal-600 
-                       p-3 rounded-full shadow-lg text-white 
-                       hover:from-emerald-600 hover:to-teal-700 
-                       transition-all"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-gradient-to-r from-emerald-500 to-teal-600 p-3 rounded-full shadow-lg text-white hover:from-emerald-600 hover:to-teal-700 transition-all"
             aria-label="Scroll right"
           >
             <ChevronRight className="w-6 h-6" />
+          </button>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center mt-8 gap-2">
+          <button
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-3 py-2 rounded-lg font-medium border transition 
+              ${currentPage === 1 ? "border-gray-300 text-gray-400 bg-gray-100 cursor-not-allowed" : "border-emerald-400 text-emerald-700 bg-white hover:bg-emerald-50"}`}
+          >
+            Prev
+          </button>
+          {Array.from({ length: totalPages }, (_, idx) => (
+            <button
+              key={idx + 1}
+              onClick={() => goToPage(idx + 1)}
+              className={`px-3 py-2 rounded-lg font-medium border transition 
+                ${currentPage === idx + 1
+                  ? "bg-emerald-500 text-white border-emerald-500"
+                  : "bg-white border-emerald-400 text-emerald-700 hover:bg-emerald-50"
+                }`}
+            >
+              {idx + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-2 rounded-lg font-medium border transition 
+              ${currentPage === totalPages ? "border-gray-300 text-gray-400 bg-gray-100 cursor-not-allowed" : "border-emerald-400 text-emerald-700 bg-white hover:bg-emerald-50"}`}
+          >
+            Next
           </button>
         </div>
       </div>

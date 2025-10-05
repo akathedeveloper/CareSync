@@ -43,6 +43,7 @@ import TermsOfServices from "./pages/TermsOfServices";
 import LicensePage from "./pages/License";
 import Contributors from "./components/common/Contributor";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import NewPatientForm from "./components/NewPatientForm";
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
@@ -118,6 +119,7 @@ const AppRoutes = () => {
       <Route path="/terms" element={<TermsOfServices />} />
       <Route path="/contributor" element={<Contributors />} />
       <Route path="/license" element={<LicensePage />} />
+      <Route path="/patient-form" element={<NewPatientForm />} />
 
       {/* Auth Routes */}
       <Route

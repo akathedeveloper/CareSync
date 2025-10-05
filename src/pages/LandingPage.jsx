@@ -304,7 +304,7 @@ const LandingPage = () => {
                       >
                         <div className="flex items-center space-x-3">
                           <div
-                             className={`w-10 h-10 ${stat.bg} ${stat.darkBg} rounded-lg flex items-center justify-center`}
+                            className={`w-10 h-10 ${stat.bg} ${stat.darkBg} rounded-lg flex items-center justify-center`}
                           >
                             <stat.icon className={`h-5 w-5 ${stat.color}`} />
                           </div>
@@ -369,10 +369,10 @@ const LandingPage = () => {
                         <div className="text-right">
                           <span
                             className={`inline-block w-2 h-2 rounded-full mr-2 ${activity.status === "completed"
-                                ? "bg-green-500"
-                                : activity.status === "new"
-                                  ? "bg-blue-500"
-                                  : "bg-yellow-500"
+                              ? "bg-green-500"
+                              : activity.status === "new"
+                                ? "bg-blue-500"
+                                : "bg-yellow-500"
                               }`}
                           />
                           <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -385,10 +385,12 @@ const LandingPage = () => {
 
                   {/* CTA Button */}
                   <div className="pt-4 mt-6 border-t border-gray-100 dark:border-gray-700">
-                    <button className="flex items-center justify-center w-full px-4 py-3 space-x-2 font-semibold text-white transition-colors duration-300 rounded-lg gradient-accent">
-                      <PlusCircleIcon className="w-5 h-5" />
-                      <span>New Patient</span>
-                    </button>
+                    <Link to="/patient-form">
+                      <button className="flex items-center justify-center w-full px-4 py-3 space-x-2 font-semibold text-white transition-colors duration-300 rounded-lg gradient-accent">
+                        <PlusCircleIcon className="w-5 h-5" />
+                        <span>New Patient</span>
+                      </button>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -481,7 +483,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-         
+
       {/* Contact Us */}
       <ContactUs />
       <FAQSection />

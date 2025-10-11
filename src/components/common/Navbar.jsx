@@ -16,81 +16,76 @@ const Navbar = () => {
   const { user } = useAuth();
   const location = useLocation();
   const mobileMenuRef = useRef(null);
-  
-  // check if current page is login or register
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
-  
-  // Define section IDs for scroll spy
-  const sectionIds = ['home', 'features', 'pricing', 'testimonials', 'contact-form'];
+
+  const isAuthPage =
+    location.pathname === "/login" || location.pathname === "/register";
+
+  const sectionIds = [
+    "home",
+    "features",
+    "pricing",
+    "testimonials",
+    "contact-form",
+  ];
   const activeSection = useScrollSpy(sectionIds, 100);
 
   const navigate = useNavigate();
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target)
+      ) {
         setIsMobileMenuOpen(false);
       }
     };
 
     if (isMobileMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMobileMenuOpen]);
 
-  // Function to handle navigation to sections
   const handleNavigation = (id, isSection = true, path = null) => {
     if (path) {
-      // For blog and similar full-page routes, navigate directly
       navigate(path, { replace: true });
       return;
     }
     if (!isSection) {
-      // For non-section routes like '/contributor'
       navigate(`/${id}`, { replace: true });
       return;
     }
-    // For sections on the home page
-    if (location.pathname === '/') {
+    if (location.pathname === "/") {
       const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        element.scrollIntoView({ behavior: "smooth" });
       }
     } else {
-      // If on a different page, navigate to home then scroll to section
-      navigate('/', { 
-        state: { scrollTo: id }
+      navigate("/", {
+        state: { scrollTo: id },
       });
     }
   };
 
-  // Function to handle logo click
   const handleLogoClick = (e) => {
     e.preventDefault();
-    if (location.pathname === '/') {
-      // If already on home page, scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      // If on different page, navigate to home
-      navigate('/');
+      navigate("/");
     }
   };
 
-  // Function to scroll to section after page load
   useEffect(() => {
-    // Check if we have a scroll target in location state
     if (location.state && location.state.scrollTo) {
       const element = document.getElementById(location.state.scrollTo);
       if (element) {
-        // Small timeout to ensure the page has rendered
         setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
-          // Clear the state to prevent scrolling on every render
+          element.scrollIntoView({ behavior: "smooth" });
           window.history.replaceState({}, document.title);
         }, 100);
       }
@@ -99,8 +94,7 @@ const Navbar = () => {
 
   const { t, i18n } = useTranslation();
 
-  // show only home link on auth pages
-  const menuItems = isAuthPage 
+  const menuItems = isAuthPage
     ? [{ name: t("nav.home"), id: "home" }]
     : [
         { name: t("nav.home"), id: "home", isSection: true },
@@ -108,21 +102,20 @@ const Navbar = () => {
         { name: t("nav.pricing"), id: "pricing", isSection: true },
         { name: t("nav.blog"), path: "/blog", isSection: false },
         { name: t("nav.testimonials"), id: "testimonials", isSection: true },
-        { name: t("nav.contact"), id: "contact-form", isSection: true }
+        { name: t("nav.contact"), id: "contact-form", isSection: true },
       ];
 
   return (
     <nav className="fixed top-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo and Home link section */}
           <div className="flex items-center space-x-4 md:space-x-6">
             <a
               key="Logo"
               href="/"
               onClick={handleLogoClick}
               className="flex items-center"
-            >   
+            >
               <div className="flex items-center">
                 <div className="w-8 h-8 md:w-10 md:h-10">
                   <img
@@ -131,30 +124,26 @@ const Navbar = () => {
                     className="w-full h-full transition  animate-beats"
                   />
                 </div>
-                <span
-                  className="ml-2 md:ml-3 font-bold text-emerald-600 dark:text-emerald-400 text-lg md:text-xl"
-                >
+                <span className="ml-2 md:ml-3 font-bold text-emerald-600 dark:text-emerald-400 text-lg md:text-xl">
                   CareSync
                 </span>
               </div>
             </a>
-            
-            {/* Home link on auth pages - Only show on desktop */}
+
             {isAuthPage && (
               <a
                 href="/"
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate('/');
+                  navigate("/");
                 }}
                 className="hidden md:block text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium text-sm md:text-base"
               >
-                {t('nav.home')}
+                {t("nav.home")}
               </a>
             )}
           </div>
 
-          {/* Desktop Menu with navigation functionality - Show only on large screens */}
           {!isAuthPage && (
             <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
               {menuItems.map((item) => (
@@ -162,19 +151,25 @@ const Navbar = () => {
                   key={item.id}
                   href={item.path ? item.path : `#${item.id}`}
                   onClick={(e) => {
-                    handleNavigation(item.id, item.isSection, item.path)
+                    handleNavigation(item.id, item.isSection, item.path);
                   }}
                   className={`relative transition-all duration-300 font-medium group px-2 py-1 rounded-md text-sm xl:text-base ${
-                    (item.path ? location.pathname === item.path : activeSection === item.id)
+                    item.path
+                      ? location.pathname === item.path
+                        ? "text-emerald-600 dark:text-emerald-400 font-semibold drop-shadow-sm bg-emerald-50 dark:bg-emerald-900/20"
+                        : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                      : activeSection === item.id
                       ? "text-emerald-600 dark:text-emerald-400 font-semibold drop-shadow-sm bg-emerald-50 dark:bg-emerald-900/20"
                       : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-50 dark:hover:bg-gray-800/50"
                   }`}
                 >
                   {item.name}
-                  <span 
+                  <span
                     className={`absolute left-0 -bottom-1 h-[2px] bg-emerald-600 transition-all duration-300 ${
-                      activeSection === item.id ? "w-full" : "w-0 group-hover:w-full"
-                    }`} 
+                      activeSection === item.id
+                        ? "w-full"
+                        : "w-0 group-hover:w-full"
+                    }`}
                   />
                   {activeSection === item.id && (
                     <span className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
@@ -184,9 +179,7 @@ const Navbar = () => {
             </div>
           )}
 
-          {/* Right side controls */}
           <div className="flex items-center space-x-3 md:space-x-4">
-            {/* Theme toggle - visible on all screens */}
             <button
               onClick={toggleTheme}
               className="p-1.5 md:p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -200,7 +193,6 @@ const Navbar = () => {
               )}
             </button>
 
-            {/* Language Switcher (EN/HI) persisted */}
             <select
               value={i18n.language}
               onChange={(e) => i18n.changeLanguage(e.target.value)}
@@ -212,13 +204,12 @@ const Navbar = () => {
               <option value="hi">HI</option>
             </select>
 
-            {/* Desktop Auth - hidden on mobile and tablet */}
             <div className="hidden lg:flex items-center space-x-4">
               <button
                 onClick={() => navigate("/contributor")}
                 className="px-3 py-1.5 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium text-sm"
               >
-                {t('nav.contributors')}
+                {t("nav.contributors")}
               </button>
 
               {user ? (
@@ -226,7 +217,7 @@ const Navbar = () => {
                   to={`/${user.role}`}
                   className="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium text-sm"
                 >
-                  {t('nav.dashboard')}
+                  {t("nav.dashboard")}
                 </Link>
               ) : (
                 <>
@@ -234,31 +225,40 @@ const Navbar = () => {
                     to="/login"
                     className="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium text-sm"
                   >
-                    {t('auth.signIn')}
+                    {t("auth.signIn")}
                   </Link>
                   <Link
                     to="/register"
-                    className="gradient-accent text-white px-4 py-2 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold text-sm"
+                    className="gradient-accent text-white px-4 py-2 rounded-xl hover:shadow-lg hover:scale-105 transition-transform duration-300 font-semibold text-sm"
                   >
-                    {t('auth.getStarted')}
+                    {t("auth.getStarted")}
                   </Link>
                 </>
               )}
             </div>
 
-            {/* Mobile Menu Button - visible on small and medium screens (tablets) */}
             <div className="lg:hidden flex items-center space-x-2">
-              {/* Contributors icon for mobile/tablet */}
               <button
                 onClick={() => navigate("/contributor")}
                 className="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors p-1.5"
                 title="Contributors"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
                 </svg>
               </button>
-              
+
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors p-1.5"
@@ -270,18 +270,23 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu with Slide-In Transition */}
-      <div className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        {/* Backdrop - click to close with fade transition */}
-        <div 
-          className={`fixed inset-0 bg-black/20 dark:bg-black/40 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+      <div
+        className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${
+          isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div
+          className={`fixed inset-0 bg-black/20 dark:bg-black/40 transition-opacity duration-300 ${
+            isMobileMenuOpen ? "opacity-100" : "opacity-0"
+          }`}
           onClick={() => setIsMobileMenuOpen(false)}
         />
-        
-        {/* Menu Content with slide-in transition */}
-        <div 
+
+        <div
           ref={mobileMenuRef}
-          className={`fixed right-0 top-20 w-64 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 shadow-xl transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          className={`fixed right-0 top-20 w-64 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 shadow-xl transform transition-transform duration-300 ease-in-out ${
+            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         >
           <div className="pt-4 pb-6">
             {menuItems.map((item) => (
@@ -291,20 +296,24 @@ const Navbar = () => {
                 className={`block py-3 px-6 transition-all duration-300 font-medium relative group
                 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
                 hover:after:scale-x-100 ${
-                  (item.path ? location.pathname === item.path : activeSection === item.id)
-                    ? "text-emerald-600 dark:text-emerald-400 after:scale-x-100 bg-emerald-50 dark:bg-emerald-900/20 font-semibold"
+                  item.path
+                    ? location.pathname === item.path
+                      ? "text-emerald-600 dark:text-emerald-400 after:scale-x-100 bg-emerald-50 dark:bg-emerald-900/20 font-semibold"
+                      : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
+                    : activeSection === item.id
+                    ? "text-emerald-600 dark:text-emerald-400 font-semibold after:scale-x-100 bg-emerald-50 dark:bg-emerald-900/20"
                     : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
                 }`}
                 onClick={(e) => {
                   e.preventDefault();
                   setIsMobileMenuOpen(false);
-                  handleNavigation(item.id, item.isSection, item.path)
+                  handleNavigation(item.id, item.isSection, item.path);
                 }}
               >
                 {item.name}
               </a>
             ))}
-            
+
             <div className="border-t border-gray-200 dark:border-gray-700 mt-4 pt-4 px-6">
               {user ? (
                 <Link
@@ -325,7 +334,7 @@ const Navbar = () => {
                   </Link>
                   <Link
                     to="/register"
-                    className="block gradient-accent text-white px-4 py-3 rounded-lg text-center font-semibold mt-2"
+                    className="block gradient-accent text-white px-4 py-3 rounded-lg text-center font-semibold mt-2 hover:shadow-lg hover:scale-105 transition-transform duration-300"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Get Started

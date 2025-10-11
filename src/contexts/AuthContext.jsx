@@ -20,32 +20,73 @@ export const useAuth = () => {
 // Create user document in Firestore if not exists
 const createUserDocumentIfNotExists = async (user, defaultRole = "patient") => {
   try {
-    const docRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) {
-      await setDoc(docRef, {
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        role: defaultRole,
-        createdAt: new Date(),
+    if (!user) throw new Error("Missing Firebase user");
+
+    const token = await user.getIdToken();
+
+    // Check if user exists in MongoDB
+    const res = await fetch("/api/auth/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (res.status === 404) {
+      // User not found — create new user in MongoDB
+      const createRes = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: user.displayName || "Anonymous",
+          email: user.email,
+          role: defaultRole
+        })
       });
+
+      if (!createRes.ok) {
+        throw new Error(`Failed to create user: ${createRes.status}`);
+      }
+
+      console.log("User document created in MongoDB");
+    } else {
+      console.log("User already exists in MongoDB");
     }
   } catch (error) {
     console.error("Error creating user document:", error);
   }
 };
 
-// Fetch user role from Firestore
-const fetchUserRole = async (uid) => {
+const fetchUserRole = async (firebaseUser) => {
   try {
-    const docRef = doc(db, "users", uid);
-    const docSnap = await getDoc(docRef);
-    return docSnap.exists() ? docSnap.data().role || null : null;
+    if (!firebaseUser) throw new Error("Missing Firebase user");
+
+    const token = await firebaseUser.getIdToken();
+
+    const res = await fetch("http://localhost:5000/api/auth/me", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      console.error("Backend error:", errorData);
+      throw new Error(errorData.error || "Failed to fetch user role");
+    }
+
+    const data = await res.json();
+    console.log("Fetched user data:", data);
+
+    return data.role || "patient"; // ✅ fallback to 'patient' if role is missing
   } catch (error) {
-    console.error("Failed to fetch user role:", error);
-    return null;
+    console.error("Error fetching user role:", error);
+    return "patient"; // ✅ fallback on error
   }
 };
 
@@ -126,24 +167,27 @@ export const AuthProvider = ({ children }) => {
       return;
     }
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        await createUserDocumentIfNotExists(firebaseUser);
-        const role = await fetchUserRole(firebaseUser.uid);
-        setUser({
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          displayName: firebaseUser.displayName,
-          photoURL: firebaseUser.photoURL,
-          role,
-        });
-      } else {
-        // Only clear user if it's a Firebase user
-        if (user && user.uid?.startsWith("firebase_")) {
-          setUser(null);
-        }
-      }
-      setLoading(false);
+  if (firebaseUser) {
+    await createUserDocumentIfNotExists(firebaseUser);
+    const role = await fetchUserRole(firebaseUser.uid, firebaseUser);
+
+    setUser({
+      uid: firebaseUser.uid,
+      email: firebaseUser.email,
+      displayName: firebaseUser.displayName,
+      photoURL: firebaseUser.photoURL,
+      role,
     });
+
+    // ✅ Add this line to redirect based on role
+    navigate(`/${["doctor", "patient", "pharmacist"].includes(role) ? role : "patient"}`);
+  } else {
+    if (user && user.uid?.startsWith("firebase_")) {
+      setUser(null);
+    }
+  }
+  setLoading(false);
+});
     return unsubscribe;
   }, [user]);
 
@@ -163,7 +207,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const result = await signInWithGoogle();
       await createUserDocumentIfNotExists(result.user);
-      const role = await fetchUserRole(result.user.uid);
+      const role = await fetchUserRole(result.user.uid, result.user);
       const firebaseUser = {
         uid: result.user.uid,
         email: result.user.email,

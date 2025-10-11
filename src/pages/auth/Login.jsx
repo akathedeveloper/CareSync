@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../Footer";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -84,12 +85,22 @@ const Login = () => {
     try {
       setError("");
       setLoading(true);
-      await loginWithGoogle();
-      navigate("/home");
+     const user = await loginWithGoogle();
+     if (user) {
+      toast.success("Google login successful! Redirecting...", {
+        duration: 3000,
+        icon: "🎉",
+      });
+
+      // Navigate after a short delay so toast can appear
+      
+       navigate(`/${user.role || "home"}`);  
+      
+     }
     } catch (err) {
       setError(t("login.errorGoogle") + ": " + err.message);
-    }
-    setLoading(false);
+    } finally {
+    setLoading(false)};
   };
 
   return (

@@ -20,6 +20,7 @@ import Navbar from "../../components/common/Navbar";
 import Footer from "../Footer";
 import { useTranslation } from "react-i18next";
 import { COUNTRY_CODES } from '../../data/dummyData'
+import { signInWithGoogle } from "../../firebase";
 
 const Register = () => {
   const { t } = useTranslation();
@@ -235,27 +236,34 @@ const Register = () => {
     }
   };
 
-  const handleGoogleSignup = async () => {
-    try {
-      setLoading(true);
-      const result = await loginWithGoogle();
-      if (result.success) {
-        toast.success(
-          t("register.googleSuccess"),
-          {
-            duration: 3000,
-            icon: "🎉",
-          }
-        );
-        navigate(`/${result.user.role}`);
-      }
-    } catch (error) {
-      const errorMessage = t("register.errors.googleFailed", { msg: error.message });
-      toast.error(errorMessage, { duration: 4000, icon: "❌" });
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleGoogleSignup = async () => {
+  try {
+    setLoading(true);
+
+    // Directly sign in/up with Google
+    const user = await signInWithGoogle(); // This returns Firebase user
+
+    // Show success toast
+    toast.success(t("register.googleSuccess"), {
+      duration: 3000,
+      icon: "🎉",
+    });
+
+    // Navigate to home or dashboard directly
+   
+        navigate(`/${user.role}`) 
+      
+ 
+
+  } catch (error) {
+    // Show error toast
+    const errorMessage = t("register.errors.googleFailed", { msg: error.message });
+    toast.error(errorMessage, { duration: 4000, icon: "❌" });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const containerVariants = { hidden: { opacity: 0, scale: 0.95 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], staggerChildren: 0.08 } } };
   const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] } } };

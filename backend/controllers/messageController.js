@@ -1,9 +1,14 @@
-const Message = require('../models/Message');
-const Conversation = require('../models/Conversation');
-const {User} = require('../db/models/User.js');
+import Message from '../db/models/Message.js'
+import Conversation from '../db/models/Conversation.js'
+import catchAsync from '../middleware/catchAsyncError.js';
+import ErrorHandler from '../utils/errorHandler.js';
 
-const getUserConversations = async (req, res) => {
-  try {
+const getMessages = async (req, res) => {
+    res.json({ message: "Messages from branch" });
+}
+
+
+export const getUserConversations = catchAsync(async (req, res, next) => {
     const userId = req.user.id;
     
     const conversations = await Conversation.find({
@@ -17,17 +22,9 @@ const getUserConversations = async (req, res) => {
       success: true,
       data: conversations
     });
-  } catch (error) {
-    console.error('Get conversations error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to fetch conversations'
-    });
-  }
-};
+});
 
-const getConversationMessages = async (req, res) => {
-  try {
+export const getConversationMessages = catchAsync(async (req, res, next) => {
     const { conversationId } = req.params;
     const userId = req.user.id;
     const page = parseInt(req.query.page) || 1;
@@ -36,17 +33,11 @@ const getConversationMessages = async (req, res) => {
 
     const conversation = await Conversation.findById(conversationId);
     if (!conversation) {
-      return res.status(404).json({
-        success: false,
-        message: 'Conversation not found'
-      });
+      return next(new ErrorHandler("Conversation not found", 404))
     }
 
     if (!conversation.participants.includes(userId)) {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied'
-      });
+      return next(new ErrorHandler("Access denied", 403))
     }
 
     const messages = await Message.find({
@@ -66,33 +57,19 @@ const getConversationMessages = async (req, res) => {
         hasMore: messages.length === limit
       }
     });
-  } catch (error) {
-    console.error('Get messages error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to fetch messages'
-    });
-  }
-};
+});
 
-const sendMessage = async (req, res) => {
-  try {
+export const sendMessage = catchAsync(async (req, res, next) => {
     const { conversationId, content, messageType = 'text' } = req.body;
     const senderId = req.user.id;
 
     const conversation = await Conversation.findById(conversationId);
     if (!conversation) {
-      return res.status(404).json({
-        success: false,
-        message: 'Conversation not found'
-      });
+      return next(new ErrorHandler("Converstion not found", 404))
     }
 
     if (!conversation.participants.includes(senderId)) {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied'
-      });
+      return next(new ErrorHandler("Access Denied", 403))
     }
 
     const message = new Message({
@@ -114,33 +91,19 @@ const sendMessage = async (req, res) => {
       success: true,
       data: message
     });
-  } catch (error) {
-    console.error('Send message error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to send message'
-    });
-  }
-};
+});
 
-const createOrGetConversation = async (req, res) => {
-  try {
+export const createOrGetConversation = catchAsync(async (req, res, next) => {
     const { participantId } = req.body;
     const currentUserId = req.user.id;
 
     if (participantId === currentUserId) {
-      return res.status(400).json({
-        success: false,
-        message: 'Cannot create conversation with yourself'
-      });
+      return next(new ErrorHandler("Cannot create conversation with yourself", 400))
     }
 
     const participant = await User.findById(participantId);
     if (!participant) {
-      return res.status(404).json({
-        success: false,
-        message: 'User not found'
-      });
+      return next(new ErrorHandler("User not found", 404))
     }
 
     let conversation = await Conversation.findOne({
@@ -164,18 +127,5 @@ const createOrGetConversation = async (req, res) => {
       success: true,
       data: conversation
     });
-  } catch (error) {
-    console.error('Create conversation error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to create conversation'
-    });
-  }
-};
-
-module.exports = {
-  getUserConversations,
-  getConversationMessages,
-  sendMessage,
-  createOrGetConversation
-};
+}
+)

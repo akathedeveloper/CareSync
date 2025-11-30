@@ -3,6 +3,7 @@ import {
   doctors,
   appointments as initialAppointments,
 } from '../data/dummyData';
+import { useOffline } from './OfflineContext';
 
 const AppointmentContext = createContext();
 
@@ -11,6 +12,16 @@ export const useAppointments = () => {
 };
 
 const AppointmentProvider = ({ children }) => {
+  // Add error handling for useOffline hook
+  const offlineContext = useOffline();
+  
+  // Provide default values if context is undefined
+  const { 
+    isOnline = true, 
+    queuedActions = [], 
+    syncQueuedActions = () => {} 
+  } = offlineContext || {};
+
   const [appointments, setAppointments] = useState(() => {
     try {
       const storedAppointments = localStorage.getItem('appointments');
@@ -28,6 +39,28 @@ const AppointmentProvider = ({ children }) => {
       console.error("Error saving appointments to localStorage", error);
     }
   }, [appointments]);
+
+  // Sync queued appointment actions when coming back online
+  useEffect(() => {
+    if (isOnline && queuedActions.length > 0) {
+      const appointmentActions = queuedActions.filter(action => action.type === 'bookAppointment');
+      if (appointmentActions.length > 0) {
+        const syncedIds = [];
+        appointmentActions.forEach(action => {
+          try {
+            bookAppointment(action.data);
+            syncedIds.push(action.id);
+          } catch (error) {
+            console.error('Failed to sync appointment action:', action, error);
+          }
+        });
+        // Clear the synced actions from the queue
+        if (syncedIds.length > 0) {
+          syncQueuedActions(syncedIds);
+        }
+      }
+    }
+  }, [isOnline, queuedActions, syncQueuedActions]);
 
   const bookAppointment = (appointment) => {
     const newAppointment = {

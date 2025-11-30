@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment – CareSync</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* General Styling */
+        :root {
+            --primary-color: #059669; /* Emerald Green */
+            --primary-darker: #047857;
+            --light-gray: #f9fafb;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        /* Main Booking Container */
+        .booking-container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Header */
+        header { text-align: center; margin-bottom: 2rem; }
+        header h1 { color: var(--primary-color); font-weight: 700; font-size: 2.25rem; }
+        header p { color: var(--text-light); margin-top: 0.5rem; }
+
+        /* Form Styling */
+        #bookingForm { display: grid; gap: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { font-weight: 600; margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border-color);
+            border-radius: 8px; font-size: 1rem; font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
+        }
+        textarea { resize: vertical; min-height: 100px; }
+
+        /* Time Slots Styling */
+        .time-slots-container {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.75rem;
+        }
+        .time-slot {
+            padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px;
+            text-align: center; cursor: pointer; font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+        .time-slot:hover { background-color: #e6f5f1; border-color: var(--primary-color); }
+        .time-slot.selected {
+            background-color: var(--primary-color); color: white; border-color: var(--primary-color); font-weight: 600;
+        }
+        .time-slot.disabled {
+            background-color: #f1f1f1; color: #aaa; cursor: not-allowed; text-decoration: line-through;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background-color: var(--primary-color); color: white; font-size: 1.1rem;
+            font-weight: 600; padding: 1rem; border: none; border-radius: 8px;
+            cursor: pointer; width: 100%; transition: background-color 0.3s, transform 0.2s;
+        }
+        .submit-btn:hover { background-color: var(--primary-darker); transform: translateY(-2px); }
+        
+        /* Confirmation Message */
+        .confirmation-message {
+            display: none; text-align: center; padding: 2rem; border: 2px solid var(--primary-color);
+            background-color: #e6f5f1; border-radius: 16px;
+        }
+        .confirmation-message h2 { color: var(--primary-darker); margin-bottom: 1rem; }
+        .confirmation-message p { font-size: 1.1rem; line-height: 1.6; }
+        .home-link {
+            display: inline-block; margin-top: 1.5rem; padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color); color: white; text-decoration: none;
+            border-radius: 8px; font-weight: 500; transition: background-color 0.3s;
+        }
+        .home-link:hover { background-color: var(--primary-darker); }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body { padding: 1rem 0.5rem; }
+            .booking-container { padding: 1.5rem; }
+            header h1 { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="booking-container">
+        <header>
+            <h1>Book Your Appointment</h1>
+            <p>Fill out the form below to schedule your visit.</p>
+        </header>
+
+        <form id="bookingForm">
+            <div class="form-group">
+                <label for="patientName">Full Name</label>
+                <input type="text" id="patientName" name="patientName" placeholder="e.g., John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="reason">Reason for Visit</label>
+                <select id="reason" name="reason" required>
+                    <option value="" disabled selected>Select a reason...</option>
+                    <option value="general-checkup">General Check-up</option>
+                    <option value="follow-up">Follow-up</option>
+                    <option value="new-issue">New Health Issue</option>
+                    <option value="vaccination">Vaccination</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="appointmentDate">Select a Date</label>
+                <input type="date" id="appointmentDate" name="appointmentDate" required>
+            </div>
+            <div class="form-group">
+                <label>Choose an Available Time</label>
+                <div id="timeSlots" class="time-slots-container">
+                    <p style="color: #999; grid-column: 1 / -1;">Please select a date to see available times.</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="comments">Additional Notes (Optional)</label>
+                <textarea id="comments" name="comments" placeholder="Let us know if there is anything important to share beforehand."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Confirm Appointment</button>
+        </form>
+        
+        <div id="confirmationMessage" class="confirmation-message">
+            <h2>✅ Appointment Booked Successfully!</h2>
+            <p>Thank you for scheduling with CareSync. A confirmation email with your appointment details has been sent.</p>
+            <a href="index.html" class="home-link">← Go Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateInput = document.getElementById('appointmentDate');
+            const timeSlotsContainer = document.getElementById('timeSlots');
+            const bookingForm = document.getElementById('bookingForm');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            
+            let selectedTimeSlot = null;
+            dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+
+            const allTimeSlots = [
+                '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
+                '01:00 PM', '01:30 PM', '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM'
+            ];
+
+            function generateTimeSlots(date) {
+                timeSlotsContainer.innerHTML = '';
+                allTimeSlots.forEach(time => {
+                    const slot = document.createElement('div');
+                    slot.classList.add('time-slot');
+                    slot.textContent = time;
+                    if (Math.random() > 0.6) {
+                        slot.classList.add('disabled');
+                    } else {
+                        slot.addEventListener('click', () => {
+                            if (selectedTimeSlot) {
+                                selectedTimeSlot.classList.remove('selected');
+                            }
+                            slot.classList.add('selected');
+                            selectedTimeSlot = slot;
+                        });
+                    }
+                    timeSlotsContainer.appendChild(slot);
+                });
+            }
+
+            dateInput.addEventListener('change', (e) => {
+                selectedTimeSlot = null;
+                if (e.target.value) {
+                    generateTimeSlots(e.target.value);
+                } else {
+                    timeSlotsContainer.innerHTML = '<p style="color: #999;">Please select a date to see available times.</p>';
+                }
+            });
+
+            bookingForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!dateInput.value) { alert('Please select a date.'); return; }
+                if (!selectedTimeSlot) { alert('Please choose an available time slot.'); return; }
+                
+                bookingForm.style.display = 'none';
+                confirmationMessage.style.display = 'block';
+            });
+        });
+    </script>
+
+</body>
+</html>

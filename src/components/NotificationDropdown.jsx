@@ -4,6 +4,18 @@ import { Bell, CheckCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
+// 🔹 Reusable Button
+const Button = ({ children, onClick, className = "", type = "button", disabled }) => (
+  <button
+    type={type}
+    onClick={onClick}
+    disabled={disabled}
+    className={`px-2 py-1 rounded-lg font-semibold transition ${className}`}
+  >
+    {children}
+  </button>
+);
+
 export default function NotificationDropdown({ apiBase = "/api/notifications" }) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([]);
@@ -47,10 +59,9 @@ export default function NotificationDropdown({ apiBase = "/api/notifications" })
 
   return (
     <div className="relative" ref={ref}>
-      <button
+      <Button
         onClick={() => setOpen(o => !o)}
         className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
-        aria-label="Notifications"
       >
         <Bell className="w-6 h-6 text-gray-700 dark:text-gray-200" />
         {unreadCount > 0 && (
@@ -60,7 +71,7 @@ export default function NotificationDropdown({ apiBase = "/api/notifications" })
             {unreadCount}
           </span>
         )}
-      </button>
+      </Button>
 
       <AnimatePresence>
         {open && (
@@ -78,54 +89,40 @@ export default function NotificationDropdown({ apiBase = "/api/notifications" })
               <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100">
                 Notifications
               </h3>
-              <div className="flex gap-2">
-                <button
-                  onClick={markAll}
-                  className="text-xs inline-flex items-center gap-1 px-2 py-1 rounded-lg
-                             bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600
-                             text-gray-700 dark:text-gray-200"
-                >
-                  <CheckCheck className="w-4 h-4" /> Mark all read
-                </button>
-              </div>
+              <Button
+                onClick={markAll}
+                className="text-xs inline-flex items-center gap-1 px-2 py-1
+                           bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600
+                           text-gray-700 dark:text-gray-200"
+              >
+                <CheckCheck className="w-4 h-4" /> Mark all read
+              </Button>
             </div>
 
             {/* list */}
             <div className="max-h-80 overflow-y-auto">
-              {loading && (
-                <div className="p-4 text-sm text-gray-500">Loading…</div>
-              )}
-
-              {!loading && items.length === 0 && (
-                <div className="p-4 text-sm text-gray-500">No notifications</div>
-              )}
+              {loading && <div className="p-4 text-sm text-gray-500">Loading…</div>}
+              {!loading && items.length === 0 && <div className="p-4 text-sm text-gray-500">No notifications</div>}
 
               {items.map(item => (
-                <button
+                <Button
                   key={item._id}
-                  onClick={async () => {
-                    if (!item.read) await markOne(item._id);
-                    // optional: navigate to a detail page based on item.type
-                  }}
+                  onClick={async () => { if (!item.read) await markOne(item._id); }}
                   className={`w-full text-left px-4 py-3 border-b 
                              border-gray-100 dark:border-gray-700 hover:bg-gray-50
                              dark:hover:bg-gray-700 transition
                              ${!item.read ? "bg-blue-50/40 dark:bg-blue-900/20" : ""}`}
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <div className="text-sm text-gray-800 dark:text-gray-100">
-                      {item.message}
-                    </div>
-                    <div className="shrink-0 text-[11px] text-gray-500">
-                      {new Date(item.createdAt).toLocaleString()}
-                    </div>
+                    <div className="text-sm text-gray-800 dark:text-gray-100">{item.message}</div>
+                    <div className="shrink-0 text-[11px] text-gray-500">{new Date(item.createdAt).toLocaleString()}</div>
                   </div>
                   {!item.read && (
                     <span className="mt-1 inline-block text-[10px] text-blue-600 dark:text-blue-400">
                       Unread
                     </span>
                   )}
-                </button>
+                </Button>
               ))}
             </div>
 
@@ -133,10 +130,10 @@ export default function NotificationDropdown({ apiBase = "/api/notifications" })
             <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 text-center">
               <Link
                  to="/notifications"
-                    className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
-                >
-                    View all notifications
-                </Link>
+                 className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                 View all notifications
+              </Link>
             </div>
           </motion.div>
         )}

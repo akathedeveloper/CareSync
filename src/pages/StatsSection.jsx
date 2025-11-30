@@ -3,12 +3,13 @@ import CountUp from 'react-countup';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 export default function StatsSection() {
   const { isDark } = useTheme();
+  const { t } = useTranslation();
   const [startCount, setStartCount] = useState(false);
 
-  // Trigger count-up only when section is visible
   useEffect(() => {
     const onScroll = () => {
       const section = document.getElementById('stats-section');
@@ -21,35 +22,34 @@ export default function StatsSection() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Realistic stats for an under-development healthcare application
   const stats = [
     { 
-      label: 'Beta Testing Partners', 
+      labelKey: 'stats.betaPartners.label', 
       value: 25, 
       suffix: '+', 
       icon: BuildingOffice2Icon,
-      description: 'Healthcare facilities in our pilot program'
+      descriptionKey: 'stats.betaPartners.description'
     },
     { 
-      label: 'Active Beta Users', 
+      labelKey: 'stats.activeUsers.label', 
       value: 150, 
       suffix: '+', 
       icon: UsersIcon,
-      description: 'Healthcare professionals testing our platform'
+      descriptionKey: 'stats.activeUsers.description'
     },
     { 
-      label: 'Test Patients Onboarded', 
+      labelKey: 'stats.patients.label', 
       value: 750, 
       suffix: '+', 
       icon: HeartIcon,
-      description: 'Patients participating in our beta program'
+      descriptionKey: 'stats.patients.description'
     },
     { 
-      label: 'Platform Uptime', 
+      labelKey: 'stats.uptime.label', 
       value: 99.2, 
       suffix: '%', 
       icon: ShieldCheckIcon,
-      description: 'Reliability during development phase'
+      descriptionKey: 'stats.uptime.description'
     },
   ];
 
@@ -78,17 +78,16 @@ export default function StatsSection() {
         >
           <div className="inline-flex items-center bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 text-emerald-700 dark:text-emerald-300 px-4 py-2 rounded-full text-sm font-semibold shadow-sm border border-emerald-200 dark:border-emerald-800 mb-6">
             <CodeBracketIcon className="w-4 h-4 mr-2" />
-            Currently in Development
+            {t('stats.headerBadge', 'वर्तमान में विकासाधीन')}
           </div>
           
           <h2 className="text-3xl lg:text-4xl font-black text-gray-900 dark:text-gray-100 mb-4">
-            Building the Future of
-            <span className="gradient-accent bg-clip-text text-transparent"> Healthcare</span>
+            {t('stats.titleLine1', 'स्वास्थ्य देखभाल का भविष्य')}
+            <span className="gradient-accent bg-clip-text text-transparent"> {t('stats.titleAccent', 'बना रहे हैं')}</span>
           </h2>
           
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            We're working closely with healthcare professionals to create a platform that truly serves their needs. 
-            Here's our progress so far.
+            {t('stats.subtitle', "हम स्वास्थ्य पेशेवरों के साथ मिलकर एक ऐसा प्लेटफ़ॉर्म बना रहे हैं जो वास्तव में उनकी जरूरतों को पूरा करे। अब तक हमारी प्रगति यहां है।")}
           </p>
         </motion.div>
 
@@ -106,14 +105,12 @@ export default function StatsSection() {
               custom={index}
               variants={cardVariants}
             >
-              {/* Icon */}
               <div className="flex justify-center mb-6">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <stat.icon className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
                 </div>
               </div>
 
-              {/* Animated Counter */}
               <div className="text-4xl font-black text-gray-900 dark:text-gray-100 mb-2">
                 {startCount && (
                   <CountUp
@@ -127,20 +124,18 @@ export default function StatsSection() {
                 )}
               </div>
 
-              {/* Label */}
               <div className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">
-                {stat.label}
+                {t(stat.labelKey)}
               </div>
 
-              {/* Description */}
               <div className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                {stat.description}
+                {t(stat.descriptionKey)}
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Development Status Banner */}
+        {/* Beta Program Banner */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -158,20 +153,19 @@ export default function StatsSection() {
             </div>
             
             <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">
-              Join Our Beta Program
+              {t('stats.betaProgram.title')}
             </h3>
             
             <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-              Be among the first healthcare professionals to experience CareSync. Get early access, 
-              provide feedback, and help shape the future of healthcare technology.
+              {t('stats.betaProgram.description')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="gradient-accent text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
-                Request Beta Access
+                {t('stats.betaProgram.requestAccess')}
               </button>
               <button className="border-2 border-blue-500 text-blue-600 dark:text-blue-400 px-8 py-3 rounded-xl font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300">
-                View Roadmap
+                {t('stats.betaProgram.viewRoadmap')}
               </button>
             </div>
           </div>
@@ -186,45 +180,54 @@ export default function StatsSection() {
           className="mt-16"
         >
           <h3 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-100 mb-8">
-            Development Milestones
+            {t('stats.timeline.title')}
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { 
-                phase: "Phase 1", 
-                title: "Core Platform", 
-                status: "Completed", 
-                description: "Basic user management and dashboard",
+                phaseKey: "stats.timeline.phase1.phase", 
+                titleKey: "stats.timeline.phase1.title", 
+                statusKey: "stats.timeline.phase1.status", 
+                descriptionKey: "stats.timeline.phase1.description",
                 color: "bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300"
               },
               { 
-                phase: "Phase 2", 
-                title: "Healthcare Features", 
-                status: "In Progress", 
-                description: "Patient records, prescriptions, appointments",
+                phaseKey: "stats.timeline.phase2.phase", 
+                titleKey: "stats.timeline.phase2.title", 
+                statusKey: "stats.timeline.phase2.status", 
+                descriptionKey: "stats.timeline.phase2.description",
                 color: "bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300"
               },
               { 
-                phase: "Phase 3", 
-                title: "AI Integration", 
-                status: "Planned", 
-                description: "Smart recommendations and analytics",
+                phaseKey: "stats.timeline.phase3.phase", 
+                titleKey: "stats.timeline.phase3.title", 
+                statusKey: "stats.timeline.phase3.status", 
+                descriptionKey: "stats.timeline.phase3.description",
                 color: "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
               }
             ].map((milestone, index) => (
-              <div key={index} className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+              <div 
+                key={index} 
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 
+                          transition-all duration-300 ease-in-out cursor-pointer
+                          hover:transform hover:-translate-y-2 hover:shadow-2xl 
+                          hover:border-emerald-300 dark:hover:border-emerald-500
+                          hover:shadow-emerald-500/20 dark:hover:shadow-emerald-400/20"
+              >
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-semibold text-gray-500 dark:text-gray-400">{milestone.phase}</span>
+                  <span className="text-sm font-semibold text-gray-500 dark:text-gray-400">
+                    {t(milestone.phaseKey)}
+                  </span>
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${milestone.color}`}>
-                    {milestone.status}
+                    {t(milestone.statusKey)}
                   </span>
                 </div>
                 <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                  {milestone.title}
+                  {t(milestone.titleKey)}
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {milestone.description}
+                  {t(milestone.descriptionKey)}
                 </p>
               </div>
             ))}

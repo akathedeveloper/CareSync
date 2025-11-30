@@ -41,10 +41,17 @@ export default {
           "0%": { transform: "translateX(0)", opacity: "1" },
           "100%": { transform: "translateX(100%)", opacity: "0" },
         },
+        beats: {
+          "0%, 100%": { transform: "scale(1)" },
+          "30%": { transform: "scale(1.15)" }, 
+          // "60%": { transform: "scale(1.02)" },  
+          "100%": { transform: "scale(1)" }, 
+        },
       },
       animation: {
         slideIn: "slideIn 0.4s ease-out forwards",
         slideOut: "slideOut 0.3s ease-in forwards",
+        beats: "beats 1.8s ease-in-out infinite",
       },
     },
   },

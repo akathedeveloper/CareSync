@@ -10,8 +10,10 @@ import {
   MapPinIcon,
   ClockIcon,
 } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
 
 const ContactUs = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -37,19 +39,19 @@ const ContactUs = () => {
   const contactInfo = [
     {
       icon: PhoneIcon,
-      title: "Call Us",
+      title: t('contact.callUs', 'Call Us'),
       info: "+1 (555) 123-4567",
       subInfo: "Mon-Fri 9AM-6PM EST"
     },
     {
       icon: EnvelopeIcon,
-      title: "Email Us",
+      title: t('contact.emailUs', 'Email Us'),
       info: "support@caresync.com",
-      subInfo: "We respond within 24h"
+      subInfo: t('contact.respond24h', 'We respond within 24h')
     },
     {
       icon: MapPinIcon,
-      title: "Visit Us",
+      title: t('contact.visitUs', 'Visit Us'),
       info: "123 Healthcare Ave",
       subInfo: "San Francisco, CA 94102"
     }
@@ -136,10 +138,10 @@ const ContactUs = () => {
           </motion.div>
 
           <h2 className="mb-6 text-4xl font-bold leading-tight text-transparent lg:text-6xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-gray-100 dark:via-gray-200 dark:to-gray-100 bg-clip-text">
-            Get in Touch
+            {t('contact.title', 'Get in Touch')}
           </h2>
           <p className="max-w-3xl mx-auto text-xl leading-relaxed text-gray-600 lg:text-2xl dark:text-gray-300">
-            Have questions about CareSync? We're here to help you transform your healthcare experience
+            {t("contact.subtitle", "Have questions about CareSync? We're here to help you transform your healthcare experience")}
           </p>
         </motion.div>
 
@@ -153,10 +155,10 @@ const ContactUs = () => {
           >
             <div>
               <h3 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
-                Contact Information
+                {t('contact.infoTitle', 'Contact Information')}
               </h3>
               <p className="mb-8 leading-relaxed text-gray-600 dark:text-gray-300">
-                Ready to revolutionize your healthcare workflow? Reach out to our team for personalized assistance.
+                {t('contact.infoDesc', 'Ready to revolutionize your healthcare workflow? Reach out to our team for personalized assistance.')}
               </p>
             </div>
 
@@ -197,11 +199,11 @@ const ContactUs = () => {
               <div className="flex items-center mb-4">
                 <ClockIcon className="w-5 h-5 mr-2 text-emerald-600 dark:text-emerald-400" />
                 <h4 className="font-semibold text-gray-900 dark:text-gray-100">
-                  Response Time
+                  {t('contact.responseTime', 'Response Time')}
                 </h4>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Our support team typically responds to queries within 2-4 hours during business hours.
+                {t('contact.responseTimeDesc', 'Our support team typically responds to queries within 2-4 hours during business hours.')}
               </p>
             </motion.div>
           </motion.div>
@@ -219,11 +221,11 @@ const ContactUs = () => {
                 <div className="flex items-center mb-6">
                   <EnvelopeIcon className="w-6 h-6 mr-3 text-emerald-600 dark:text-emerald-400" />
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                    Stay Updated
+                    {t('contact.stayUpdated', 'Stay Updated')}
                   </h3>
                 </div>
                 <p className="mb-6 leading-relaxed text-gray-600 dark:text-gray-300">
-                  Subscribe to our newsletter for the latest healthcare technology insights and CareSync updates.
+                  {t('contact.subscribeDesc', 'Subscribe to our newsletter for the latest healthcare technology insights and CareSync updates.')}
                 </p>
 
                 <div className="space-y-4">
@@ -242,7 +244,7 @@ const ContactUs = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         onFocus={() => setFocusedField('email')}
                         onBlur={() => setFocusedField(null)}
-                        placeholder="Enter your email address"
+                        placeholder={t('contact.placeholderEmail', 'Enter your email address')}
                         className="w-full h-12 px-6 py-4 text-lg text-gray-900 placeholder-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 focus:outline-none"
                       />
                     </motion.div>
@@ -262,12 +264,12 @@ const ContactUs = () => {
                     {isSubscribed ? (
                       <>
                         <CheckCircleIcon className="w-5 h-5" />
-                        <span>Subscribed!</span>
+                        <span>{t('contact.subscribed', 'Subscribed!')}</span>
                       </>
                     ) : (
                       <>
                         <EnvelopeIcon className="w-5 h-5" />
-                        <span>Subscribe</span>
+                        <span>{t('contact.subscribe', 'Subscribe')}</span>
                       </>
                     )}
                   </motion.button>
@@ -281,7 +283,7 @@ const ContactUs = () => {
                 </div>
                 <div className="relative flex justify-center text-sm">
                   <span className="px-4 font-medium text-gray-500 bg-white dark:bg-gray-900 dark:text-gray-400">
-                    Or send us a message
+                    {t('contact.orMessage', 'Or send us a message')}
                   </span>
                 </div>
               </div>
@@ -291,11 +293,11 @@ const ContactUs = () => {
                 <div className="flex items-center mb-6">
                   <ChatBubbleLeftRightIcon className="w-6 h-6 mr-3 text-emerald-600 dark:text-emerald-400" />
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                    Send Message
+                    {t('contact.sendMessageTitle', 'Send Message')}
                   </h3>
                 </div>
                 <p className="mb-8 leading-relaxed text-gray-600 dark:text-gray-300">
-                  Have a specific question or need personalized assistance? Drop us a message and we'll get back to you promptly.
+                  {t("contact.sendMessageDesc", "Have a specific question or need personalized assistance? Drop us a message and we'll get back to you promptly.")}
                 </p>
 
                 <div className="space-y-6">
@@ -313,7 +315,7 @@ const ContactUs = () => {
                         onChange={(e) => setMessage(e.target.value)}
                         onFocus={() => setFocusedField('message')}
                         onBlur={() => setFocusedField(null)}
-                        placeholder="Tell us about your needs, questions, or how we can help..."
+                        placeholder={t('contact.placeholderMessage', 'Tell us about your needs, questions, or how we can help...')}
                         rows={6}
                         className="w-full px-6 py-4 text-lg text-gray-900 placeholder-gray-500 resize-none bg-gray-50 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 focus:outline-none"
                       />
@@ -334,12 +336,12 @@ const ContactUs = () => {
                     {isMessageSent ? (
                       <>
                         <CheckCircleIcon className="w-6 h-6" />
-                        <span>Message Sent!</span>
+                        <span>{t('contact.messageSent', 'Message Sent!')}</span>
                       </>
                     ) : (
                       <>
                         <PaperAirplaneIcon className="w-6 h-6" />
-                        <span>Send Message</span>
+                        <span>{t('contact.sendMessage', 'Send Message')}</span>
                       </>
                     )}
                   </motion.button>
@@ -356,15 +358,15 @@ const ContactUs = () => {
                 <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
                   <div className="flex items-center">
                     <CheckCircleIcon className="w-4 h-4 mr-2 text-green-500" />
-                    <span>HIPAA Compliant</span>
+                    <span>{t('contact.hipaa', 'HIPAA Compliant')}</span>
                   </div>
                   <div className="flex items-center">
                     <CheckCircleIcon className="w-4 h-4 mr-2 text-green-500" />
-                    <span>24/7 Support</span>
+                    <span>{t('contact.support247', '24/7 Support')}</span>
                   </div>
                   <div className="flex items-center">
                     <CheckCircleIcon className="w-4 h-4 mr-2 text-green-500" />
-                    <span>Secure Communication</span>
+                    <span>{t('contact.secure', 'Secure Communication')}</span>
                   </div>
                 </div>
               </motion.div>

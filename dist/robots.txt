@@ -1,0 +1,58 @@
+# Robots.txt for CareSync - Smart Healthcare Assistant Platform
+# https://caresync.app
+
+User-agent: *
+Allow: /
+
+# Allow all search engines to crawl the entire site
+Allow: /api/
+Allow: /assets/
+Allow: /static/
+
+# Disallow private/sensitive areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /_internal/
+Disallow: /temp/
+Disallow: /uploads/private/
+
+# Disallow file types that shouldn't be indexed
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.txt$
+Disallow: /*.log$
+
+# Allow important files
+Allow: /manifest.json
+Allow: /sitemap.xml
+Allow: /robots.txt
+Allow: /favicon.ico
+
+# Sitemap location
+Sitemap: https://caresync.app/sitemap.xml
+
+# Crawl delay (optional - be respectful to server)
+Crawl-delay: 1
+
+# Specific bot instructions
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Block unwanted bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

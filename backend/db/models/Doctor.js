@@ -1,5 +1,4 @@
 // models/Doctor.js
-
 import mongoose from "mongoose";
 
 // Appointment Schema

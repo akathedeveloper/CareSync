@@ -12,15 +12,15 @@ import catchAsync from '../middleware/catchAsyncError.js'
 // sign controller
 
 export const register = catchAsync(async (req , res , next) => {
-        const {name, email, password, role = "patient"}= req.body;
+        const {name, email, password}= req.body;
 
         if (!name || !email || !password)
             return next(new ErrorHandler("All fields are required", 400))
 
-        // Validate role
-        if (!["patient", "doctor", "pharmacist"].includes(role)) {
-            return next(new ErrorHandler("Invalid role specified", 400))
-        }
+        // Self-service registration always creates a patient account.
+        // Elevated roles (doctor, pharmacist) must be provisioned through a
+        // separate verified path and must not be settable from client input.
+        const role = "patient";
 
         const exists = await User.findOne({ email });
         if (exists) return next(new ErrorHandler("Email already in use", 400));
